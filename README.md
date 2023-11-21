@@ -15,7 +15,7 @@ Pour exécuter la partie Front-End de l'application, il faut installer Parcel et
 Pour cela :
 
 - Installer Node.js et npm, puis installer Parcel avec npm :
-- 
+
 ```
 npm install -g parcel-bundler
 ```
