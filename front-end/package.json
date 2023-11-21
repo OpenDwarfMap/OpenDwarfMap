@@ -1,0 +1,26 @@
+{
+  "name": "open-dwarf-map-front-end",
+  "version": "0.0.1",
+  "description": "Front-End part of custom Legend Explorer for Dwarf Fortress",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulvietor/OpenDwarfMap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulvietor/OpenDwarfMap/issues"
+  },
+  "homepage": "https://github.com/paulvietor/OpenDwarfMap#readme",
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "sass": "^1.69.5"
+  }
+}

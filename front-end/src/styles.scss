@@ -1,0 +1,39 @@
+@import 'scss/reset';
+@import 'scss/base';
+
+@import 'scss/variables';
+
+body {
+  background-color: $primary-color;
+  padding: 32px;
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2em;
+  color: $secondary-color;
+  opacity: 0.75;
+}
+
+h2 {
+  font-size: 1.5em;
+  opacity: 0.75;
+}
+
+h2, h3, h4, h5, button {
+  font-family: 'Inconsolata', sans-serif;
+  color: $secondary-color;
+}
+
+
+#map {
+  height: 100%;
+  width: 100%;
+}
