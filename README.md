@@ -20,10 +20,13 @@ Pour cela :
 npm install -g parcel-bundler
 ```
 
+- Ajouter la carte 'region-detailed.bmp' dans le dossier assets du projet
+
 - Éxécuter les commandes suivantes depuis la racine du projet :
 
 ```
 cd ./front-end
 npm install
+cp -r assets dist/assets
 parcel index.html
 ```

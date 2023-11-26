@@ -17,7 +17,7 @@ const imageBounds = [
 const mymap = L.map('map').setView(center, 13);
 
 // Ajoutez l'image en tant que fond de carte
-const imageUrl = './assets/region2-00250-01-01-detailed.bmp'; // Remplacez par le chemin correct de votre image
+const imageUrl = './assets/region-detailed.bmp'; // Remplacez par le chemin correct de votre image
 L.imageOverlay(imageUrl, imageBounds).addTo(mymap);
 
 
