@@ -3,12 +3,13 @@
 
 @import 'scss/variables';
 
+@import 'scss/navbar';
+
 body {
-  background-color: $primary-color;
-  padding: 32px;
+  background-color: $background-color;
   font-family: 'Open Sans', sans-serif;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -16,9 +17,9 @@ body {
 }
 
 h1 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 2em;
-  color: $secondary-color;
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 1.4em;
+  color: $primary-color;
   opacity: 0.75;
 }
 
