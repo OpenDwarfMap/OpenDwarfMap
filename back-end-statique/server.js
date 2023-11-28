@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 const port = 3000;
 
-import {artifactList, hfList, regionList, siteList, structureList} from './fakeData';
+import {artifactList, hfList, regionList, siteList, structureList} from './fakeData.js';
 
 // Route pour /getAll/artifact
 app.get('/getAll/artifact', (req, res) => {
