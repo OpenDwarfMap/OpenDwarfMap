@@ -30,3 +30,13 @@ npm install
 cp -r assets dist/assets
 parcel index.html
 ```
+
+## Concernant le BackEnd : 
+
+Il suffit d'installer puis démarrer le serveur en exécutant les lignes suivantes :
+
+```
+cd ./backStatic
+npm install
+node server.js
+```
