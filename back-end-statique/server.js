@@ -1,4 +1,10 @@
 import express from 'express';
+import { readdir, exists } from 'node:fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const app = express();
 const port = 3000;
 
@@ -29,60 +35,86 @@ app.get('/getAll/structure', (req, res) => {
   res.json(structureList);
 });
 
+// Route pour /maps
+app.get('/maps', (req, res) => {
+  var available = [];
+  readdir('assets/maps', (err, filenames) => {
+    if (err) throw(err);
+    const mapTypeRegex = /^region(?<regionId>\d+)-(?<type>[a-z0-9_-]+)\.png$/;
+    filenames.forEach( (filename) => {
+      if (mapTypeRegex.test(filename)) {
+        var regexpRes = mapTypeRegex.exec(filename).groups;
+      }
+      if (regexpRes) {
+        available.push(regexpRes);
+      }
+    });
+    res.json(available);
+  });
+});
+
+// Route avec paramètre d'id de monde et de type pour /maps/:type
+app.get('/region/:regionId/map/:type', (req, res) => {
+  const { regionId, type } = req.params;
+  res.sendFile(`assets/maps/region${regionId}-${type}.png`, { root: __dirname }, (err) => {
+    if (err)
+      res.status(err.status).end();
+  });
+})
 
 // Route avec paramètre d'ID pour /get/artifact/:id
 app.get('/get/artifact/:id', (req, res) => {
     const { id } = req.params;
     const artifact = artifactList.find(item => item.id === parseInt(id));
-  
+
     if (artifact) {
       res.json(artifact);
     } else {
       res.status(404).json({ error: 'Artéfact non trouvé' });
     }
   });
-  
+
   // Route avec paramètre d'ID pour /get/hfid/:id
   app.get('/get/hfid/:id', (req, res) => {
     const { id } = req.params;
     const hfid = hfidList.find(item => item.id === parseInt(id));
-  
+
     if (hfid) {
       res.json(hfid);
     } else {
       res.status(404).json({ error: 'HFID non trouvé' });
     }
   });
-  
+
   // Route avec paramètre d'ID pour /get/region/:id
   app.get('/get/region/:id', (req, res) => {
     const { id } = req.params;
     const region = regionList.find(item => item.id === parseInt(id));
-  
+
     if (region) {
       res.json(region);
     } else {
       res.status(404).json({ error: 'Région non trouvée' });
     }
   });
-  
+
   // Route avec paramètre d'ID pour /get/site/:id
   app.get('/get/site/:id', (req, res) => {
     const { id } = req.params;
     const site = siteList.find(item => item.id === parseInt(id));
-  
+
     if (site) {
       res.json(site);
     } else {
       res.status(404).json({ error: 'Site non trouvé' });
     }
   });
-  
+
   // Route avec paramètre d'ID pour /get/structure/:id
   app.get('/get/structure/:id', (req, res) => {
     const { id } = req.params;
     const structure = structureList.find(item => item.id === parseInt(id));
-  
+
     if (structure) {
       res.json(structure);
     } else {
