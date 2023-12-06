@@ -2,9 +2,11 @@
 
 ## Description du projet 
 
+[Figma du projet](https://www.figma.com/file/GGiNC0kGp6J1DkIKIOtZxe/OpenDwarfMap?type=design&node-id=0%3A1&mode=design&t=sSov3rlpJNgLrshO-1)
+
 ## Technologie utilisée 
 
-Application Web, Sans Back 
+Application Web, Avec Back
 
 ## Comment l'utiliser ? 
 
