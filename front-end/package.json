@@ -4,7 +4,9 @@
   "description": "Front-End part of custom Legend Explorer for Dwarf Fortress",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "repository": {
     "type": "git",
@@ -17,10 +19,14 @@
   },
   "homepage": "https://github.com/paulvietor/OpenDwarfMap#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.10.3",
     "parcel": "^2.10.3"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
     "sass": "^1.69.5"
   }
 }
