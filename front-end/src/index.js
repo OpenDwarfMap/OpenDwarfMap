@@ -1,11 +1,13 @@
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { addSite } from './utils';
 
 // Coordonnées du centre de votre carte
 const center = [0, 0];
 
 // Taille fixe de l'image (en degrés)
 const imageSize = 0.5;
+
 
 // Calcul des coordonnées du coin supérieur gauche et inférieur droit de l'image
 const imageBounds = [
@@ -54,3 +56,5 @@ const customIcon = L.icon({
 L.marker(center, { icon: customIcon }).addTo(mymap)
     .bindPopup('<h3>Bienvenue aventurier !</h3><p>Tu es au centre de la carte.</p>')
     .openPopup();
+
+addSite(mymap);

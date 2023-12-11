@@ -10,6 +10,14 @@ const port = 3000;
 
 import {artifactList, hfList, regionList, siteList, structureList} from './fakeData.js';
 
+// Middleware pour activer CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // '*' permet à tous les domaines d'accéder à la ressource
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 // Route pour /getAll/artifact
 app.get('/getAll/artifact', (req, res) => {
   res.json(artifactList);
@@ -77,7 +85,7 @@ app.get('/get/artifact/:id', (req, res) => {
   // Route avec paramètre d'ID pour /get/hfid/:id
   app.get('/get/hfid/:id', (req, res) => {
     const { id } = req.params;
-    const hfid = hfidList.find(item => item.id === parseInt(id));
+    const hfid = hfList.find(item => item.id === parseInt(id));
 
     if (hfid) {
       res.json(hfid);
