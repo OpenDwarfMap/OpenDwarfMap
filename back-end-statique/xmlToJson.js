@@ -77,10 +77,12 @@ const parseOptions = {
 };
 
 // Exemple d'utilisation
-const filePath = '../../legends-region2-00250-01-01/region2-00250-01-01-legends.xml';
+const filePath = '../../region2-00250-01-01-legends.xml';
 // const tagsToFind = ['region', 'landmass','historical_figure','entity','historical_event','written_content'];
 // Reste à créer ,'historical_event_collection','written_content'
-const tagsToFind = ['region','historical_figure','intrigue_plot','historical_event','dance_form','musical_form','poetic_form'];
+
+//const tagsToFind = ['region','historical_figure','intrigue_plot','historical_event','dance_form','musical_form','poetic_form'];
+const tagsToFind = ['region'];
 const outputFilePath = './legend.json';
 
 convertXmlFileToJsonStream(filePath, tagsToFind);

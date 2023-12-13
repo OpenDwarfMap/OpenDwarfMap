@@ -128,3 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+.idea
+
+back-end-statique/new_test.json
+back-end-statique/new_test_plus.json
