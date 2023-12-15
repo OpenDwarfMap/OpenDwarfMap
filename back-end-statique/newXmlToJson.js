@@ -13,11 +13,11 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     };
     const parser = new XMLParser();
     let jObj = parser.parse(data);
-    fs.writeFile("new_test_plus.json", JSON.stringify(jObj), (err) => {
+    fs.writeFile("legend_plus.json", JSON.stringify(jObj), (err) => {
         if (err) {
             console.error('Erreur lors de l\'écriture du fichier :', err);
         } else {
-            console.log('Le résultat a été écrit dans le fichier :', "new_test_plus.json");
+            console.log('Le résultat a été écrit dans le fichier :', "legend_plus.json");
         }
     });
 });

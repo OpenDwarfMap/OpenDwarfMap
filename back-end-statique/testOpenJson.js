@@ -1,6 +1,6 @@
 import fs from "fs"
 
-const filePath = 'new_test.json';
+const filePath = 'legend.json';
 
 fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
