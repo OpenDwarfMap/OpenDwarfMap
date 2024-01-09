@@ -1,9 +1,13 @@
-import React from "react";
-import {ImageOverlay, MapContainer, Marker, Popup, TileLayer, useMap} from 'react-leaflet'
+import React, { useEffect, useState } from "react";
+import {ImageOverlay, MapContainer, Marker, Popup} from 'react-leaflet'
 import customIcon from "./map/customIcon";
-
+import {getSites} from './utils.js';
 
 export function App() {
+    const [sitesMarkers, setSitesMarkers] = useState()  
+    useEffect(()=> {
+        getSites(setSitesMarkers);
+    }, [])
 
     // Coordonnées du centre de votre carte
     const center = [0, 0];
@@ -34,5 +38,6 @@ export function App() {
                 <h3>Bienvenue aventurier !</h3><p>Tu es au centre de la carte.</p>
             </Popup>
         </Marker>
+        {sitesMarkers}
     </MapContainer>;
 }

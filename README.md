@@ -69,7 +69,7 @@ Set NODE_OPTIONS="--max-old-space-size=8192"
 
 *Voir cette page pour comprendre à quoi sert la commande : [stackoverflow](https://stackoverflow.com/questions/53230823/fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed-javas?fbclid=IwAR2v3kGwPINtWMgc4azg4eNEgK7w4lEaXDXVKx4NFsOTVCmbxlNb9rfeHOY).*
 
-Puis refaite la commande précédente.
+Puis refaire la commande précédente.
 
 Pour vérifier que tout fonctionne bien pour vous, executez la commande suivante :
 ```
