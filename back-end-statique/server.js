@@ -9,6 +9,7 @@ const app = express();
 const port = 3000;
 
 import {artifactList, hfList, regionList, siteList, structureList} from './fakeData.js';
+import {getCategory, legendData} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
@@ -18,9 +19,15 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/get", (req, res) => {
+  let category = req.query.category ?? "all"
+  category = category.replace(/['"]+/g, '')
+  res.json(getCategory(category))
+})
+
 // Route pour /getAll/artifact
 app.get('/getAll/artifact', (req, res) => {
-  res.json(artifactList);
+  res.json(legendData["artifacts"]["artifact"]);
 });
 
 // Route pour /getAll/hfid

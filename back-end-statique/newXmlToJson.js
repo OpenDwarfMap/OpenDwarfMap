@@ -9,7 +9,12 @@ fs.readFile(filePath, 'utf8', (err, data) => {
         return;
     }
     const options = {
-        stopNodes: ['region','historical_figure','intrigue_plot','historical_event','dance_form','musical_form','poetic_form']
+        stopNodes: [
+            'region',
+            'historical_figure',
+            'intrigue_plot',
+            'historical_event',
+            'dance_form','musical_form','poetic_form']
     };
     const parser = new XMLParser();
     let jObj = parser.parse(data);
