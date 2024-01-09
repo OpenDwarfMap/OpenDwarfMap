@@ -19,10 +19,12 @@ app.use((req, res, next) => {
   next();
 });
 
+//Route get générale
 app.get("/get", (req, res) => {
   let category = req.query.category ?? "all"
+  let shouldUseLegendPlus = (parseInt(req.query.useplus) === 1)
   category = category.replace(/['"]+/g, '')
-  res.json(getCategory(category))
+  res.json(getCategory(category, shouldUseLegendPlus))
 })
 
 // Route pour /getAll/artifact

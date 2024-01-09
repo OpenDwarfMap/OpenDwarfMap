@@ -17,6 +17,29 @@ const categories = [
     "dance_form",
 ]
 
+const categoriesPlus = [
+    "landmass",
+    "mountain_peak",
+    "region",
+    "undeground_region",
+    "river",
+    "creature",
+    "site",
+    "world_construction",
+    "artifact",
+    "historical_figure",
+    "identity",
+    "entity_population",
+    "entity",
+    "historical_event",
+    "historical_event_relationships",
+    "historical_event_relationships_supplement",
+    "written_content",
+    "poetic_form",
+    "musical_form",
+    "dance_form"
+]
+
 export let legendData = {}
 export let legendPlusData = {}
 
@@ -25,24 +48,29 @@ let dataInitialized = false
 //Read the data from the JSON if necessary
 initData()
 
-export function getCategory(categoryName)
+function getFileCategories(fromLegendPlus) {
+    return fromLegendPlus ? categoriesPlus : categories
+}
+
+export function getCategory(categoryName, fromLegendPlus = false)
 {
+    let currentCategories = getFileCategories(fromLegendPlus)
     if(categoryName === "all") {
-        return categories
+        return currentCategories
     }
-    if(!categories.includes(categoryName)) {
+    if(!currentCategories.includes(categoryName)) {
         return {
             "error": "The category " + categoryName + " is not recognized"
         }
     }
     let parent = (categoryName === "entity") ? "entities" : categoryName + "s"
-    return legendData[parent][categoryName]
+    return fromLegendPlus ? legendPlusData[parent][categoryName] : legendData[parent][categoryName]
 }
 
 function initData()
 {
     const legendFilePath = 'legend.json';
-    const legendPlusFilePath = 'legend.json';
+    const legendPlusFilePath = 'legend_plus.json';
     if(!dataInitialized) {
         fs.readFile(legendFilePath, 'utf8', (err, data) => {
             if (err) {
@@ -63,7 +91,7 @@ function initData()
             let gameData = JSON.parse(data)
 
             let entity_links = new Set()
-            legendPlusData = gameData
+            legendPlusData = gameData["df_world"]
         });
 
         dataInitialized = true
