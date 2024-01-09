@@ -21,7 +21,7 @@ const categoriesPlus = [
     "landmass",
     "mountain_peak",
     "region",
-    "undeground_region",
+    "underground_region",
     "river",
     "creature",
     "site",
