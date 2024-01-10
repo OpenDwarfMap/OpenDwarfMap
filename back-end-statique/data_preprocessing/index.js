@@ -31,7 +31,6 @@ let mergedLegendData = {}
 initData()
 
 export function getCategory(categoryName) {   
-    console.log(mergedLegendData)
     if(!categories.includes(categoryName)) {
         return {
             "error": "The category " + categoryName + " is not recognized"
