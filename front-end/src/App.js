@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Map />} />
-          <Route path="/historical_figures" element={<HistoricalFiguresList />} />
+          <Route path="/historical_figures/page/:pagination" element={<HistoricalFiguresList />} />
           <Route path="/historical_figure/:hfId" element={<HistoricalFigureDetail />} />
         </Routes>
       </Router>

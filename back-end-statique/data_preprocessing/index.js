@@ -40,6 +40,14 @@ export function getCategory(categoryName) {
     return mergedLegendData[parent][categoryName]
 }
 
+export function getSimplifiedHf(pagination) {
+    const startIndex = (pagination - 1) * 10;
+    const endIndex = pagination * 10;
+    return mergedLegendData["historical_figures"]["historical_figure"]
+      .filter((elem) => elem.id > startIndex && elem.id < endIndex)
+      .map((elem) => {elem.name, elem.id});
+  }
+
 // On lit les données de legend 
 function initData(){
     const legendPlusFilePath = 'legend_plus.json';

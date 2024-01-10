@@ -29,11 +29,12 @@ const siteIcon = L.icon({
     popupAnchor: [1, -34]
 });
 
-export async function getHistoricalFiguresList() {
-    await fetch(URL_API+"historical_figure")
+export async function getHistoricalFiguresList(callback, pagination) {
+    await fetch(URL_API+"historical_figures/page/"+pagination.toString())
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            callback(data);
         })
 
     .catch(error => console.error('Erreur lors de la récupération des données:', error));
@@ -43,7 +44,6 @@ export async function getHistoricalFiguresDetail(callback, hfId) {
     await fetch(URL_API+"historical_figure/" + hfId.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             callback(data);
         })
 

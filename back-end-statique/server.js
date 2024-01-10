@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
-import {getCategory} from "./data_preprocessing/index.js";
+import {getCategory, getSimplifiedHf} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
@@ -32,7 +32,10 @@ app.get("/:category/:id", (req, res) => {
   res.json(getCategory(category).find(elem => elem.id === id))
 })
 
-app.get("/historical_figures/:pagination")
+app.get("/historical_figures/page/:pagination",(req, res) => {
+  const pagination = req.params.pagination
+  res.json(getSimplifiedHf(pagination))
+});
 
 // Route pour /maps
 app.get('/maps', (req, res) => {
