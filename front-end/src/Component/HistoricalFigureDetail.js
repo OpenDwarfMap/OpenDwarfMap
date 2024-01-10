@@ -14,17 +14,16 @@ function HistoricalFiguresDetail () {
 
     let hfLink = HistoricalFiguresDetail.entity_link ? 
     HistoricalFiguresDetail.entity_link.map((entityData)=>{
-        const entityId = entityData.entity_id.toString();
         return (
-            <li key={entityId}>
-                Lien : {entityData.link_type} avec <Link to={"/historical_figure/"+{entityId}}>{entityData.name}</Link>
+            <li key={entityData.entity_id.toString()}>
+                Lien : {entityData.link_type} avec <Link to={"/historical_figure/"+entityData.entity_id.toString()}>{entityData.name}</Link>
             </li>
         );
     }) : null;
 
     useEffect(()=> {
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId);
-    }, [])
+    }, [hfId])
 
     return (<div>
         <h1> Name : {HistoricalFiguresDetail.name}</h1>
