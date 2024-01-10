@@ -38,3 +38,14 @@ export async function getHistoricalFiguresList() {
 
     .catch(error => console.error('Erreur lors de la récupération des données:', error));
 }
+
+export async function getHistoricalFiguresDetail(callback, hfId) {
+    await fetch(URL_API+"historical_figure/" + hfId.toString())
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            callback(data);
+        })
+
+    .catch(error => console.error('Erreur lors de la récupération des données:', error));
+}

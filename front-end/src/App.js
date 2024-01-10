@@ -11,7 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Map />} />
           <Route path="/historical_figures" element={<HistoricalFiguresList />} />
-          <Route path="/historical_figure/:id" element={<HistoricalFigureDetail />} />
+          <Route path="/historical_figure/:hfId" element={<HistoricalFigureDetail />} />
         </Routes>
       </Router>
     );

@@ -21,18 +21,18 @@ app.use((req, res, next) => {
 //Route get générale
 app.get("/:category", (req, res) => {
   let category = req.params.category
-  let shouldUseLegendPlus = (parseInt(req.query.useplus) === 1)
   category = category.replace(/['"]+/g, '')
-  res.json(getCategory(category, shouldUseLegendPlus))
+  res.json(getCategory(category))
 })
 
 app.get("/:category/:id", (req, res) => {
   let category = req.params.category
-  let shouldUseLegendPlus = (parseInt(req.query.useplus) === 1)
   category = category.replace(/['"]+/g, '')
   let id = parseInt(req.params.id)
-  res.json(getCategory(category, shouldUseLegendPlus).find(elem => elem.id === id))
+  res.json(getCategory(category).find(elem => elem.id === id))
 })
+
+app.get("/historical_figures/:pagination")
 
 // Route pour /maps
 app.get('/maps', (req, res) => {
