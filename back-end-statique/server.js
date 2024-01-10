@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
-import {getCategory, getSimplifiedHf} from "./data_preprocessing/index.js";
+import {getCategory, getSimplifiedHf, getDetailedHf} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
@@ -34,8 +34,12 @@ app.get("/:category/:id", (req, res) => {
 
 app.get("/historical_figures/page/:pagination",(req, res) => {
   const pagination = req.params.pagination
-  res.json(getSimplifiedHf(pagination))
+  res.json(getSimplifiedHf(pagination));
 });
+
+app.get("/historical_figure/detail/:hfId", (req, res)=> {
+  res.json(getDetailedHf(req.params.hfId));
+})
 
 // Route pour /maps
 app.get('/maps', (req, res) => {

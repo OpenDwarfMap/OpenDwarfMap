@@ -41,7 +41,7 @@ export async function getHistoricalFiguresList(callback, pagination) {
 }
 
 export async function getHistoricalFiguresDetail(callback, hfId) {
-    await fetch(URL_API+"historical_figure/" + hfId.toString())
+    await fetch(URL_API+"historical_figure/detail/" + hfId.toString())
         .then(response => response.json())
         .then(data => {
             callback(data);
