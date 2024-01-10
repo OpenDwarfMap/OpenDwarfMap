@@ -33,7 +33,7 @@ app.get("/:category/:id", (req, res) => {
 })
 
 app.get("/historical_figures/page/:pagination",(req, res) => {
-  const pagination = req.params.pagination
+  const pagination = req.params.pagination ?? 0
   res.json(getSimplifiedHf(pagination))
 });
 

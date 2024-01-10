@@ -45,7 +45,9 @@ export function getSimplifiedHf(pagination) {
     const endIndex = pagination * 10;
     return mergedLegendData["historical_figures"]["historical_figure"]
       .filter((elem) => elem.id > startIndex && elem.id < endIndex)
-      .map((elem) => {elem.name, elem.id});
+      .map((elem) => {
+          return elem;
+      });
   }
 
 // On lit les données de legend 

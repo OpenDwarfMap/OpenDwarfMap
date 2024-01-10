@@ -11,6 +11,7 @@ function HistoricalFiguresList () {
     return (<div>
         <ul>
             {HistoricalFiguresList.map((hf) => {
+                if(hf == null) return;
                 return (
                     <Link to={"/historical_figure/"+hf.id.toString()}><li key={hf.id}> {hf.name} </li></Link>
                 )
