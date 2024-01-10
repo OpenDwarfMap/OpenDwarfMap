@@ -1,43 +1,19 @@
-import React, { useEffect, useState } from "react";
-import {ImageOverlay, MapContainer, Marker, Popup} from 'react-leaflet'
-import customIcon from "./map/customIcon";
-import {getSites} from './utils.js';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Map from './Component/Map';
+import HistoricalFiguresList from './Component/HistoricalFiguresList';
+import HistoricalFigureDetail from "./Component/HistoricalFigureDetail";
+import './styles.scss'
 
-export function App() {
-    const [sitesMarkers, setSitesMarkers] = useState()  
-    useEffect(()=> {
-        getSites(setSitesMarkers);
-    }, [])
-
-    // Coordonnées du centre de votre carte
-    const center = [0, 0];
-
-    // Taille fixe de l'image (en degrés)
-    const imageSize = 0.5;
-
-    // Calcul des coordonnées du coin supérieur gauche et inférieur droit de l'image
-    const imageBounds = [
-        [center[0] - imageSize / 2, center[1] - imageSize / 2], // Coin supérieur gauche
-        [center[0] + imageSize / 2, center[1] + imageSize / 2]  // Coin inférieur droit
-    ];
-
-    const imageUrl = './assets/region-detailed.bmp';
-
-    return <MapContainer id ="map"
-                         center={center}
-                         zoom={13}
-                         scrollWheelZoom={true}
-                         bounds={imageBounds}
-    >
-       <ImageOverlay
-           url={imageUrl}
-           bounds={imageBounds}
-       />
-        <Marker position={[0,0]} icon={customIcon}>
-            <Popup>
-                <h3>Bienvenue aventurier !</h3><p>Tu es au centre de la carte.</p>
-            </Popup>
-        </Marker>
-        {sitesMarkers}
-    </MapContainer>;
+function App() {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" element={<Map />} />
+          <Route path="/historical_figures/page/:pagination" element={<HistoricalFiguresList />} />
+          <Route path="/historical_figure/:hfId" element={<HistoricalFigureDetail />} />
+        </Routes>
+      </Router>
+    );
 }
+export default App;

@@ -31,7 +31,6 @@ let mergedLegendData = {}
 initData()
 
 export function getCategory(categoryName) {   
-    console.log(mergedLegendData)
     if(!categories.includes(categoryName)) {
         return {
             "error": "The category " + categoryName + " is not recognized"
@@ -40,6 +39,14 @@ export function getCategory(categoryName) {
     let parent = (categoryName === "entity") ? "entities" : categoryName + "s"
     return mergedLegendData[parent][categoryName]
 }
+
+export function getSimplifiedHf(pagination) {
+    const startIndex = (pagination - 1) * 10;
+    const endIndex = pagination * 10;
+    return mergedLegendData["historical_figures"]["historical_figure"]
+      .filter((elem) => elem.id > startIndex && elem.id < endIndex)
+      .map((elem) => {elem.name, elem.id});
+  }
 
 // On lit les données de legend 
 function initData(){
