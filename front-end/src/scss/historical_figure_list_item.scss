@@ -8,12 +8,19 @@
   margin: 48px 0;
 }
 
+.hf-page-nav-btn
+{
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  padding: 8px;
+}
+
 .hf_list_item
 {
   display: grid;
   grid-template-columns: 4fr 1fr 1fr;
   color: white;
-  border: 5px solid #666666;
+  border: 5px solid rgba(255, 255, 255, 0.15);
   padding: 16px;
   margin: 20px 0;
 
