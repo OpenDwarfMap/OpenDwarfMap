@@ -14,9 +14,13 @@ function HistoricalFiguresList () {
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {parseInt(pagination) > 1 ?
                 <Link to={"/historical_figures/page/" + (parseInt(pagination) - 1).toString()} className={"hf-page-nav-btn"}> Page
-                    Précédente </Link> : <div></div>}
+                    Précédente </Link> :
+                <Link to={"/historical_figures/page/4471"} className={"hf-page-nav-btn"}> Dernière Page </Link>
+            }
             <div style={{color: "white"}}>page {pagination}</div>
-            <Link to={"/historical_figures/page/" + (parseInt(pagination) + 1).toString()} className={"hf-page-nav-btn"}> Page Suivante </Link>
+            {parseInt(pagination) >= 4471 ?
+                <Link to={"/historical_figures/page/1"} className={"hf-page-nav-btn"}> Première Page </Link> :
+                <Link to={"/historical_figures/page/" + (parseInt(pagination) + 1).toString()} className={"hf-page-nav-btn"}> Page Suivante </Link>}
         </div>
         <ul>
             {HistoricalFiguresList.map((hf) => {
