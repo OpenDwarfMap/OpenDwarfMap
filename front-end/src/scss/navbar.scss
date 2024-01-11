@@ -18,12 +18,11 @@
 .navigation-item {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   color: #ffffff;
   font-family: "Press Start 2P", sans-serif;
-  padding: 16px 0;
+  padding: 16px 8px;
   width: 100%;
-  text-align: center;
 }
 
 .navigation-item:hover {
