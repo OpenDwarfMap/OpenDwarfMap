@@ -13,8 +13,8 @@ function App() {
           <Route path="/" element={<RootScreen/>}>
               <Route path="/" element={<Map />} />
               <Route path="/historical_figures/page/:pagination" element={<HistoricalFiguresList />} />
-              <Route path="/historical_figure/:hfId" element={<HistoricalFigureDetail />} />
           </Route>
+            <Route path="/historical_figure/:hfId" element={<HistoricalFigureDetail />} />
         </Routes>
       </Router>
     );
