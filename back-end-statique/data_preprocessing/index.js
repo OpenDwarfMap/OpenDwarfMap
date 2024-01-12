@@ -50,6 +50,18 @@ export function getSimplifiedHf(pagination) {
       });
   }
 
+export function getDetailedHf(hfId) {
+    let HfData = mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]
+    // Il existe des hf sans entitylink
+    if (HfData.entity_link) {
+        for (const indexLink of HfData.entity_link.keys()) {
+            const entityId = HfData.entity_link[indexLink]["entity_id"]
+            HfData.entity_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
+        }
+    }
+    return HfData
+}
+
 // On lit les données de legend 
 function initData(){
     const legendPlusFilePath = 'legend_plus.json';

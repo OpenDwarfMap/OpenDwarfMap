@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useParams} from'react-router-dom';
+import {useParams, Link} from'react-router-dom';
 import {getHistoricalFiguresDetail} from '../utils/API.js';
 
 function HistoricalFiguresDetail () {
@@ -12,9 +12,19 @@ function HistoricalFiguresDetail () {
     })
     : null ;
 
+    let hfLink = HistoricalFiguresDetail.entity_link ? 
+    HistoricalFiguresDetail.entity_link.map((entityData)=>{
+        return (
+            <li key={entityData.entity_id.toString()}>
+                Lien : {entityData.link_type} avec <Link to={"/historical_figure/"+entityData.entity_id.toString()}>{entityData.name}</Link>
+            </li>
+        );
+    }) : null;
+
     useEffect(()=> {
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId);
-    }, [])
+    }, [hfId])
+
     return (<div>
         <h1> Name : {HistoricalFiguresDetail.name}</h1>
         <h2> 
@@ -26,6 +36,12 @@ function HistoricalFiguresDetail () {
         <h3>
             <ul>
                 {hfSkill}
+            </ul>
+        </h3>
+        <h2> Lien avec d'autres figures historiques : </h2>
+        <h3>
+            <ul>
+                {hfLink}
             </ul>
         </h3>
 
