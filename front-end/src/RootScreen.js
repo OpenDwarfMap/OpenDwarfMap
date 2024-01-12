@@ -16,7 +16,7 @@ export default function RootScreen() {
                     <Link to={"/historical_figures/page/1"}>Personnages</Link>
                 </button>
             </div>
-            <div style={{flex: 1, padding: "0 16px", marginLeft: "300px"}}>
+            <div style={{flex: 1, padding: "0 16px"}}>
                 <Outlet/>
             </div>
         </div>
