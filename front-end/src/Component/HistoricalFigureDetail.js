@@ -12,38 +12,55 @@ function HistoricalFiguresDetail () {
     })
     : null ;
 
-    let hfLink = HistoricalFiguresDetail.entity_link ? 
+    let entityLink = HistoricalFiguresDetail.entity_link ?
     HistoricalFiguresDetail.entity_link.map((entityData)=>{
         return (
             <li key={entityData.entity_id.toString()}>
-                Lien : {entityData.link_type} avec <Link to={"/historical_figure/"+entityData.entity_id.toString()}>{entityData.name}</Link>
+                Lien : {entityData.link_type} avec <Link to={"/historical_figure/" + entityData.entity_id.toString()}>
+                <span style={{color: "green"}}>{entityData.name}</span>
+            </Link>
             </li>
         );
     }) : null;
+
+    let hfLink = HistoricalFiguresDetail.hf_link ?
+        HistoricalFiguresDetail.hf_link.map((entityData)=>{
+            return (
+                <li key={entityData.hfid.toString()}>
+                    Lien : {entityData.link_type} avec <Link to={"/historical_figure/"+entityData.hfid.toString()}>
+                        <span style={{color: "blue"}}>{entityData.name}</span>
+                    </Link>
+                </li>
+            );
+        }) : null;
 
     useEffect(()=> {
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId);
     }, [hfId])
 
-    return (<div>
+    return (<div className={"hf-details"}>
         <h1> Name : {HistoricalFiguresDetail.name}</h1>
-        <h2> 
+        <h2>
             Race : {HistoricalFiguresDetail.race}, 
             Birth : {HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'}, 
             Death : {HistoricalFiguresDetail.death_year != -1  ? HistoricalFiguresDetail.death_year : 'Never'}, 
-            Sex : {HistoricalFiguresDetail.sex}
+            Sex : {HistoricalFiguresDetail.caste}
         </h2>
-        <h3>
+        <h3>{HistoricalFiguresDetail.goal ? "Objectif : " + HistoricalFiguresDetail.goal : ""}</h3>
+        <div>
             <ul>
                 {hfSkill}
             </ul>
-        </h3>
+        </div>
         <h2> Lien avec d'autres figures historiques : </h2>
-        <h3>
+        <div>
             <ul>
                 {hfLink}
             </ul>
-        </h3>
+            <ul>
+                {entityLink}
+            </ul>
+        </div>
 
     </div>)
 

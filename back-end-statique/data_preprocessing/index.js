@@ -56,9 +56,24 @@ export function getDetailedHf(hfId) {
     if (HfData.entity_link) {
         for (const indexLink of HfData.entity_link.keys()) {
             const entityId = HfData.entity_link[indexLink]["entity_id"]
-            HfData.entity_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
+            const entity = mergedLegendData["entities"]["entity"][entityId]
+            HfData.entity_link[indexLink]["name"] = entity["name"] + " (" + entity["type"] + ")"
         }
     }
+    if(HfData.hf_link) {
+        if("link_type" in HfData["hf_link"]) {
+            const hfId = HfData["hf_link"]["hfid"]
+            const hf = mergedLegendData["historical_figures"]["historical_figure"][hfId]
+            HfData.hf_link["name"] = hf["name"] + " (" + hf["race"] + ")"
+        } else {
+            for (const indexLink of HfData.hf_link.keys()) {
+                const hfId = HfData.hf_link[indexLink]["hfid"]
+                const hf = mergedLegendData["historical_figures"]["historical_figure"][hfId]
+                HfData.hf_link[indexLink]["name"] = hf["name"] + " (" + hf["race"] + ")"
+            }
+        }
+    }
+    //HfData.hf_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
     return HfData
 }
 
