@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {useParams, Link} from'react-router-dom';
 import {getHistoricalFiguresDetail} from '../utils/API.js';
+import HistoricalFigureGraph from "./HistoricalFigureGraph";
 
 function HistoricalFiguresDetail () {
     let { hfId } = useParams();
@@ -52,6 +53,7 @@ function HistoricalFiguresDetail () {
                 {hfSkill}
             </ul>
         </div>
+        <HistoricalFigureGraph historicalFiguresDetail={HistoricalFiguresDetail}/>
         <h2> Lien avec d'autres figures historiques : </h2>
         <div>
             <ul>
