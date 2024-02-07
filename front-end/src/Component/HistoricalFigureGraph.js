@@ -6,6 +6,8 @@ const familyLinkTypes = ["child", "father", "mother", "spouse", "former spouse"]
 
 function HistoricalFigureGraph({ historicalFiguresDetail }){
 
+    // TODO: Implémenter ça : https://gojs.net/latest/samples/genogram.html
+
     let familyLink = historicalFiguresDetail.hf_link ?
         historicalFiguresDetail.hf_link
             .filter((entityData) => familyLinkTypes.includes(entityData.link_type))
