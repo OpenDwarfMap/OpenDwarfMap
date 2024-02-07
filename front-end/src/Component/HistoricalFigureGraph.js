@@ -15,7 +15,11 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
                 name: entityData.name + "\n\n (" + entityData.link_type + ")",
                 link_type: entityData.link_type,
                 parent: entityData.link_type === "child" ? historicalFiguresDetail.id : NaN,
-                // gender: entityData.gender ? "M" : "F",
+                gender: entityData.link_type === "mother"
+                    ? "F"
+                    : entityData.link_type === "father"
+                        ? "M"
+                        : "U",
                 entity_infos: entityData
             };
         }) : [];
@@ -24,8 +28,13 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
         key: historicalFiguresDetail.id,
         name: historicalFiguresDetail.name,
         link_type: "parent",
-        // parent: familyLink.filter(),
-        // gender: HistoricalFiguresDetail.sex ? "M" : "F",
+        // filter on mother or father
+        parent: familyLink.find((entityData) => entityData.link_type === "father" || entityData.link_type === "mother")
+            ? familyLink.find((entityData) => entityData.link_type === "father" || entityData.link_type === "mother").key
+            : NaN,
+        gender: historicalFiguresDetail.sex === 1 ? "M"
+            : historicalFiguresDetail.sex === 0 ? "F"
+            : "U",
         entity_infos: historicalFiguresDetail
     })
 
