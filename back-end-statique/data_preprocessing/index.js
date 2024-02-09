@@ -127,6 +127,13 @@ export function getDetailedHf(hfId) {
         return isArrayContained(event_collection, eventIds)
     });
 
+    for(let eventcol of HfData.eventLinked) {
+        for(let i = 0; i < eventcol.event.length; i++) {
+            let id = eventcol.event[i]
+            eventcol.event[i] = events.find(elem => elem.id === id) ?? id
+        }
+    }
+
     //HfData.hf_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
     return HfData
 }
