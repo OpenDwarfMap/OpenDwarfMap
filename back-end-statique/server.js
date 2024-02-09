@@ -2,7 +2,6 @@ import express from 'express';
 import { readdir } from 'node:fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { Polygon } from 'extract-region-polygon';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

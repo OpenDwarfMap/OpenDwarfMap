@@ -1,4 +1,5 @@
 import fs from "fs";
+import { Polygon } from 'extract-region-polygon';
 
 const categories = [
     "landmass",
@@ -54,7 +55,7 @@ let mergedLegendData = {}
 
 initData()
 
-export function getCategory(categoryName) {   
+export function getCategory(categoryName) {
     if(!categories.includes(categoryName)) {
         return {
             "error": "The category " + categoryName + " is not recognized"
@@ -117,7 +118,7 @@ export function getDetailedHf(hfId) {
             }
         }
         return false;
-    }) 
+    })
     const eventIds = events.map((event)=> event.id);
     // On sélectionne les event collection qui contiennes les events qui inmplique notre HfId
 
@@ -138,18 +139,18 @@ export function getDetailedHf(hfId) {
     return HfData
 }
 
-// On lit les données de legend 
+// On lit les données de legend
 function initData(){
     const legendPlusFilePath = 'legend_plus.json';
-    const legendFilePath = 'legend.json';   
+    const legendFilePath = 'legend.json';
     fs.readFile(legendPlusFilePath, 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading file:', err);
             return;
         }
         const legendPlusData = JSON.parse(data)["df_world"]
-            
-        // On lit les données de legend plus 
+
+        // On lit les données de legend plus
         fs.readFile(legendFilePath, 'utf8', (err, dataPlus) => {
             if (err) {
                 console.error('Error reading file:', err);
@@ -157,6 +158,14 @@ function initData(){
             }
             const legendData = JSON.parse(dataPlus)["df_world"];
             mergedLegendData = mergeJsonObjects(legendData,legendPlusData);
+            mergedLegendData["regions"]["region"].forEach((region, id) => {
+                var p = Polygon.from_enclosed_squares_string(region["coords"]);
+                region["polygon"] = [];
+                p.vertices().forEach((v, i) => {
+                    region["polygon"].push([v.x, v.y]);
+                });
+                console.log(region["polygon"]);
+            });
         });
     });
 }
@@ -200,10 +209,10 @@ function mergeJsonObjects(legendData, legendPlusData) {
 
     // On merge ensuite les champs communs
 
-    // On boucle sur les différentes catégories à merger 
+    // On boucle sur les différentes catégories à merger
     for (const [indexCategory, categories] of commonCategories.entries()) {
         const category = commonCategorie[indexCategory];
-        // Ensuite on boucle sur les éléments de ces catégories 
+        // Ensuite on boucle sur les éléments de ces catégories
         for (const indexElement of legendData[categories][category].keys()) {
 
             legendData[categories][category][indexElement] = Object.assign(
@@ -213,7 +222,6 @@ function mergeJsonObjects(legendData, legendPlusData) {
         }
     return legendData;
 }
-
 
 function isArrayContained(array1, array2) {
     // Loop through each element of array1
