@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {ImageOverlay, MapContainer, Marker, Popup} from 'react-leaflet'
-import customIcon from "../map/customIcon.js";
 import {getSites} from '../utils/API.js';
 
 function Map() {
@@ -21,25 +20,32 @@ function Map() {
         [center[0] + imageSize / 2, center[1] + imageSize / 2]  // Coin inférieur droit
     ];
 
-    const imageUrl = './assets/region-detailed.bmp';
+    const imageUrl = '../../assets/region-detailed.bmp';
 
-    return <MapContainer id ="map"
-                         center={center}
-                         zoom={13}
-                         scrollWheelZoom={true}
-                         bounds={imageBounds}
+    const imageHeight = 130;
+    const imageWidth = 130;
+
+    // Définissez les coordonnées des coins de votre image de fond
+  const bounds = [[0, 0], [imageHeight, imageWidth]]; // Remplacez imageHeight et imageWidth par la hauteur et la largeur de votre image
+
+  return (
+    <MapContainer
+      center={[0, 0]}
+      zoom={2}
+      minZoom={0}
+      maxZoom={5}
+      scrollWheelZoom={true}
+      crs={L.CRS.Simple} // Utilisez un système de coordonnées simple
+      maxBounds={bounds} // Définissez les limites de la carte
+      style={{ height: '500px', width: '100%' }}
     >
-       <ImageOverlay
-           url={imageUrl}
-           bounds={imageBounds}
-       />
-        <Marker position={[0,0]} icon={customIcon}>
-            <Popup>
-                <h3>Bienvenue aventurier !</h3><p>Tu es au centre de la carte.</p>
-            </Popup>
-        </Marker>
-        {sitesMarkers}
-    </MapContainer>;
+      <ImageOverlay
+        url={imageUrl}
+        bounds={bounds}
+      />
+      {sitesMarkers}
+    </MapContainer>
+  )
 };
 
 export default Map;
