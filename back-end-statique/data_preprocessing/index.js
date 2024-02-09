@@ -76,7 +76,7 @@ export function getCategoryPagened(pagination, categoryName) {
     let parent = (categoryName === "entity") ? "entities" : categoryName + "s"
 
     return mergedLegendData[parent][categoryName]
-      .filter((elem) => elem.id >= startIndex && elem.id <= endIndex)
+      .filter((elem) => elem.id >= startIndex && elem.id < endIndex)
       .map((elem) => {
           return elem;
       });
