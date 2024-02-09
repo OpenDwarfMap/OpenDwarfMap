@@ -74,9 +74,9 @@ export function getCategoryPagened(pagination, categoryName) {
         }
     }
     let parent = (categoryName === "entity") ? "entities" : categoryName + "s"
-    
+
     return mergedLegendData[parent][categoryName]
-      .filter((elem) => elem.id > startIndex && elem.id < endIndex)
+      .filter((elem) => elem.id >= startIndex && elem.id <= endIndex)
       .map((elem) => {
           return elem;
       });
@@ -105,6 +105,18 @@ export function getDetailedHf(hfId) {
             }
         }
     }
+    // Array des event parfois insignifiants reliés à notre Hf
+    const events =  mergedLegendData.historical_events.historical_event
+    .filter((event) => { return event.hfid == hfId}) // À élargir pq hist_figure_id, hf_target,...
+    .map((event)=>event.id);
+    // On sélectionne les event collection qui contiennes les events qui inmplique notre HfId
+
+    let event_collection;
+    HfData.eventLinked = mergedLegendData.historical_event_collections.historical_event_collection.filter((event_collection) => {
+        event_collection  = Array.isArray(event_collection.event) ? event_collection.event : [event_collection.event] ;
+        return isArrayContained(event_collection, events)
+    })
+
     //HfData.hf_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
     return HfData
 }
@@ -183,4 +195,18 @@ function mergeJsonObjects(legendData, legendPlusData) {
             }
         }
     return legendData;
+}
+
+
+function isArrayContained(array1, array2) {
+    // Loop through each element of array1
+    for (let i = 0; i < array1.length; i++) {
+        // Check if the current element of array1 exists in array2
+        if (array2.indexOf(array1[i]) !== -1) {
+            // If the element is not found in array2, return true
+            return true;
+        }
+    }
+    // If all elements are found in array2, return false
+    return false;
 }
