@@ -91,7 +91,7 @@ export function getDetailedHf(hfId) {
             const entity = mergedLegendData["entities"]["entity"][entityId]
             HfData.entity_link[indexLink]["name"] = entity["name"] + " (" + entity["type"] + ")"
         }
-    }
+    };
     if(HfData.hf_link) {
         if("link_type" in HfData["hf_link"]) {
             const hfId = HfData["hf_link"]["hfid"]
@@ -104,18 +104,28 @@ export function getDetailedHf(hfId) {
                 HfData.hf_link[indexLink]["name"] = hf["name"] + " (" + hf["race"] + ")"
             }
         }
-    }
+    };
+
     // Array des event parfois insignifiants reliés à notre Hf
+
     const events =  mergedLegendData.historical_events.historical_event
-    .filter((event) => { return event.hfid == hfId}) // À élargir pq hist_figure_id, hf_target,...
-    .map((event)=>event.id);
+    .filter((event) => {
+        let keys = Object.keys(event).filter(k => k.includes("hfid") || k == "histfig")
+        for(const keyname of keys){
+            if(event[keyname] == hfId) {
+                return true;
+            }
+        }
+        return false;
+    }) 
+    const eventIds = events.map((event)=> event.id);
     // On sélectionne les event collection qui contiennes les events qui inmplique notre HfId
 
     let event_collection;
     HfData.eventLinked = mergedLegendData.historical_event_collections.historical_event_collection.filter((event_collection) => {
         event_collection  = Array.isArray(event_collection.event) ? event_collection.event : [event_collection.event] ;
-        return isArrayContained(event_collection, events)
-    })
+        return isArrayContained(event_collection, eventIds)
+    });
 
     //HfData.hf_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
     return HfData
