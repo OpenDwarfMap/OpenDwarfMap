@@ -25,6 +25,30 @@ const categories = [
     "dance_form"
 ]
 
+const simplifiedField = {
+    "landmass" : "",
+    "mountain_peak" :"",
+    "region":"",
+    "underground_region":"",
+    "river":"",
+    "creature":"",
+    "site":"",
+    "world_construction":"",
+    "artifact":"",
+    "historical_figure":"",
+    "identity":"",
+    "entity_population":"",
+    "entity":"",
+    "historical_event":"",
+    "historical_event_relationships":"",
+    "historical_event_relationships_supplement":"",
+    "historical_event_collection":"",
+    "historical_era":"",
+    "written_content":"",
+    "poetic_form":"",
+    "musical_form":"",
+    "dance_form": ""
+}
 //Read the data from the JSON if necessary
 let mergedLegendData = {}
 
@@ -40,10 +64,17 @@ export function getCategory(categoryName) {
     return mergedLegendData[parent][categoryName]
 }
 
-export function getSimplifiedHf(pagination) {
+export function getCategoryPagened(pagination, categoryName) {
     const startIndex = (pagination - 1) * 10;
     const endIndex = pagination * 10;
-    return mergedLegendData["historical_figures"]["historical_figure"]
+
+    if(!categories.includes(categoryName)) {
+        return {
+            "error": "The category " + categoryName + " is not recognized"
+        }
+    }
+    let parent = (categoryName === "entity") ? "entities" : categoryName + "s"
+    return mergedLegendData[parent][categoryName]
       .filter((elem) => elem.id > startIndex && elem.id < endIndex)
       .map((elem) => {elem.name, elem.id});
   }
@@ -78,7 +109,6 @@ function initData(){
                 return;
             }
             const legendData = JSON.parse(dataPlus)["df_world"];
-            let entity_links = new Set()
             mergedLegendData = mergeJsonObjects(legendData,legendPlusData);
         });
     });
