@@ -1,0 +1,3 @@
+[submodule "back-end-statique/extract-region-polygon"]
+	path = back-end-statique/extract-region-polygon
+	url = ../extract-region-polygon
