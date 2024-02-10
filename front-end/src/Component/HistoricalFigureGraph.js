@@ -1,5 +1,6 @@
 import * as go from 'gojs';
 import { ReactDiagram } from 'gojs-react';
+import Genogram from "./GenogramLayoutGraph";
 
 
 const familyLinkTypes = ["child", "father", "mother", "spouse", "former spouse"];
@@ -42,6 +43,88 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
 
     console.log(familyLink)
 
+
+
+    // const genoData = [
+    //     { key: 0, n: "Aaron", s: "M", m: -10, f: -11, ux: 1, a: ["C", "F", "K"] },
+    //     { key: 1, n: "Alice", s: "F", m: -12, f: -13, a: ["B", "H", "K"] },
+    //     { key: 2, n: "Bob", s: "M", m: 1, f: 0, ux: 3, a: ["C", "H", "L"] },
+    //     { key: 3, n: "Barbara", s: "F", a: ["C"] },
+    //     { key: 4, n: "Bill", s: "M", m: 1, f: 0, ux: 5, a: ["E", "H"] },
+    //     { key: 5, n: "Brooke", s: "F", a: ["B", "H", "L"] },
+    //     { key: 6, n: "Claire", s: "F", m: 1, f: 0, a: ["C"] },
+    //     { key: 7, n: "Carol", s: "F", m: 1, f: 0, a: ["C", "I"] }
+    // ]
+
+    // The node data representing the people, processed by the setupDiagram function is below. The properties are:
+    // key, the unique ID of the person
+    // n, the person's name
+    // s, the person's sex
+    // m, the person's mother's key
+    // f, the person's father's key
+    // ux, the person's wife
+    // vir, the person's husband
+    // a, an Array of the attributes or markers that the person has
+
+    console.log(historicalFiguresDetail)
+
+    let familyGenoData = historicalFiguresDetail.hf_link ?
+        historicalFiguresDetail.hf_link
+            .filter((entityData) => familyLinkTypes.includes(entityData.link_type))
+            .map((entityData)=> {
+            return {
+                key: entityData.hfid.toString(),
+                n: entityData.name + "\n\n (" + entityData.link_type + ")",
+                link_type: entityData.link_type,
+                // parent: entityData.link_type === "child" ? historicalFiguresDetail.id : NaN,
+                s: entityData.link_type === "mother"
+                    ? "F"
+                    : entityData.link_type === "father"
+                        ? "M"
+                        : "U",
+                // entity_infos: entityData
+            };
+        }) : [];
+
+    let familyGenoData2 = [
+        { key: 0, n: "Aaron", s: "M", m: -10, f: -11, ux: 782, a: ["C", "F", "K"] },
+        { key: -10, n: "Paternal Grandfather", s: "M", ux: -11, a: ["A", "S"] },
+        { key: -11, n: "Paternal Grandmother", s: "F", a: ["E", "S"] },
+        {
+            key: 782,
+            n: "dimati lionfights",//historicalFiguresDetail.name,
+            // link_type: "parent",
+            // filter on mother or father
+            // m: familyGenoData.find((entityData) => entityData.link_type === "mother"),
+            // f: familyGenoData.find((entityData) => entityData.link_type === "father"),
+            s: "F", m: -12, f: -13, a: ["B", "H", "K"]
+            // entity_infos: historicalFiguresDetail
+        }
+        // { key: 1, n: "Alice", s: "F", m: -12, f: -13, a: ["B", "H", "K"] },
+        // { key: 2, n: "Bob", s: "M", m: 1, f: 0, ux: 3, a: ["C", "H", "L"] },
+        // { key: 3, n: "Barbara", s: "F", a: ["C"] },
+        // { key: 4, n: "Bill", s: "M", m: 1, f: 0, ux: 5, a: ["E", "H"] },
+        // { key: 5, n: "Brooke", s: "F", a: ["B", "H", "L"] },
+        // { key: 6, n: "Claire", s: "F", m: 1, f: 0, a: ["C"] },
+        // { key: 7, n: "Carol", s: "F", m: 1, f: 0, a: ["C", "I"] }
+    ]
+
+    console.log(familyGenoData2)
+    console.log(typeof historicalFiguresDetail.id === "number")
+
+    familyGenoData.unshift({
+        key: historicalFiguresDetail.id,
+        n: historicalFiguresDetail.name,
+        // link_type: "parent",
+        // filter on mother or father
+        m: familyGenoData.find((entityData) => entityData.link_type === "mother"),
+        f: familyGenoData.find((entityData) => entityData.link_type === "father"),
+        s: historicalFiguresDetail.sex === 1 ? "M"
+            : historicalFiguresDetail.sex === 0 ? "F"
+                : "U",
+        // entity_infos: historicalFiguresDetail
+    })
+
     return <div>
         <ul>
             {familyLink.name}
@@ -52,6 +135,7 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
             nodeDataArray={familyLink}
             onModelChange={handleModelChange}
         />
+        <Genogram Genogram={familyGenoData2} />
     </div>
 }
 
@@ -68,6 +152,7 @@ function tooltipTextConverter(person) {
 function initDiagram() {
   const $ = go.GraphObject.make;
   // set your license key here before creating the diagram: go.Diagram.licenseKey = "...";
+  go.Diagram.licenseKey = "adsfewfwaefasdfdsfs";
   const diagram =
     $(go.Diagram,
       {
