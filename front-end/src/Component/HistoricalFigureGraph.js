@@ -1,6 +1,7 @@
 import * as go from 'gojs';
 import { ReactDiagram } from 'gojs-react';
 import Genogram from "./GenogramLayoutGraph";
+import {useState} from "react";
 
 
 const familyLinkTypes = ["child", "father", "mother", "spouse", "former spouse"];
@@ -66,8 +67,6 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
     // vir, the person's husband
     // a, an Array of the attributes or markers that the person has
 
-    console.log(historicalFiguresDetail)
-
     let familyGenoData = historicalFiguresDetail.hf_link ?
         historicalFiguresDetail.hf_link
             .filter((entityData) => familyLinkTypes.includes(entityData.link_type))
@@ -87,19 +86,19 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
         }) : [];
 
     let familyGenoData2 = [
-        { key: 0, n: "Aaron", s: "M", m: -10, f: -11, ux: 782, a: ["C", "F", "K"] },
+        { key: 0, n: "Aaron", s: "M", m: -10, f: -11, a: ["C", "F", "K"] },
         { key: -10, n: "Paternal Grandfather", s: "M", ux: -11, a: ["A", "S"] },
         { key: -11, n: "Paternal Grandmother", s: "F", a: ["E", "S"] },
-        {
-            key: 782,
-            n: "dimati lionfights",//historicalFiguresDetail.name,
-            // link_type: "parent",
-            // filter on mother or father
-            // m: familyGenoData.find((entityData) => entityData.link_type === "mother"),
-            // f: familyGenoData.find((entityData) => entityData.link_type === "father"),
-            s: "F", m: -12, f: -13, a: ["B", "H", "K"]
-            // entity_infos: historicalFiguresDetail
-        }
+        // {
+        //     key: 782,
+        //     n: "dimati lionfights",//historicalFiguresDetail.name,
+        //     // link_type: "parent",
+        //     // filter on mother or father
+        //     // m: familyGenoData.find((entityData) => entityData.link_type === "mother"),
+        //     // f: familyGenoData.find((entityData) => entityData.link_type === "father"),
+        //     s: "F", m: -12, f: -13, a: ["B", "H", "K"]
+        //     // entity_infos: historicalFiguresDetail
+        // }
         // { key: 1, n: "Alice", s: "F", m: -12, f: -13, a: ["B", "H", "K"] },
         // { key: 2, n: "Bob", s: "M", m: 1, f: 0, ux: 3, a: ["C", "H", "L"] },
         // { key: 3, n: "Barbara", s: "F", a: ["C"] },
@@ -109,8 +108,7 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
         // { key: 7, n: "Carol", s: "F", m: 1, f: 0, a: ["C", "I"] }
     ]
 
-    console.log(familyGenoData2)
-    console.log(typeof historicalFiguresDetail.id === "number")
+    console.log(historicalFiguresDetail)
 
     familyGenoData.unshift({
         key: historicalFiguresDetail.id,
@@ -129,13 +127,13 @@ function HistoricalFigureGraph({ historicalFiguresDetail }){
         <ul>
             {familyLink.name}
         </ul>
-        <ReactDiagram
-            initDiagram={initDiagram}
-            divClassName='diagram-component'
-            nodeDataArray={familyLink}
-            onModelChange={handleModelChange}
-        />
-        <Genogram Genogram={familyGenoData2} />
+        {/*<ReactDiagram*/}
+        {/*    initDiagram={initDiagram}*/}
+        {/*    divClassName='diagram-component'*/}
+        {/*    nodeDataArray={familyLink}*/}
+        {/*    onModelChange={handleModelChange}*/}
+        {/*/>*/}
+        <Genogram Genogram={familyGenoData2} familyData={historicalFiguresDetail} key={historicalFiguresDetail}/>
     </div>
 }
 
