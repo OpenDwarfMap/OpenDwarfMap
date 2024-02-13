@@ -33,11 +33,11 @@ cp -r assets dist/assets
 parcel index.html
 ```
 
-## Concernant le BackEnd : 
+## Concernant le BackEnd :
 
 Il suffit d'installer puis démarrer le serveur en exécutant les lignes suivantes :
 
-```
+``` bash
 cd ./backStatic
 npm install
 node server.js
@@ -45,13 +45,13 @@ node server.js
 
 ## Exporter le XML en JSON
 Les actions suivantes sont à entreprendre dans le dossier back-end-statique, si besoin tapez la commande suivante :
-```
+``` bash
 cd back-end-statique
 ```
 
 Il faut mettre à jour la variable "filePath" du fichier newXmlToJson.js.
-Ensuite il faut executer la commande suivante :
-```
+Ensuite il faut exéacuter la commande suivante :
+``` bash
 node newXmlToJson.js
 ```
 
@@ -63,7 +63,7 @@ export NODE_OPTIONS="--max-old-space-size=8192"
 
 **Sur Windows** :
 
-```
+``` bash
 Set NODE_OPTIONS="--max-old-space-size=8192"
 ```
 
@@ -71,7 +71,7 @@ Set NODE_OPTIONS="--max-old-space-size=8192"
 
 Puis refaire la commande précédente.
 
-Pour vérifier que tout fonctionne bien pour vous, executez la commande suivante :
-```
+Pour vérifier que tout fonctionne bien pour vous, exécutez la commande suivante :
+``` bash
 node testOpenJson.js
 ```
