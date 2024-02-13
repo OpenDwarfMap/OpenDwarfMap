@@ -1,5 +1,5 @@
 import React from "react";
-import {Marker, Popup} from 'react-leaflet'
+import {Marker, Polygon, Popup} from 'react-leaflet'
 
 const URL_API = "http://localhost:3000/"
 
@@ -7,7 +7,7 @@ export async function getSites(callback) {
     await fetch(URL_API+"site")
         .then(response => response.json())
         .then(data => {
-            callback(data.map(siteData => { 
+            callback(data.map(siteData => {
                 return (
                     <Marker position={[parseInt(siteData.coords.split(",")[0]),parseInt(siteData.coords.split(",")[1])]} icon={siteIcon}>
                         <Popup>
@@ -17,7 +17,7 @@ export async function getSites(callback) {
                     )
             }));
         })
-    
+
     .catch(error => console.error('Erreur lors de la récupération des données:', error));
 }
 
@@ -46,4 +46,14 @@ export async function getHistoricalFiguresDetail(callback, hfId) {
         })
 
     .catch(error => console.error('Erreur lors de la récupération des données:', error));
+}
+
+export async function getRegionPolygons(callback) {
+    await fetch(URL_API+"region")
+        .then(response => response.json())
+        .then(data => {
+            callback(data.map(regionData => {
+                return (<Polygon positions={regionData["polygon"]} />)
+            }))
+        })
 }

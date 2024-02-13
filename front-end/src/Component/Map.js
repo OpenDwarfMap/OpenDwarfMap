@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {ImageOverlay, MapContainer, Marker, Popup} from 'react-leaflet'
-import {getSites} from '../utils/API.js';
+import {ImageOverlay, MapContainer, Marker,  Polygon, Popup} from 'react-leaflet'
+import {getSites, getRegionPolygons} from '../utils/API.js';
 
 function Map() {
-    const [sitesMarkers, setSitesMarkers] = useState()  
+    const [sitesMarkers, setSitesMarkers] = useState()
     useEffect(()=> {
         getSites(setSitesMarkers);
+    }, [])
+
+    const [regionPolygons, setRegionPolygons] = useState()
+    useEffect(()=> {
+      getRegionPolygons(setRegionPolygons);
     }, [])
 
     // Coordonnées du centre de votre carte
@@ -44,6 +49,7 @@ function Map() {
         bounds={bounds}
       />
       {sitesMarkers}
+      {regionPolygons}
     </MapContainer>
   )
 };
