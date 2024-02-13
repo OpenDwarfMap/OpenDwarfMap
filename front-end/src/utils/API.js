@@ -7,7 +7,6 @@ export async function getSites(callback) {
     await fetch(URL_API+"site")
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             callback(data.map(siteData => { 
                 return (
                     <Marker position={[parseInt(siteData.coords.split(",")[0]),parseInt(siteData.coords.split(",")[1])]} icon={siteIcon}>
@@ -30,10 +29,9 @@ const siteIcon = L.icon({
 });
 
 export async function getHistoricalFiguresList(callback, pagination) {
-    await fetch(URL_API+"historical_figures/page/"+pagination.toString())
+    await fetch(URL_API+"historical_figure/page/"+pagination.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             callback(data);
         })
 
