@@ -82,6 +82,17 @@ export function getCategoryPagened(pagination, categoryName) {
       });
   }
 
+export function getDetailedSite (id){
+    let siteData = JSON.parse(JSON.stringify(mergedLegendData["sites"]["site"][parseInt(id)]));
+
+    // Ajouter les noms aux id relatifs au site
+    console.log(siteData)
+    siteData.cur_owner_id= siteData.cur_owner_id ? [siteData.cur_owner_id, getName("historical_figure", siteData.cur_owner_id)] : null;
+    siteData.civ_id = siteData.civ_id ? [siteData.civ_id, getName("entity", siteData.civ_id), getName("entity", siteData.civ_id, "race")] : null; 
+    siteData.event = getEvent('site_id',id)
+    return siteData
+}
+
 export function getDetailedHf(hfId) {
     let HfData = JSON.parse(JSON.stringify(mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]));
     // Il existe des hf sans entitylink
@@ -232,7 +243,13 @@ function isArrayContained(array1, array2) {
     return false;
 }
 
-function getName(category, id){ // fonctionnne pour HF, site, et ceux qui ont des names
+function getName(category, id, field='name'){ // fonctionnne pour HF, site, et ceux qui ont des names
     let parent = (category === "entity") ? "entities" : category + "s"
-    return mergedLegendData[parent][category].find(elem => elem.id === id).name
+    return mergedLegendData[parent][category].find(elem => elem.id === id)[field];
+}
+
+function getEvent(field, id){
+    return JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].filter(
+        (event)=>{event[field] = id }
+    )));
 }

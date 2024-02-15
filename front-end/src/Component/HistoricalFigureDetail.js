@@ -32,7 +32,23 @@ function HistoricalFiguresDetail () {
                     </Link>
                 </li>
             );
-        }) : null;
+        }) 
+        : null;
+
+    let hfEvent = HistoricalFiguresDetail.eventLinked ? 
+        HistoricalFiguresDetail.eventLinked
+        .map((eventCollection)=>{
+            return ( 
+                <li key={eventCollection.id.toString()}>
+                    A participé ou subit  : {eventCollection.type} qui a commencé en {eventCollection.start_year} et finit en {eventCollection.end_year}
+                    {eventCollection.site_id ? 
+                    <Link to={"/site/"+eventCollection.site_id[0].toString()}>
+                        <span style={{color: "blue"}}>{eventCollection.site_id[1]}</span>
+                    </Link> : null}
+                    
+                </li>
+        )})
+    : null;
 
     useEffect(()=> {
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId);
@@ -61,9 +77,13 @@ function HistoricalFiguresDetail () {
                 {entityLink}
             </ul>
         </div>
-
+        <h2>  Événements historiques  : </h2>
+        <div>
+            <ul>
+                {hfEvent}
+            </ul>
+        </div>
     </div>)
-
 }
 
 export default HistoricalFiguresDetail;
