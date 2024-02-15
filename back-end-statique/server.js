@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 app.get("/:category", (req, res) => {
   let category = req.params.category
   category = category.replace(/['"]+/g, '')
+  console.log(`Route appelée: /${category}`);
   res.json(getCategory(category))
 })
 
@@ -29,21 +30,25 @@ app.get("/:category/:id", (req, res) => {
   let category = req.params.category
   category = category.replace(/['"]+/g, '')
   let id = parseInt(req.params.id)
+  console.log(`Route appelée: /${category}/${id}`);
   res.json(getCategory(category).find(elem => elem.id === id))
 })
 
 app.get("/:category/page/:pagination",(req, res) => {
   const pagination = req.params.pagination ?? 0
   const category = req.params.category;
+  console.log(`Route appelée: /${category}/page/${pagination}`);
   res.json(getCategoryPagened(pagination, category))
 });
 
 app.get("/historical_figure/detail/:hfId", (req, res)=> {
+  console.log(`Route appelée: /historical_figure/detail/${req.params.hfId}`);
   res.json(getDetailedHf(req.params.hfId));
 })
 
 // Route pour /maps
 app.get('/maps', (req, res) => {
+  console.log("Route appelée: /maps");
   var available = [];
   readdir('assets/maps', (err, filenames) => {
     if (err) throw(err);
@@ -63,6 +68,7 @@ app.get('/maps', (req, res) => {
 // Route avec paramètre d'id de monde et de type pour /maps/:type
 app.get('/region/:regionId/map/:type', (req, res) => {
   const { regionId, type } = req.params;
+  console.log(`Route appelée: /region/${regionId}/map/${type}`);
   res.sendFile(`assets/maps/region${regionId}-${type}.png`, { root: __dirname }, (err) => {
     if (err)
       res.status(err.status).end();

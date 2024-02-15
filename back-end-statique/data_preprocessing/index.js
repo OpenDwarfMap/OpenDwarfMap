@@ -83,7 +83,7 @@ export function getCategoryPagened(pagination, categoryName) {
   }
 
 export function getDetailedHf(hfId) {
-    let HfData = mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]
+    let HfData = JSON.parse(JSON.stringify(mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]));
     // Il existe des hf sans entitylink
     if (HfData.entity_link) {
         for (const indexLink of HfData.entity_link.keys()) {
@@ -108,7 +108,7 @@ export function getDetailedHf(hfId) {
 
     // Array des event parfois insignifiants reliés à notre Hf
 
-    const events =  mergedLegendData.historical_events.historical_event
+    const events =  JSON.parse(JSON.stringify(mergedLegendData.historical_events.historical_event))
     .filter((event) => {
         let keys = Object.keys(event).filter(k => k.includes("hfid") || k == "histfig")
         for(const keyname of keys){
@@ -118,13 +118,13 @@ export function getDetailedHf(hfId) {
         }
         return false;
     }) 
-    const eventIds = events.map((event)=> event.id);
-    // On sélectionne les event collection qui contiennes les events qui inmplique notre HfId
 
+    // On sélectionne les event collection qui contiennes un event qui inmplique notre HfId
     let event_collection;
-    HfData.eventLinked = mergedLegendData.historical_event_collections.historical_event_collection.filter((event_collection) => {
-        event_collection  = Array.isArray(event_collection.event) ? event_collection.event : [event_collection.event] ;
-        return isArrayContained(event_collection, eventIds)
+    HfData.eventLinked = JSON.parse(JSON.stringify(mergedLegendData.historical_event_collections.historical_event_collection))
+    .filter((event_collection) => {
+        event_collection  = Array.isArray(event_collection.event) ? event_collection.event : [event_collection.event] ;  
+        return isArrayContained(event_collection, events.map((event)=> event.id))
     });
 
     for(let eventcol of HfData.eventLinked) {
@@ -133,6 +133,10 @@ export function getDetailedHf(hfId) {
             eventcol.event[i] = events.find(elem => elem.id === id) ?? id
         }
     }
+
+    HfData.eventLinked.forEach(event_collection => {
+        event_collection.site_id = event_collection.site_id ? [event_collection.site_id, getName("site", event_collection.site_id)] : null ;
+    });
 
     //HfData.hf_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
     return HfData
@@ -226,4 +230,9 @@ function isArrayContained(array1, array2) {
     }
     // If all elements are found in array2, return false
     return false;
+}
+
+function getName(category, id){ // fonctionnne pour HF, site, et ceux qui ont des names
+    let parent = (category === "entity") ? "entities" : category + "s"
+    return mergedLegendData[parent][category].find(elem => elem.id === id).name
 }
