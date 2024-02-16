@@ -174,10 +174,11 @@ export function getDetailedHistoricalEventCollection(eventCollId){
             }
             return event; 
         })
-        console.log(eventCollectionData);
     } else if (eventCollectionData.event && Number.isInteger(eventCollectionData.event)){
         eventCollectionData.event = mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id === eventCollectionData.event);
     }
+    // Remplace siet id si il ya par [siteId, nom du site]
+    eventCollectionData.site_id = eventCollectionData.site_id ? [eventCollectionData.site_id, getName("site", eventCollectionData.site_id)]: null ;
     return eventCollectionData;
 }
 

@@ -8,18 +8,32 @@ function EventCollectionDetail () {
     useEffect(()=> {
         getCategoryDataDetail(setEventCollectionData, "historical_event_collection", id);
     }, []);
+    console.log(EventCollectionData);
     let content = EventCollectionData ? 
     (<div>
     <div>
         <div className={"hf-page-title"}> Collection d'événement historiques</div>
     </div>
     <div>
-        <div> Cela est un {EventCollectionData.type} dnas lequel les événements suivants ont pris place : </div>
+        <div> Cela est un {EventCollectionData.type} 
+        qui a duré de {EventCollectionData.start_year} à {EventCollectionData.end_year} 
+        {EventCollectionData.site_id && Array.isArray(EventCollectionData.site_id) ?
+        <Link to={'/site/'+EventCollectionData.site_id[0]}> Au sein du site {EventCollectionData.site_id[1]} </Link> 
+        : null } dans lequel les événements suivants ont pris place : </div>
+        
         {Array.isArray(EventCollectionData.event) 
         ? EventCollectionData.event.filter(element=> element !== null).map((event)=>{
             return(
                 <div>
-                    Type : {event.type}
+                    Type : {event.type} - 
+                    Personne(s) impliquée(s) : {Object.keys(event)
+                    .filter(key=>key.includes("hfid") || key == "histfig") // Rajouter les clés pour tous les events
+                    .map(key=>{
+                            return (
+                                <div>
+                                    <Link key={event[key][0]} to={'/historical_figure/'+event[key][0]}>{event[key][1]}</Link>
+                                </div>)
+                    })} 
                 </div>
             )
         })
@@ -27,8 +41,8 @@ function EventCollectionDetail () {
     </div>
     </div>
     )
-    : null;
-    return null;
+    : <div> Loading ...</div>;
+    return content;
 }
 
 export default EventCollectionDetail;
