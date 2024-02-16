@@ -154,11 +154,27 @@ export function getDetailedHf(hfId) {
 
 export function getDetailedHistoricalEventCollection(eventCollId){
     let eventCollectionData = JSON.parse(JSON.stringify(mergedLegendData["historical_event_collections"]["historical_event_collection"][parseInt(eventCollId)]));
+    // Remplace les events par eventid par les events 
     if (eventCollectionData.event && Array.isArray(eventCollectionData.event)){
-        eventCollectionData.event = eventCollectionData.event.map(event => {
-            return mergedLegendData["historical_events"]["historical_event"]
-            .find(elem => elem.id == event)
+        // event est l'array des eventId
+        eventCollectionData.event = eventCollectionData.event
+        .filter( event => mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id == event)
+        )// on enlève les events sur lesquels on n'a pas d'info
+        .map(event => {
+            // On remplace les eventId par les event pour ceux qu'on sait possible
+            return JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id == event)));
         })
+        .map((event)=>{ 
+            // On remplace les hfId par des [hfId, nom] pour l'affichage qd cela est possible
+            let keys = Object.keys(event).filter(k => k.includes("hfid") || k == "histfig")
+            for(const keyname of keys){
+                event[keyname] = (Number.isInteger(event[keyname]) || event[keyname] > -1) 
+                ? [event[keyname], getName("historical_figure", event[keyname])] 
+                : -1;
+            }
+            return event; 
+        })
+        console.log(eventCollectionData);
     } else if (eventCollectionData.event && Number.isInteger(eventCollectionData.event)){
         eventCollectionData.event = mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id === eventCollectionData.event);
     }
@@ -166,7 +182,6 @@ export function getDetailedHistoricalEventCollection(eventCollId){
 }
 
 export function getDetailedHistoricalEvent(eventId){
-    let test= true;
     const eventcollection = mergedLegendData["historical_event_collections"]["historical_event_collection"]
     .find((eventColl) => {
         if (eventColl.event && Array.isArray(eventColl.event)) {
@@ -271,9 +286,9 @@ function isArrayContained(array1, array2) {
     return false;
 }
 
-function getName(category, id, field='name'){ // fonctionnne pour HF, site, et ceux qui ont des names
-    let parent = (category === "entity") ? "entities" : category + "s"
-    return mergedLegendData[parent][category].find(elem => elem.id === id)[field];
+function getName(category, id, field='name'){ 
+    let parent = (category === "entity") ? "entities" : category + "s";
+    return (Number.isInteger(id) && id > -1) ? mergedLegendData[parent][category].find(elem => elem.id === id)[field] : 'Inexistant' ; 
 }
 
 function getEvent(field, id){ 
