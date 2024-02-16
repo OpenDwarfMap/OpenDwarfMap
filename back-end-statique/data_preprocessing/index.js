@@ -86,7 +86,6 @@ export function getDetailedSite (id){
     let siteData = JSON.parse(JSON.stringify(mergedLegendData["sites"]["site"][parseInt(id)]));
 
     // Ajouter les noms aux id relatifs au site
-    console.log(siteData)
     siteData.cur_owner_id= siteData.cur_owner_id ? [siteData.cur_owner_id, getName("historical_figure", siteData.cur_owner_id)] : null;
     siteData.civ_id = siteData.civ_id ? [siteData.civ_id, getName("entity", siteData.civ_id), getName("entity", siteData.civ_id, "race")] : null; 
     siteData.event = getEvent('site_id',id)
@@ -151,6 +150,35 @@ export function getDetailedHf(hfId) {
 
     //HfData.hf_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
     return HfData
+}
+
+export function getDetailedHistoricalEventCollection(eventCollId){
+    let eventCollectionData = JSON.parse(JSON.stringify(mergedLegendData["historical_event_collections"]["historical_event_collection"][parseInt(eventCollId)]));
+    if (eventCollectionData.event && Array.isArray(eventCollectionData.event)){
+        eventCollectionData.event = eventCollectionData.event.map(event => {
+            return mergedLegendData["historical_events"]["historical_event"]
+            .find(elem => elem.id == event)
+        })
+    } else if (eventCollectionData.event && Number.isInteger(eventCollectionData.event)){
+        eventCollectionData.event = mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id === eventCollectionData.event);
+    }
+    return eventCollectionData;
+}
+
+export function getDetailedHistoricalEvent(eventId){
+    let test= true;
+    const eventcollection = mergedLegendData["historical_event_collections"]["historical_event_collection"]
+    .find((eventColl) => {
+        if (eventColl.event && Array.isArray(eventColl.event)) {
+            return eventColl.event.includes(parseInt(eventId))
+        } else if (eventColl.event && Number.isInteger(eventColl.event)){ 
+            return eventColl.event == parseInt(eventId)
+        }
+        return null;
+    });
+    return eventcollection 
+    ? getDetailedHistoricalEventCollection(eventcollection.id) 
+    : mergedLegendData["historical_events"]["historical_event"].find((element=>element.id === eventId));
 }
 
 // On lit les données de legend 
@@ -248,7 +276,7 @@ function getName(category, id, field='name'){ // fonctionnne pour HF, site, et c
     return mergedLegendData[parent][category].find(elem => elem.id === id)[field];
 }
 
-function getEvent(field, id){
+function getEvent(field, id){ 
     return JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].filter(
         (event)=>{event[field] = id }
     )));
