@@ -60,7 +60,7 @@ export function getCategory(categoryName) {
             "error": "The category " + categoryName + " is not recognized"
         }
     }
-    let parent = (categoryName === "entity") ? "entities" : categoryName + "s"
+    let parent = (categoryName === "entity") ? "entities" : categoryName + "s"; // Rajouter pour identities ? Non ?  je sais même pas c'est quoi ... 
     return mergedLegendData[parent][categoryName]
 }
 
@@ -148,6 +148,8 @@ export function getDetailedHf(hfId) {
         event_collection.site_id = event_collection.site_id ? [event_collection.site_id, getName("site", event_collection.site_id)] : null ;
     });
 
+    // TODO : Ajouter le fait de chercher dans entity pour checker si l'hfId a des fonctions spécifiques au sein de l'organisation
+
     //HfData.hf_link[indexLink]["name"] = mergedLegendData["historical_figures"]["historical_figure"][entityId]["name"]
     return HfData
 }
@@ -180,6 +182,37 @@ export function getDetailedHistoricalEventCollection(eventCollId){
     // Remplace siet id si il ya par [siteId, nom du site]
     eventCollectionData.site_id = eventCollectionData.site_id ? [eventCollectionData.site_id, getName("site", eventCollectionData.site_id)]: null ;
     return eventCollectionData;
+}
+
+export function getDetailEntity(entityId){
+    const entity = JSON.parse(JSON.stringify(mergedLegendData["entities"]["entity"].find(element=> element.id == entityId)));
+    if (entity.type === 'cvilisation') {
+        return entity;
+    }
+    if (entity.histfig_id && Array.isArray(entity.histfig_id)) {
+        // Ajouter noms des hfid impliqué et leurs positions
+        let assignement;
+        entity.histfig_id = entity.histfig_id.map(hfId => {
+            if (entity.entity_position_assignment && Array.isArray(entity.entity_position_assignment)){ 
+                // Si plusieurs positions
+                assignement = entity.entity_position_assignment.find((element)=> element.histfig === hfId); 
+                assignement = assignement ? entity.entity_position[assignement.position_id].name : null;
+            }else if (entity.entity_position_assignment && typeof entity.entity_position_assignment === 'object'){ 
+                // Si une seule postion 
+                assignement = entity.entity_position_assignment.histfig ===  hfId ? entity.entity_position.name : null ;
+            } else {
+                // Si pas de position 
+                assignement = null;
+            }
+
+            return [hfId, getName('historical_figure',hfId), assignement]
+        })
+    } else if (entity.histfig_id && Number.isInteger(entity.histfig_id)){
+        entity.histfig_id = [entity.histfig_id, 
+            getName('historical_figure', entity.histfig_id),
+            entity.entity_position.name]
+    }
+    return entity;
 }
 
 export function getDetailedHistoricalEvent(eventId){
