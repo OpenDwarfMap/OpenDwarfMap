@@ -6,15 +6,15 @@ export default function RootScreen() {
         <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="sidebar">
                 <h1>OpenDwarfMap</h1>
-                <button className="navigation-item">
-                    <Link to={"/"}>Carte</Link>
-                </button>
-                <button className="navigation-item">
-                    <Link to={"/"}>Histoire</Link>
-                </button>
-                <button className="navigation-item">
-                    <Link to={"/historical_figures/page/1"}>Personnages</Link>
-                </button>
+                <Link to={"/"} className="navigation-item">
+                    Carte
+                </Link>
+                <Link to={"/"} className="navigation-item">
+                    Histoire
+                </Link>
+                <Link to={"/historical_figures/page/1"} className="navigation-item">
+                    Personnages
+                </Link>
             </div>
             <div style={{flex: 1, padding: "0 16px"}}>
                 <Outlet/>
