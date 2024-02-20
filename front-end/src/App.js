@@ -6,6 +6,7 @@ import HistoricalFigureDetail from "./Component/HistoricalFigureDetail";
 import SiteDetail from "./Component/SiteDetail";
 import EventDetail from "./Component/EventDetail";
 import EventCollectionDetail from "./Component/EventCollectionDetail";
+import EntityDetail from "./Component/EntityDetail";
 import './styles.scss'
 import RootScreen from "./RootScreen";
 
@@ -20,6 +21,7 @@ function App() {
               <Route path="/site/:id" element={<SiteDetail />} />
               <Route path="/event_collection/:id" element={<EventCollectionDetail />} />
               <Route path="/event/:id" element={<EventDetail />} />
+              <Route path="/entity/:id" element={<EntityDetail />} />
           </Route>
         </Routes>
       </Router>

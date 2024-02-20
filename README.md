@@ -50,7 +50,7 @@ cd back-end-statique
 ```
 
 Il faut mettre à jour la variable "filePath" du fichier newXmlToJson.js.
-Ensuite il faut exéacuter la commande suivante :
+Ensuite il faut exécuter la commande suivante :
 ``` bash
 node newXmlToJson.js
 ```

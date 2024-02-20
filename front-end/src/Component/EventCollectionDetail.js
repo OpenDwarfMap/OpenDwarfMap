@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {getCategoryDataDetail} from '../utils/API.js';
 import { useParams, Link } from "react-router-dom";
+import LoadingPage from "./LoadingPage.js";
 
 function EventCollectionDetail () {
     const { id } = useParams()
@@ -8,8 +9,7 @@ function EventCollectionDetail () {
     useEffect(()=> {
         getCategoryDataDetail(setEventCollectionData, "historical_event_collection", id);
     }, []);
-    console.log(EventCollectionData);
-    let content = EventCollectionData ? 
+    return EventCollectionData ? 
     (<div>
     <div>
         <div className={"hf-page-title"}> Collection d'événement historiques</div>
@@ -41,8 +41,7 @@ function EventCollectionDetail () {
     </div>
     </div>
     )
-    : <div> Loading ...</div>;
-    return content;
+    : < LoadingPage />;
 }
 
 export default EventCollectionDetail;
