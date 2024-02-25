@@ -13,8 +13,13 @@ function Map() {
       getRegionPolygons(setRegionPolygons);
     }, [])
 
+    const imageUrl = './assets/region-detailed.png';
+
+    const imageHeight = 2064;
+    const imageWidth = 2064;
+
     // Coordonnées du centre de votre carte
-    const center = [0, 0];
+    const center = [imageHeight/2, imageWidth/2];
 
     // Taille fixe de l'image (en degrés)
     const imageSize = 0.5;
@@ -25,24 +30,19 @@ function Map() {
         [center[0] + imageSize / 2, center[1] + imageSize / 2]  // Coin inférieur droit
     ];
 
-    const imageUrl = '../../assets/region-detailed.bmp';
-
-    const imageHeight = 130;
-    const imageWidth = 130;
-
     // Définissez les coordonnées des coins de votre image de fond
   const bounds = [[0, 0], [imageHeight, imageWidth]]; // Remplacez imageHeight et imageWidth par la hauteur et la largeur de votre image
 
   return (
     <MapContainer
-      center={[0, 0]}
-      zoom={2}
-      minZoom={0}
+      center={center}
+      zoom={0}
+      minZoom={-1}
       maxZoom={5}
       scrollWheelZoom={true}
       crs={L.CRS.Simple} // Utilisez un système de coordonnées simple
       maxBounds={bounds} // Définissez les limites de la carte
-      style={{ height: '500px', width: '100%' }}
+      style={{ height: '100%', width: '100%' }}
     >
       <ImageOverlay
         url={imageUrl}

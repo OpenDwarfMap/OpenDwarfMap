@@ -162,7 +162,7 @@ function initData(){
                 var p = Polygon.from_enclosed_squares_string(region["coords"]);
                 region["polygon"] = [];
                 p.vertices().forEach((v, i) => {
-                    region["polygon"].push([v.x, v.y]);
+                    region["polygon"].push([v.x*16, v.y*16]);
                 });
                 console.log(region["polygon"]);
             });
