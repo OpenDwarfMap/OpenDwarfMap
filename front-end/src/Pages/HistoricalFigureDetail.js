@@ -54,36 +54,38 @@ function HistoricalFiguresDetail () {
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId);
     }, [hfId])
 
-    return (<div className={"hf-details"}>
-        <h1> Name : {HistoricalFiguresDetail.name}</h1>
-        <h2>
-            Race : {HistoricalFiguresDetail.race}, 
-            Birth : {HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'}, 
-            Death : {HistoricalFiguresDetail.death_year != -1  ? HistoricalFiguresDetail.death_year : 'Never'}, 
-            Sex : {HistoricalFiguresDetail.caste}
-        </h2>
-        <h3>{HistoricalFiguresDetail.goal ? "Objectif : " + HistoricalFiguresDetail.goal : ""}</h3>
-        <div>
-            <ul>
-                {hfSkill}
-            </ul>
+    return (
+        <div className={"hf-details"}>
+            <h1>{HistoricalFiguresDetail.name}</h1>
+            <h2>
+                Race : {HistoricalFiguresDetail.race},
+                Birth : {HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'},
+                Death : {HistoricalFiguresDetail.death_year != -1 ? HistoricalFiguresDetail.death_year : 'Never'},
+                Sex : {HistoricalFiguresDetail.caste}
+            </h2>
+            <h3>{HistoricalFiguresDetail.goal ? "Objectif : " + HistoricalFiguresDetail.goal : ""}</h3>
+            <div>
+                <ul>
+                    {hfSkill}
+                </ul>
+            </div>
+            <h2> Lien avec d'autres figures historiques : </h2>
+            <div>
+                <ul>
+                    {hfLink}
+                </ul>
+                <ul>
+                    {entityLink}
+                </ul>
+            </div>
+            <h2> Événements historiques : </h2>
+            <div>
+                <ul>
+                    {hfEvent}
+                </ul>
+            </div>
         </div>
-        <h2> Lien avec d'autres figures historiques : </h2>
-        <div>
-            <ul>
-                {hfLink}
-            </ul>
-            <ul>
-                {entityLink}
-            </ul>
-        </div>
-        <h2>  Événements historiques  : </h2>
-        <div>
-            <ul>
-                {hfEvent}
-            </ul>
-        </div>
-    </div>)
+    )
 }
 
 export default HistoricalFiguresDetail;

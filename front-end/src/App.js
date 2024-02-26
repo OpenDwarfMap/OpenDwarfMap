@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Map from './Component/Map';
-import HistoricalFiguresList from './Component/HistoricalFiguresList';
-import HistoricalFigureDetail from "./Component/HistoricalFigureDetail";
-import SiteDetail from "./Component/SiteDetail";
-import EventDetail from "./Component/EventDetail";
-import EventCollectionDetail from "./Component/EventCollectionDetail";
+import HistoricalFiguresList from './Pages/HistoricalFiguresList';
+import HistoricalFigureDetail from "./Pages/HistoricalFigureDetail";
+import SiteDetail from "./Pages/SiteDetail";
+import EventDetail from "./Pages/EventDetail";
+import EventCollectionDetail from "./Pages/EventCollectionDetail";
 import './styles.scss'
 import RootScreen from "./RootScreen";
 

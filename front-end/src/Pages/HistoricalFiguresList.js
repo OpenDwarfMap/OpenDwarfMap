@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {getHistoricalFiguresList} from '../utils/API.js';
 import { useParams, Link } from "react-router-dom";
-import HistoricalFigureListItem from "./HistoricalFigureListItem";
+import HistoricalFigureListItem from "../Component/HistoricalFigureListItem";
 
 function HistoricalFiguresList () {
     const { pagination } = useParams()
