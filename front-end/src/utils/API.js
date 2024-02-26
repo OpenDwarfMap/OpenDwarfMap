@@ -33,7 +33,6 @@ export async function getHistoricalFiguresList(callback, pagination) {
     await fetch(URL_API+"historical_figures/page/"+pagination.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             callback(data);
         })
 

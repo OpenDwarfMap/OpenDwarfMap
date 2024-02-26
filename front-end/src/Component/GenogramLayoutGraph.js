@@ -417,8 +417,9 @@ function Genogram({ Genogram, familyData }) {
       var data = nodeDataArray[i];
       var key = data.key;
       var uxs = data.ux;
-      if (uxs !== undefined) {
+      if (uxs !== undefined && uxs !== null) {
         if (typeof uxs === "number") uxs = [uxs];
+        console.log(uxs);
         for (var j = 0; j < uxs.length; j++) {
           var wife = uxs[j];
           if (key === wife) {
@@ -442,7 +443,7 @@ function Genogram({ Genogram, familyData }) {
         }
       }
       var virs = data.vir;
-      if (virs !== undefined) {
+      if (virs !== undefined && virs !== null) {
         if (typeof virs === "number") virs = [virs];
         for (var j = 0; j < virs.length; j++) {
           var husband = virs[j];

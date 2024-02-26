@@ -4,6 +4,56 @@ import {getHistoricalFiguresDetail} from '../utils/API.js';
 import HistoricalFigureGraph from "./HistoricalFigureGraph";
 import Genogram from "./GenogramLayoutGraph";
 
+function convertToGenogramFormat(familyMembers, key = 0) {
+    let genogramData = [];
+
+    const addMember = (id, name, sex, m, f, ux, vir, a) => {
+        genogramData.push({ key: id, n: name, s: sex, m, f, ux, vir, a });
+    };
+
+    addMember(key, familyMembers.name, familyMembers.sex ? "M" : "F",
+        familyMembers.mother,
+        familyMembers.father,
+        familyMembers.spouse ? familyMembers.spouse : undefined,
+        undefined,
+        ["C", "F", "K"]);
+
+    if (familyMembers.former_spouses) {
+        familyMembers.former_spouses.forEach((spouse, i) => {
+            addMember(-1 * (i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
+        });
+    }
+
+    if (familyMembers.deceased_spouses) {
+        familyMembers.deceased_spouses.forEach((spouse, i) => {
+            addMember(-1 * (familyMembers.former_spouses ? familyMembers.former_spouses.length : 0 + i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
+        });
+    }
+
+    if (familyMembers.mother) {
+        addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 1), familyMembers.mother.name, 'F', undefined, undefined, familyMembers.father ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2) : undefined);
+    }
+
+    if (familyMembers.father) {
+        addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2), familyMembers.father.name, 'M', undefined, undefined);
+    }
+
+    if (familyMembers.children) {
+        familyMembers.children.forEach((child, i) => {
+            let childData = convertToGenogramFormat(child, i + 1);
+            childData[0].m = familyMembers.mother ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 1) : undefined;
+            childData[0].f = familyMembers.father ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2) : undefined;
+            genogramData = genogramData.concat(childData);
+        });
+    }
+
+    console.log(genogramData)
+    return genogramData;
+}
+
+
+
+
 function HistoricalFiguresDetail () {
     let { hfId } = useParams();
     const [historicalFiguresDetail, setHistoricalFiguresDetail] = useState({
@@ -20,11 +70,12 @@ function HistoricalFiguresDetail () {
         // entity_id: undefined
     })
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [familyDataLoaded, setFamilyDataLoaded] = useState(false);
 
     let [familyGenoData, setFamilyGenoData] = useState( [
         { key: 0, n: "Aaron", s: "M", m: -10, f: -11, a: ["C", "F", "K"] },
-        { key: -10, n: "Paternal Grandfather", s: "M", ux: -11, a: ["A", "S"] },
-        { key: -11, n: "Paternal Grandmother", s: "F", a: ["E", "S"] }
+        // { key: -10, n: "Paternal Grandfather", s: "M", ux: -11, a: ["A", "S"] },
+        // { key: -11, n: "Paternal Grandmother", s: "F", a: ["E", "S"] }
     ])
 
     let hfSkill = historicalFiguresDetail.hf_skill ?
@@ -56,10 +107,20 @@ function HistoricalFiguresDetail () {
         }) : null;
 
     useEffect(()=> {
-        getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId).then((data) => {
+        getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId).then(() => {
             setDataLoaded(true);
         })
     }, [hfId])
+
+    useEffect(() => {
+        setFamilyGenoData(convertToGenogramFormat(historicalFiguresDetail));
+        setFamilyDataLoaded(true);
+    }, [historicalFiguresDetail])
+
+    // setFamilyGenoData(convertToGenogramFormat(historicalFiguresDetail));
+    console.log(familyGenoData);
+    console.log(historicalFiguresDetail);
+
 
     return (<div className={"hf-details"}>
         <h1> Name : {historicalFiguresDetail.name}</h1>
