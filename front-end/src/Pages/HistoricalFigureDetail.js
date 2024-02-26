@@ -56,49 +56,51 @@ function HistoricalFiguresDetail () {
     }, [hfId])
 
     return (
-        <div className={"hf-details"}>
-            <section className={"presentation-section"}>
-                <h1>{HistoricalFiguresDetail.name}</h1>
-                <h2 className={"goal"}>{HistoricalFiguresDetail.goal ? (
-                    <span><span
-                        className={"label"}>OBJECTIF</span> : {HistoricalFiguresDetail.goal.toUpperCase()}</span>
-                ) : ""}</h2>
-                <span className={"infos"}>
+        <div className={"hf-details-main-grid"}>
+            <div className={"hf-details"}>
+                <section className={"presentation-section"}>
+                    <h1>{HistoricalFiguresDetail.name}</h1>
+                    <h2 className={"goal"}>{HistoricalFiguresDetail.goal ? (
+                        <span><span
+                            className={"label"}>OBJECTIF</span> : {HistoricalFiguresDetail.goal.toUpperCase()}</span>
+                    ) : ""}</h2>
+                    <span className={"infos"}>
                 {HistoricalFiguresDetail.race} -
                 Birth: {HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'} -
                 Death: {HistoricalFiguresDetail.death_year != -1 ? HistoricalFiguresDetail.death_year : 'Never'} -
-                    {HistoricalFiguresDetail.caste}
+                        {HistoricalFiguresDetail.caste}
                 </span>
-            </section>
-            <section className={"hf-details-section"}>
-                <h3>SKILLS</h3>
-                <div>
-                    <ul className={"skill-list"}>
-                        {hfSkill}
-                    </ul>
-                </div>
-            </section>
-            <section className={"hf-details-section"}>
-                <h3> RELATIONS </h3>
-                <div>
-                    <ul>
-                        {hfLink}
-                    </ul>
-                    <ul>
-                        {entityLink}
-                    </ul>
-                </div>
-            </section>
-            <section className={"hf-details-section"}>
-                <h3> EVENEMENTS : </h3>
-                <div>
-                    <ul>
-                        {hfEvent}
-                    </ul>
-                </div>
-            </section>
+                </section>
+                <section className={"hf-details-section"}>
+                    <h3>SKILLS</h3>
+                    <div>
+                        <ul className={"skill-list"}>
+                            {hfSkill}
+                        </ul>
+                    </div>
+                </section>
+                <section className={"hf-details-section"}>
+                    <h3> RELATIONS </h3>
+                    <div>
+                        <ul>
+                            {hfLink}
+                        </ul>
+                        <ul>
+                            {entityLink}
+                        </ul>
+                    </div>
+                </section>
+                <section className={"hf-details-section"}>
+                    <h3> EVENEMENTS : </h3>
+                    <div>
+                        <ul>
+                            {hfEvent}
+                        </ul>
+                    </div>
+                </section>
+            </div>
         </div>
-)
+    )
 }
 
 export default HistoricalFiguresDetail;
