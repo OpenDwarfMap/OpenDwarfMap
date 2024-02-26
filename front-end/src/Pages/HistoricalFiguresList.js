@@ -9,7 +9,7 @@ function HistoricalFiguresList () {
     useEffect(()=> {
         getHistoricalFiguresList(setHistoricalFiguresList, pagination);
     }, [pagination])
-    return (<div>
+    return (<div className={"hf-list-container"}>
         <div className={"hf-page-title"}>Personnages historiques</div>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {parseInt(pagination) > 1 ?

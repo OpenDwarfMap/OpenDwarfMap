@@ -9,10 +9,11 @@
   font-family: "Press Start 2P", sans-serif;
   font-size: 16px;
   justify-content: space-between;
-  overflow-x: hidden;
+  flex-wrap: wrap;
 
   .skill {
     flex: 2;
+    line-height: 2;
   }
 
   .ip {

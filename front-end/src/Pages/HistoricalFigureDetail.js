@@ -86,7 +86,7 @@ function HistoricalFiguresDetail () {
                     </div>
                 </section>
                 <section className={"hf-details-section"}>
-                    <h3> EVENEMENTS : </h3>
+                    <h3>EVENEMENTS</h3>
                     <div>
                         <ul className={"event-list"}>
                             {hfEvent}
