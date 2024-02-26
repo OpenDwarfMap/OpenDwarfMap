@@ -3,7 +3,7 @@
 .hf-details-main-grid {
   display: grid;
   grid-template-columns: 1fr 7fr 1fr;
-  background-color: #F0C881;
+  background-color: $odm-hf-details-bg;
 }
 
 .hf-details

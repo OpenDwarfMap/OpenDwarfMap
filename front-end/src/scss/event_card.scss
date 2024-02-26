@@ -3,7 +3,7 @@
 .event-card {
   display: flex;
   flex-direction: row;
-  background-color: #232323;
+  background-color: $odm-event-card-bg;
   color: white;
   padding: 8px;
   align-items: start;
