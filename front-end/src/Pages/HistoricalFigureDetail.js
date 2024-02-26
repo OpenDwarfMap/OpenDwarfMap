@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {useParams, Link} from'react-router-dom';
 import {getHistoricalFiguresDetail} from '../utils/API.js';
 import SkillCard from "../Component/SkillCard";
+import EventCard from "../Component/EventCard";
 
 function HistoricalFiguresDetail () {
     let { hfId } = useParams();
@@ -41,12 +42,7 @@ function HistoricalFiguresDetail () {
         .map((eventCollection)=>{
             return ( 
                 <li key={eventCollection.id.toString()}>
-                    A participé ou subit  : {eventCollection.type} qui a commencé en {eventCollection.start_year} et finit en {eventCollection.end_year}
-                    {eventCollection.site_id ? 
-                    <Link to={"/site/"+eventCollection.site_id[0].toString()}>
-                        <span style={{color: "blue"}}>{eventCollection.site_id[1]}</span>
-                    </Link> : null}
-                    
+                    <EventCard eventCollection={eventCollection}/>
                 </li>
         )})
     : null;
@@ -66,9 +62,8 @@ function HistoricalFiguresDetail () {
                     ) : ""}</h2>
                     <span className={"infos"}>
                 {HistoricalFiguresDetail.race} -
-                Birth: {HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'} -
-                Death: {HistoricalFiguresDetail.death_year != -1 ? HistoricalFiguresDetail.death_year : 'Never'} -
-                        {HistoricalFiguresDetail.caste}
+                Birth:{HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'} -
+                Death:{HistoricalFiguresDetail.death_year != -1 ? HistoricalFiguresDetail.death_year : 'Never'} - {HistoricalFiguresDetail.caste}
                 </span>
                 </section>
                 <section className={"hf-details-section"}>
@@ -93,7 +88,7 @@ function HistoricalFiguresDetail () {
                 <section className={"hf-details-section"}>
                     <h3> EVENEMENTS : </h3>
                     <div>
-                        <ul>
+                        <ul className={"event-list"}>
                             {hfEvent}
                         </ul>
                     </div>
