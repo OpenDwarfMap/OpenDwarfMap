@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {useParams, Link} from'react-router-dom';
 import {getHistoricalFiguresDetail} from '../utils/API.js';
+import SkillCard from "../Component/SkillCard";
 
 function HistoricalFiguresDetail () {
     let { hfId } = useParams();
@@ -8,7 +9,7 @@ function HistoricalFiguresDetail () {
 
     let hfSkill = HistoricalFiguresDetail.hf_skill ? 
     HistoricalFiguresDetail.hf_skill.map((skillData) => {
-        return <li key={skillData.skill}> Skill : {skillData.skill}, proficiency : {skillData.total_ip}</li>
+        return <li key={skillData.skill}> <SkillCard name={skillData.skill} proficiency={skillData.total_ip} /></li>
     })
     : null ;
 
@@ -56,36 +57,48 @@ function HistoricalFiguresDetail () {
 
     return (
         <div className={"hf-details"}>
-            <h1>{HistoricalFiguresDetail.name}</h1>
-            <h2>
-                Race : {HistoricalFiguresDetail.race},
-                Birth : {HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'},
-                Death : {HistoricalFiguresDetail.death_year != -1 ? HistoricalFiguresDetail.death_year : 'Never'},
-                Sex : {HistoricalFiguresDetail.caste}
-            </h2>
-            <h3>{HistoricalFiguresDetail.goal ? "Objectif : " + HistoricalFiguresDetail.goal : ""}</h3>
-            <div>
-                <ul>
-                    {hfSkill}
-                </ul>
-            </div>
-            <h2> Lien avec d'autres figures historiques : </h2>
-            <div>
-                <ul>
-                    {hfLink}
-                </ul>
-                <ul>
-                    {entityLink}
-                </ul>
-            </div>
-            <h2> Événements historiques : </h2>
-            <div>
-                <ul>
-                    {hfEvent}
-                </ul>
-            </div>
+            <section className={"presentation-section"}>
+                <h1>{HistoricalFiguresDetail.name}</h1>
+                <h2 className={"goal"}>{HistoricalFiguresDetail.goal ? (
+                    <span><span
+                        className={"label"}>OBJECTIF</span> : {HistoricalFiguresDetail.goal.toUpperCase()}</span>
+                ) : ""}</h2>
+                <span className={"infos"}>
+                {HistoricalFiguresDetail.race} -
+                Birth: {HistoricalFiguresDetail.birth_year != -1 ? HistoricalFiguresDetail.birth_year : 'Never'} -
+                Death: {HistoricalFiguresDetail.death_year != -1 ? HistoricalFiguresDetail.death_year : 'Never'} -
+                    {HistoricalFiguresDetail.caste}
+                </span>
+            </section>
+            <section className={"hf-details-section"}>
+                <h3>SKILLS</h3>
+                <div>
+                    <ul className={"skill-list"}>
+                        {hfSkill}
+                    </ul>
+                </div>
+            </section>
+            <section className={"hf-details-section"}>
+                <h3> RELATIONS </h3>
+                <div>
+                    <ul>
+                        {hfLink}
+                    </ul>
+                    <ul>
+                        {entityLink}
+                    </ul>
+                </div>
+            </section>
+            <section className={"hf-details-section"}>
+                <h3> EVENEMENTS : </h3>
+                <div>
+                    <ul>
+                        {hfEvent}
+                    </ul>
+                </div>
+            </section>
         </div>
-    )
+)
 }
 
 export default HistoricalFiguresDetail;

@@ -16,7 +16,7 @@ export default function RootScreen() {
                     Personnages
                 </Link>
             </div>
-            <div style={{flex: 1, padding: "0 16px"}}>
+            <div style={{flex: 1, display: "flex", alignItems: "stretch"}}>
                 <Outlet/>
             </div>
         </div>

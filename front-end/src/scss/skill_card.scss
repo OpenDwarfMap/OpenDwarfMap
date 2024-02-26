@@ -1,0 +1,18 @@
+.skill-card {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  background-color: #565D7E;
+  color: white;
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 16px;
+  justify-content: space-between;
+
+  .skill {
+    flex: 2;
+  }
+
+  .ip {
+    flex: 1;
+  }
+}

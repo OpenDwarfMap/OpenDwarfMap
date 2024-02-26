@@ -37,7 +37,7 @@ function Map() {
       scrollWheelZoom={true}
       crs={L.CRS.Simple} // Utilisez un système de coordonnées simple
       maxBounds={bounds} // Définissez les limites de la carte
-      style={{ height: '500px', width: '100%' }}
+      style={{ width: '100%' }}
     >
       <ImageOverlay
         url={imageUrl}
