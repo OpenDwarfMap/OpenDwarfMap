@@ -10,6 +10,11 @@ Application Web, Avec Back
 
 ## Comment l'utiliser ? 
 
+Clonez le projet avec ses sous-modules : 
+```
+git clone --recursive https://github.com/OpenDwarfMap/OpenDwarfMap.git
+```
+
 ### Front-End Parcel
 
 Pour exécuter la partie Front-End de l'application, il faut installer Parcel et lancer le serveur de développement.
@@ -35,10 +40,13 @@ parcel index.html
 
 ## Concernant le BackEnd :
 
-Il suffit d'installer puis démarrer le serveur en exécutant les lignes suivantes :
+Le serveur utilise un du code en Rust compilé en WebAssembly, vous aurez donc besoin de wasm-pack.
+Il suffit de compiler le module WASM puis d'installer et démarrer le serveur en exécutant les lignes suivantes :
 
 ``` bash
-cd ./backStatic
+cd ./back-end-statique/extract-region-polygon
+wasm-pack build --target nodejs
+cd ..
 npm install
 node server.js
 ```
