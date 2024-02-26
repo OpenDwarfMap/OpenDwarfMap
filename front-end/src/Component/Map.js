@@ -23,7 +23,7 @@ function Sites() {
 }
 
 function Map() {
-    const imageUrl = './assets/region-detailed.png';
+    const imageUrl = './assets/region-detailed.bmp';
 
     const imageHeight = 2064;
     const imageWidth = 2064;

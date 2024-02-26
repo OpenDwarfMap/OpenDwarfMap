@@ -27,7 +27,7 @@ Pour cela :
 npm install -g parcel-bundler
 ```
 
-- Ajouter la carte 'region-detailed.png' dans le dossier assets du projet
+- Ajouter la carte 'region-detailed.bmp' dans le dossier `front-end/assets`
 
 - Éxécuter les commandes suivantes depuis la racine du projet :
 
