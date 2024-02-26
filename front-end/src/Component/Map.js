@@ -1,18 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, StrictMode } from "react";
 import {ImageOverlay, MapContainer, Marker,  Polygon, Popup} from 'react-leaflet'
 import {getSites, getRegionPolygons} from '../utils/API.js';
 
+function Polygons() {
+  const [regionPolygons, setRegionPolygons] = useState()
+  useEffect(()=> {
+    getRegionPolygons(setRegionPolygons);
+  }, [])
+
+  console.log(regionPolygons)
+
+  return regionPolygons;
+}
+
+function Sites() {
+  const [sitesMarkers, setSitesMarkers] = useState()
+  useEffect(()=> {
+    getSites(setSitesMarkers);
+  }, [])
+
+  return sitesMarkers;
+}
+
 function Map() {
-    const [sitesMarkers, setSitesMarkers] = useState()
-    useEffect(()=> {
-        getSites(setSitesMarkers);
-    }, [])
-
-    const [regionPolygons, setRegionPolygons] = useState()
-    useEffect(()=> {
-      getRegionPolygons(setRegionPolygons);
-    }, [])
-
     const imageUrl = './assets/region-detailed.png';
 
     const imageHeight = 2064;
@@ -48,8 +58,10 @@ function Map() {
         url={imageUrl}
         bounds={bounds}
       />
-      {sitesMarkers}
-      {regionPolygons}
+      <Sites />
+      <StrictMode>
+        <Polygons />
+      </StrictMode>
     </MapContainer>
   )
 };

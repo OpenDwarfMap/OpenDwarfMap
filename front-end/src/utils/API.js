@@ -12,7 +12,7 @@ export async function getSites(callback) {
                 let topLeft = corners[0].split(',');
                 let bottomRight = corners[1].split(',');
                 let center = [
-                    2063-(parseInt(bottomRight[1]) + parseInt(topLeft[1])) / 2,
+                    2064-(parseInt(bottomRight[1]) + parseInt(topLeft[1])) / 2,
                     (parseInt(bottomRight[0]) + parseInt(topLeft[0])) / 2
                 ]
                 return (
