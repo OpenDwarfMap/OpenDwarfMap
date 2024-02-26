@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-export default function EventCard({ eventCollection}) {
+export default function EventCard({ eventCollection }) {
     return (
         <div className={"event-card"}>
             <div className={"period"}>
