@@ -7,14 +7,6 @@ import { ReactDiagram } from "gojs-react";
 
 function Genogram({ Genogram, familyData }) {
     let [genoData, setGenoData] = useState(Genogram);
-    let [dataArray, setDataArray] = useState(familyData);
-
-    useEffect(
-      () => {
-        console.log(genoData, dataArray);
-      },
-      [genoData, dataArray]
-    );
 
     function initDiagram() {
     const $ = go.GraphObject.make;
