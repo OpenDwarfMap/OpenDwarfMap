@@ -1,5 +1,6 @@
 import React from "react";
 import {Marker, Polygon, Popup} from 'react-leaflet';
+import { useParams, Link } from "react-router-dom";
 
 const URL_API = "http://localhost:3000/"
 
@@ -18,7 +19,12 @@ export async function getSites(callback) {
                 return (
                     <Marker key={siteData.id} position={center} icon={siteIcon}>
                         <Popup>
-                            <h3>name : {siteData.name}, type : {siteData.type}</h3>
+                            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                                <h3 style={{ marginRight: '5px' }}>name : {siteData.name}, type : {siteData.type}  </h3>
+                                <h3>
+                                    <Link to={"/site/"+siteData.id.toString()}>  Détail → </Link>
+                                </h3>
+                            </div>
                         </Popup>
                     </Marker>
                 );
