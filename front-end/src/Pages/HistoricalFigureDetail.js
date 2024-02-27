@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {useParams, Link} from'react-router-dom';
 import {getHistoricalFiguresDetail} from '../utils/API.js';
-import SkillCard from "../Component/SkillCard";
+import ItemCard from "../Component/ItemCard.js";
 import EventCard from "../Component/EventCard";
 
 function HistoricalFiguresDetail () {
@@ -10,7 +10,7 @@ function HistoricalFiguresDetail () {
 
     let hfSkill = HistoricalFiguresDetail.hf_skill ? 
     HistoricalFiguresDetail.hf_skill.map((skillData) => {
-        return <li key={skillData.skill}> <SkillCard name={skillData.skill} proficiency={skillData.total_ip} /></li>
+        return <li key={skillData.skill}><ItemCard elementLeft={skillData.skill} elementRight={skillData.total_ip} /></li>
     })
     : null ;
 

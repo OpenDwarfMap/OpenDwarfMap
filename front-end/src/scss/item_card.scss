@@ -1,6 +1,6 @@
 @import "variables";
 
-.skill-card {
+.item-card {
   display: flex;
   flex-direction: row;
   padding: 16px 12px;
@@ -12,12 +12,12 @@
   align-items: center;
   flex-wrap: wrap;
 
-  .skill {
+  .element-left {
     flex: 2;
     line-height: 2;
   }
 
-  .ip {
+  .element-right {
     flex: 1;
     padding-left: 8px;
     text-align: right;

@@ -89,7 +89,8 @@ export function getDetailedSite (id){
     // Ajouter les noms aux id relatifs au site
     siteData.cur_owner_id= siteData.cur_owner_id ? [siteData.cur_owner_id, getName("historical_figure", siteData.cur_owner_id)] : null;
     siteData.civ_id = siteData.civ_id ? [siteData.civ_id, getName("entity", siteData.civ_id), getName("entity", siteData.civ_id, "race")] : null;
-    siteData.event = getEvent('site_id',id)
+    siteData.event = getEvent('site_id',id);
+    siteData.structures = typeof siteData.structures.structure === 'object' ? [siteData.structures.structure]:  siteData.structures.structure;
     return siteData
 }
 
@@ -222,7 +223,7 @@ function initData(){
                 p.vertices().forEach((v, i) => {
                     region["polygon"].push([v.x*16, v.y*16]);
                 });
-                console.log(region["polygon"]);
+                //console.log(region["polygon"]);
             });
         });
     });

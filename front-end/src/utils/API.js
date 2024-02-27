@@ -1,6 +1,6 @@
 import React from "react";
 import {Marker, Polygon, Popup} from 'react-leaflet';
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const URL_API = "http://localhost:3000/"
 
@@ -30,7 +30,6 @@ export async function getSites(callback) {
                 );
             }));
         })
-
     .catch(error => console.error('Erreur lors de la récupération des données:', error));
 }
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {getCategoryDataDetail} from '../utils/API.js';
 import { useParams, Link } from "react-router-dom";
+import ItemCard from "../Component/ItemCard.js";
+import TwoBlockCard from "../Component/TwoBlockCard.js";
 
 function SiteDetail () {
     const { id } = useParams()
@@ -9,42 +11,40 @@ function SiteDetail () {
         getCategoryDataDetail(setSiteData, "site", id);
     }, []);
 
-    const getStructures = function (){
-        if (siteData.structures && Array.isArray(siteData.structures.structure)) { // si plusieurs structures 
-            return siteData.structures.structure.map((structure)=>{
-                return (
-                    <div>
-                        Ce site contient : {structure.name} qui est {structure.type}
-                    </div>
-                )
-            })
-        } else if (siteData.structures && typeof siteData.structures.structure === 'object'){// si une structures 
-            return (
-                <div>
-                    Ce site contient : {siteData.structures.structure.name} qui est {siteData.structures.structure.type}
-                </div>
-            )
-        } else return null // si aucune structures 
-    }
-
-    let content = siteData ? (
-    <div>
-        <div className={"hf-page-title"}>Site : {siteData ? siteData.name : null}</div>
-    {siteData.cur_owner_id ? 
-    <div>
-        Le propriétaire actuel du lieu est : 
-        <Link to={"/historical_figure/"+siteData.cur_owner_id[0].toString()}>{siteData.cur_owner_id[1].toString()}</Link>
-    </div> : null}
-        <div>
-            Ce site est une construction de l'entité de : <Link to={'/entity/'+siteData.civ_id[0]}>{siteData.civ_id[1]}</Link>
+    return siteData ? (
+    <div className={"site-detail-main-grid"}>
+        <div className={"detail-page-title"}> Site : {siteData ? siteData.name : "?????"} </div>
+        <div className={"hf-details"}>
+            <section className={"presentation-section"}>
+                <ul className="item-list">
+                    {siteData.cur_owner_id ? 
+                        <li> <ItemCard 
+                        elementLeft ={"Propriétaire"} 
+                        elementRight={
+                        <Link to={"/historical_figure/"+siteData.cur_owner_id[0].toString()}> 
+                            {siteData.cur_owner_id[1].toString()} 
+                        </Link>}
+                        />
+                        </li>
+                    : null}
+                    <li>
+                        <ItemCard 
+                            elementLeft ={"Construit par"} 
+                            elementRight={<Link to={'/entity/'+siteData.civ_id[0]}> {siteData.civ_id[1]} </Link>}
+                        />
+                    </li>
+                </ul>
+            </section>
+            <section className={"site-detail-section"}>
+                <h3> Strucutres : </h3>
+                {Array.isArray(siteData.structures) ? 
+                siteData.structures.map((structure) => 
+                    <TwoBlockCard title={structure.name} firstBlock={structure.type} content={""}/>) 
+                : null}
+            </section>
         </div>
-        {getStructures()}
     </div>
-
-    )
-    : 
-    (<div> Loading </div>);
-    return content;
+    ) : (<div> Loading </div>);
     // rajouter la map centrer sur les coordonées ? 
 }
 
