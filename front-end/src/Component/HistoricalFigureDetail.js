@@ -113,15 +113,16 @@ function HistoricalFiguresDetail () {
 
     useEffect(() => {
         setFamilyGenoData(convertToGenogramFormat(historicalFiguresDetail));
-        if (familyGenoData.n) {
-            setFamilyDataLoaded(true);
-        }
     }, [historicalFiguresDetail, setFamilyGenoData])
 
-    // setFamilyGenoData(convertToGenogramFormat(historicalFiguresDetail));
-    console.log(familyGenoData);
-    console.log(historicalFiguresDetail);
-    console.log(familyGenoData[0].n);
+    useEffect(() => {
+        if (familyGenoData.find((elem) => elem.key === 0).n) { // check if the name is not undefined
+            setFamilyDataLoaded(true);
+        }
+        else {
+            setFamilyDataLoaded(false);
+        }
+    }, [familyGenoData]);
 
 
     return (<div className={"hf-details"}>
@@ -139,7 +140,7 @@ function HistoricalFiguresDetail () {
             </ul>
         </div>
         {/*<HistoricalFigureGraph historicalFiguresDetail={HistoricalFiguresDetail}/>*/}
-        {dataLoaded && familyGenoData[0].n ? <Genogram familyGenoData={historicalFiguresDetail} Genogram={familyGenoData} /> : <></>}
+        {familyDataLoaded ? <Genogram familyGenoData={historicalFiguresDetail} Genogram={familyGenoData} /> : <></>}
         <h2> Lien avec d'autres figures historiques : </h2>
         <div>
             <ul>
