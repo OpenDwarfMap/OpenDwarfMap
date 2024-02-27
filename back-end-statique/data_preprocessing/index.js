@@ -1,4 +1,5 @@
 import fs from "fs";
+import { Polygon } from 'extract-region-polygon';
 
 const categories = [
     "landmass",
@@ -54,7 +55,7 @@ let mergedLegendData = {}
 
 initData()
 
-export function getCategory(categoryName) {   
+export function getCategory(categoryName) {
     if(!categories.includes(categoryName)) {
         return {
             "error": "The category " + categoryName + " is not recognized"
@@ -87,13 +88,13 @@ export function getDetailedSite (id){
 
     // Ajouter les noms aux id relatifs au site
     siteData.cur_owner_id= siteData.cur_owner_id ? [siteData.cur_owner_id, getName("historical_figure", siteData.cur_owner_id)] : null;
-    siteData.civ_id = siteData.civ_id ? [siteData.civ_id, getName("entity", siteData.civ_id), getName("entity", siteData.civ_id, "race")] : null; 
+    siteData.civ_id = siteData.civ_id ? [siteData.civ_id, getName("entity", siteData.civ_id), getName("entity", siteData.civ_id, "race")] : null;
     siteData.event = getEvent('site_id',id)
     return siteData
 }
 
 export function getDetailedHf(hfId) {
-    let HfData = JSON.parse(JSON.stringify(mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]));
+    let HfData = mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]
     // Il existe des hf sans entitylink
     if (HfData.entity_link) {
         for (const indexLink of HfData.entity_link.keys()) {
@@ -118,7 +119,7 @@ export function getDetailedHf(hfId) {
 
     // Array des event parfois insignifiants reliés à notre Hf
 
-    const events =  JSON.parse(JSON.stringify(mergedLegendData.historical_events.historical_event))
+    const events =  mergedLegendData.historical_events.historical_event
     .filter((event) => {
         let keys = Object.keys(event).filter(k => k.includes("hfid") || k == "histfig")
         for(const keyname of keys){
@@ -127,13 +128,12 @@ export function getDetailedHf(hfId) {
             }
         }
         return false;
-    }) 
+    })
 
-    // On sélectionne les event collection qui contiennes un event qui inmplique notre HfId
     let event_collection;
     HfData.eventLinked = JSON.parse(JSON.stringify(mergedLegendData.historical_event_collections.historical_event_collection))
     .filter((event_collection) => {
-        event_collection  = Array.isArray(event_collection.event) ? event_collection.event : [event_collection.event] ;  
+        event_collection  = Array.isArray(event_collection.event) ? event_collection.event : [event_collection.event] ;
         return isArrayContained(event_collection, events.map((event)=> event.id))
     });
 
@@ -154,7 +154,7 @@ export function getDetailedHf(hfId) {
 
 export function getDetailedHistoricalEventCollection(eventCollId){
     let eventCollectionData = JSON.parse(JSON.stringify(mergedLegendData["historical_event_collections"]["historical_event_collection"][parseInt(eventCollId)]));
-    // Remplace les events par eventid par les events 
+    // Remplace les events par eventid par les events
     if (eventCollectionData.event && Array.isArray(eventCollectionData.event)){
         // event est l'array des eventId
         eventCollectionData.event = eventCollectionData.event
@@ -164,15 +164,15 @@ export function getDetailedHistoricalEventCollection(eventCollId){
             // On remplace les eventId par les event pour ceux qu'on sait possible
             return JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id == event)));
         })
-        .map((event)=>{ 
+        .map((event)=>{
             // On remplace les hfId par des [hfId, nom] pour l'affichage qd cela est possible
             let keys = Object.keys(event).filter(k => k.includes("hfid") || k == "histfig")
             for(const keyname of keys){
-                event[keyname] = (Number.isInteger(event[keyname]) || event[keyname] > -1) 
-                ? [event[keyname], getName("historical_figure", event[keyname])] 
+                event[keyname] = (Number.isInteger(event[keyname]) || event[keyname] > -1)
+                ? [event[keyname], getName("historical_figure", event[keyname])]
                 : -1;
             }
-            return event; 
+            return event;
         })
     } else if (eventCollectionData.event && Number.isInteger(eventCollectionData.event)){
         eventCollectionData.event = mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id === eventCollectionData.event);
@@ -187,28 +187,28 @@ export function getDetailedHistoricalEvent(eventId){
     .find((eventColl) => {
         if (eventColl.event && Array.isArray(eventColl.event)) {
             return eventColl.event.includes(parseInt(eventId))
-        } else if (eventColl.event && Number.isInteger(eventColl.event)){ 
+        } else if (eventColl.event && Number.isInteger(eventColl.event)){
             return eventColl.event == parseInt(eventId)
         }
         return null;
     });
-    return eventcollection 
-    ? getDetailedHistoricalEventCollection(eventcollection.id) 
+    return eventcollection
+    ? getDetailedHistoricalEventCollection(eventcollection.id)
     : mergedLegendData["historical_events"]["historical_event"].find((element=>element.id === eventId));
 }
 
-// On lit les données de legend 
+// On lit les données de legend
 function initData(){
     const legendPlusFilePath = 'legend_plus.json';
-    const legendFilePath = 'legend.json';   
+    const legendFilePath = 'legend.json';
     fs.readFile(legendPlusFilePath, 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading file:', err);
             return;
         }
         const legendPlusData = JSON.parse(data)["df_world"]
-            
-        // On lit les données de legend plus 
+
+        // On lit les données de legend plus
         fs.readFile(legendFilePath, 'utf8', (err, dataPlus) => {
             if (err) {
                 console.error('Error reading file:', err);
@@ -216,6 +216,14 @@ function initData(){
             }
             const legendData = JSON.parse(dataPlus)["df_world"];
             mergedLegendData = mergeJsonObjects(legendData,legendPlusData);
+            mergedLegendData["regions"]["region"].forEach((region, id) => {
+                var p = Polygon.from_enclosed_squares_string(region["coords"]);
+                region["polygon"] = [];
+                p.vertices().forEach((v, i) => {
+                    region["polygon"].push([v.x*16, v.y*16]);
+                });
+                console.log(region["polygon"]);
+            });
         });
     });
 }
@@ -259,10 +267,10 @@ function mergeJsonObjects(legendData, legendPlusData) {
 
     // On merge ensuite les champs communs
 
-    // On boucle sur les différentes catégories à merger 
+    // On boucle sur les différentes catégories à merger
     for (const [indexCategory, categories] of commonCategories.entries()) {
         const category = commonCategorie[indexCategory];
-        // Ensuite on boucle sur les éléments de ces catégories 
+        // Ensuite on boucle sur les éléments de ces catégories
         for (const indexElement of legendData[categories][category].keys()) {
 
             legendData[categories][category][indexElement] = Object.assign(
@@ -272,7 +280,6 @@ function mergeJsonObjects(legendData, legendPlusData) {
         }
     return legendData;
 }
-
 
 function isArrayContained(array1, array2) {
     // Loop through each element of array1
@@ -287,12 +294,12 @@ function isArrayContained(array1, array2) {
     return false;
 }
 
-function getName(category, id, field='name'){ 
+function getName(category, id, field='name'){
     let parent = (category === "entity") ? "entities" : category + "s";
-    return (Number.isInteger(id) && id > -1) ? mergedLegendData[parent][category].find(elem => elem.id === id)[field] : 'Inexistant' ; 
+    return (Number.isInteger(id) && id > -1) ? mergedLegendData[parent][category].find(elem => elem.id === id)[field] : 'Inexistant' ;
 }
 
-function getEvent(field, id){ 
+function getEvent(field, id){
     return JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].filter(
         (event)=>{event[field] = id }
     )));
