@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {useParams, Link} from'react-router-dom';
-import {getHistoricalFiguresDetail} from '../utils/API.js';
+import {getHistoricalFigureFamily, getHistoricalFiguresDetail} from '../utils/API.js';
 import HistoricalFigureGraph from "./HistoricalFigureGraph";
 import Genogram from "./GenogramLayoutGraph";
 
@@ -55,26 +55,13 @@ function convertToGenogramFormat(familyMembers, key = 0) {
 
 function HistoricalFiguresDetail () {
     let { hfId } = useParams();
-    const [historicalFiguresDetail, setHistoricalFiguresDetail] = useState({
-        // hf_skill: [
-        //     {
-        //         skill: {
-        //             total_ip: undefined,
-        //         },
-        //     }
-        // ],
-        // skill: [],
-        // entity_link: [],
-        // hf_link: [],
-        // entity_id: undefined
-    })
+    const [historicalFiguresDetail, setHistoricalFiguresDetail] = useState({})
+    const [historicalFigureFamily, setHistoricalFigureFamily] = useState({});
     const [dataLoaded, setDataLoaded] = useState(false);
     const [familyDataLoaded, setFamilyDataLoaded] = useState(false);
 
     let [familyGenoData, setFamilyGenoData] = useState( [
-        { key: 0, n: "Aaron", s: "M", m: -10, f: -11, a: ["C", "F", "K"] },
-        // { key: -10, n: "Paternal Grandfather", s: "M", ux: -11, a: ["A", "S"] },
-        // { key: -11, n: "Paternal Grandmother", s: "F", a: ["E", "S"] }
+        { key: 0, n: "", s: "", m: undefined, f: undefined, a: ["C", "F", "K"] },
     ])
 
     let hfSkill = historicalFiguresDetail.hf_skill ?
@@ -108,7 +95,10 @@ function HistoricalFiguresDetail () {
     useEffect(()=> {
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId).then(() => {
             setDataLoaded(true);
-        })
+        });
+        getHistoricalFigureFamily(setHistoricalFigureFamily, hfId).then(() => {
+            setFamilyDataLoaded(true);
+        });
     }, [hfId])
 
     useEffect(() => {
@@ -118,6 +108,10 @@ function HistoricalFiguresDetail () {
     useEffect(() => {
         if (familyGenoData.find((elem) => elem.key === 0).n) { // check if the name is not undefined
             setFamilyDataLoaded(true);
+            console.log(historicalFiguresDetail);
+            console.log(familyGenoData);
+            console.log(historicalFigureFamily);
+            console.log(convertToGenogramFormat(historicalFigureFamily));
         }
         else {
             setFamilyDataLoaded(false);

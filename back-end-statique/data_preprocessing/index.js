@@ -83,6 +83,7 @@ export function getHfFamily(hfId, parentDepth, childDepth){
     // filer only family links
     hfData = hfData["hf_link"].filter(link => familyLinks.includes(link["link_type"]))
     let family_members = {
+        ...hfData,
         mother: hfData.find(link => link.link_type === "mother") ? hfData.find(link => link.link_type === "mother").hfid : null,
         father: hfData.find(link => link.link_type === "father") ? hfData.find(link => link.link_type === "father").hfid : null,
         spouse: hfData.find(link => link.link_type === "spouse") ? hfData.find(link => link.link_type === "spouse").hfid : null,
