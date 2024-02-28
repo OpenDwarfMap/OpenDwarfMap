@@ -90,7 +90,7 @@ export function getDetailedSite (id){
     siteData.cur_owner_id= siteData.cur_owner_id ? [siteData.cur_owner_id, getName("historical_figure", siteData.cur_owner_id)] : null;
     siteData.civ_id = siteData.civ_id ? [siteData.civ_id, getName("entity", siteData.civ_id), getName("entity", siteData.civ_id, "race")] : null;
     siteData.event = getEvent('site_id',id);
-    siteData.structures = typeof siteData.structures.structure === 'object' ? [siteData.structures.structure]:  siteData.structures.structure;
+    siteData.structures = isObject(siteData.structures.structure) ? [siteData.structures.structure]:  siteData.structures.structure;
     return siteData
 }
 
@@ -304,4 +304,8 @@ function getEvent(field, id){
     return JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].filter(
         (event)=>{event[field] = id }
     )));
+}
+
+function isObject(obj) {
+    return typeof obj === 'object' && !Array.isArray(obj) && obj !== null;
 }

@@ -11,10 +11,12 @@ function SiteDetail () {
         getCategoryDataDetail(setSiteData, "site", id);
     }, []);
 
+    console.log(siteData);
+    
     return siteData ? (
     <div className={"site-detail-main-grid"}>
         <div className={"detail-page-title"}> Site : {siteData ? siteData.name : "?????"} </div>
-        <div className={"hf-details"}>
+        <div className={"site-detail"}>
             <section className={"presentation-section"}>
                 <ul className="item-list">
                     {siteData.cur_owner_id ? 
