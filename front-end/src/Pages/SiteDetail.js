@@ -36,7 +36,7 @@ function SiteDetail () {
                 </ul>
             </section>
             <section className={"site-detail-section"}>
-                <h3> Strucutres : </h3>
+                <h3 style={{margin:"10px"}}> Strucutres : </h3>
                 {Array.isArray(siteData.structures) ? 
                 siteData.structures.map((structure) => 
                     <TwoBlockCard title={structure.name} firstBlock={structure.type} content={""}/>) 

@@ -5,10 +5,9 @@
     display: grid;
     grid-template-columns: 1fr 7fr 1fr;
     background-color: $odm-hf-details-bg;
-  }
+}
 
-  .detail-page-title
-  {
+  .detail-page-title {
     font-family: "Press Start 2P", sans-serif;
     font-size: 36px;
     color: white;
@@ -17,13 +16,11 @@
     grid-column: 1 / span 3; // Pour occuper toute la largeur de la grille
   }
 
-  .site-detail
-  {
+  .site-detail {
     width: 100%;
     color: black;
     padding: 32px 0;
     grid-column: 2;
-  
     display: grid;
     grid-template-columns: 1fr;
     grid-row-gap: 54px;
@@ -79,8 +76,8 @@
       grid-row-gap: 12px;
 
       li {
-        margin-bottom: 10px; // Ajoute une marge entre les éléments de la liste
-        // Autres styles pour les éléments de la liste si nécessaire
-    }
+            margin-bottom: 10px; // Ajoute une marge entre les éléments de la liste
+            // Autres styles pour les éléments de la liste si nécessaire
+        }
     }
 }
