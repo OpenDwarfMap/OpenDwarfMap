@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function TwoBlockCard({ firstBlock, title, content }) {
-    console.log(firstBlock);
     return (
         <div className={"event-card"}>
             <div className={"period"}>

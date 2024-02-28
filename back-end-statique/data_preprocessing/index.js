@@ -165,9 +165,9 @@ export function getDetailedHistoricalEventCollection(eventCollId){
             // On remplace les eventId par les event pour ceux qu'on sait possible
             return JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id == event)));
         })
-        .map((event)=>{
+        .map( event => {
             // On remplace les hfId par des [hfId, nom] pour l'affichage qd cela est possible
-            let keys = Object.keys(event).filter(k => k.includes("hfid") || k == "histfig")
+            const keys = Object.keys(event).filter(k => k.includes("hfid") || k == "histfig")
             for(const keyname of keys){
                 event[keyname] = (Number.isInteger(event[keyname]) || event[keyname] > -1)
                 ? [event[keyname], getName("historical_figure", event[keyname])]
@@ -176,9 +176,20 @@ export function getDetailedHistoricalEventCollection(eventCollId){
             return event;
         })
     } else if (eventCollectionData.event && Number.isInteger(eventCollectionData.event)){
-        eventCollectionData.event = mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id === eventCollectionData.event);
+        eventCollectionData.event = JSON.parse(JSON.stringify(mergedLegendData["historical_events"]["historical_event"].find(elem => elem.id === eventCollectionData.event)));
+        // On remplace les hfId par des [hfId, nom] pour l'affichage qd cela est possible
+        if (isObject(eventCollectionData.event)){ // on a un vrai event et pas un event sur lequel on n'a pas d'info 
+            const keys = Object.keys(eventCollectionData.event).filter(k => k.includes("hfid") || k == "histfig")
+            for (const keyname of keys) {
+                eventCollectionData.event[keyname] = 
+                (Number.isInteger(eventCollectionData.event[keyname]) || eventCollectionData.event[keyname] > -1)
+                ? [eventCollectionData.event[keyname], getName("historical_figure", eventCollectionData.event[keyname])]
+                : -1;
+            }
+            eventCollectionData.event = [eventCollectionData.event]; // Fomrattage, tout doit être un Array
+        }
     }
-    // Remplace siet id si il ya par [siteId, nom du site]
+    // Remplace site id si il ya par [siteId, nom du site]
     eventCollectionData.site_id = eventCollectionData.site_id ? [eventCollectionData.site_id, getName("site", eventCollectionData.site_id)]: null ;
     return eventCollectionData;
 }

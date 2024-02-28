@@ -10,14 +10,13 @@ function SiteDetail () {
     useEffect(()=> {
         getCategoryDataDetail(setSiteData, "site", id);
     }, []);
-
-    console.log(siteData);
     
     return siteData ? (
     <div className={"site-detail-main-grid"}>
         <div className={"detail-page-title"}> Site : {siteData ? siteData.name : "?????"} </div>
         <div className={"site-detail"}>
             <section className={"presentation-section"}>
+                <h2> Informations générales : </h2>
                 <ul className="item-list">
                     {siteData.cur_owner_id ? 
                         <li> <ItemCard 
@@ -38,7 +37,7 @@ function SiteDetail () {
                 </ul>
             </section>
             <section className={"site-detail-section"}>
-                <h3 style={{margin:"10px"}}> Strucutres : </h3>
+                <h3> Strucutres : </h3>
                 {Array.isArray(siteData.structures) ? 
                 siteData.structures.map((structure) => 
                     <TwoBlockCard title={structure.name} firstBlock={structure.type} content={""}/>) 

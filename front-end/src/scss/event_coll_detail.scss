@@ -26,9 +26,11 @@
     grid-row-gap: 54px;
   
     h1, h2, h3 {
-      color: black;
-      font-family: "Press Start 2P", sans-serif;
-    }
+        color: black;
+        font-family: "Press Start 2P", sans-serif;
+        margin: 10px;
+        text-align: center ;
+      }
   
     h1 {
       text-align: center;
@@ -74,5 +76,15 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-column-gap: 54px;
       grid-row-gap: 12px;
+    }
+
+    .event-list {
+      margin-top: 5px;
+      display: grid;
+
+      li {
+        font-family: "Press Start 2P", sans-serif;
+        font-size: 15px;
+      }
     }
 }
