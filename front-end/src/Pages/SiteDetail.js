@@ -38,10 +38,12 @@ function SiteDetail () {
             </section>
             <section className={"site-detail-section"}>
                 <h3> Strucutres : </h3>
-                {Array.isArray(siteData.structures) ? 
-                siteData.structures.map((structure) => 
-                    <TwoBlockCard title={structure.name} firstBlock={structure.type} content={""}/>) 
-                : null}
+                <ul className="event-list">
+                    {Array.isArray(siteData.structures) ? 
+                    siteData.structures.map((structure) => 
+                        <li><TwoBlockCard title={structure.name} firstBlock={structure.type} content={""}/></li>) 
+                    : null}
+                </ul>
             </section>
         </div>
     </div>

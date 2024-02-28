@@ -76,10 +76,12 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-column-gap: 54px;
       grid-row-gap: 12px;
+    }
 
-      li {
-            margin-bottom: 10px; // Ajoute une marge entre les éléments de la liste
-            // Autres styles pour les éléments de la liste si nécessaire
-        }
+    .event-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-column-gap: 20px;
+      grid-row-gap: 12px;
     }
 }
