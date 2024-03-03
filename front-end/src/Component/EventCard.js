@@ -5,7 +5,7 @@ export default function EventCard({ eventCollection }) {
     return (
         <div className={"event-card"}>
             <div className={"period"}>
-                {eventCollection.start_year} - {eventCollection.end_year}
+                {eventCollection.start_year == eventCollection.end_year ? eventCollection.start_year : eventCollection.start_year - eventCollection.end_year }
             </div>
             <div className={"infos"}>
                 <span className={"type"}>{ eventCollection.type }</span>
