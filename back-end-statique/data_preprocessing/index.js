@@ -213,11 +213,13 @@ function initData(){
                 //console.log(region["polygon"]);
             });
             // fusion des événements, ne pas oublier de formatter les new events pour conven,ir au traitement classiques
-            mergedLegendData["historical_events"]["historical_event"] = [...mergedLegendData["historical_events"]["historical_event"],
-             ...mergedLegendData["historical_event_relationships"]["historical_event_relationship"].map((event)=> {event.id = event.event}),
-            ...mergedLegendData["historical_event_relationship_supplements"]["historical_event_relationship_supplement"]].filter(event=>typeof event !== 'undefined').map((event)=> {event.id = event.event})
-            delete mergedLegendData["historical_event_relationships"] 
-            delete mergedLegendData["historical_event_relationship_supplements"] 
+            mergedLegendData["historical_events"]["historical_event"] = 
+            [... mergedLegendData["historical_events"]["historical_event"],
+            ... JSON.parse(JSON.stringify(mergedLegendData["historical_event_relationships"]["historical_event_relationship"].map((event)=> {event.id = event.event}))),
+            ... JSON.parse(JSON.stringify(mergedLegendData["historical_event_relationship_supplements"]["historical_event_relationship_supplement"]
+            .filter(event=>typeof event !== 'undefined').map((event)=> {event.id = event.event})))]
+            delete mergedLegendData["historical_event_relationships"];
+            delete mergedLegendData["historical_event_relationship_supplements"];
         });
     });
 }
