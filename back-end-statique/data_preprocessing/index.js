@@ -16,8 +16,8 @@ const categories = [
     "entity_population",
     "entity",
     "historical_event",
-    "historical_event_relationships",
-    "historical_event_relationships_supplement",
+    "historical_event_relationship",
+    "historical_event_relationship_supplement",
     "historical_event_collection",
     "historical_era",
     "written_content",
@@ -26,30 +26,6 @@ const categories = [
     "dance_form"
 ]
 
-const simplifiedField = {
-    "landmass" : "",
-    "mountain_peak" :"",
-    "region":"",
-    "underground_region":"",
-    "river":"",
-    "creature":"",
-    "site":"",
-    "world_construction":"",
-    "artifact":"",
-    "historical_figure":"",
-    "identity":"",
-    "entity_population":"",
-    "entity":"",
-    "historical_event":"",
-    "historical_event_relationships":"",
-    "historical_event_relationships_supplement":"",
-    "historical_event_collection":"",
-    "historical_era":"",
-    "written_content":"",
-    "poetic_form":"",
-    "musical_form":"",
-    "dance_form": ""
-}
 //Read the data from the JSON if necessary
 let mergedLegendData = {}
 
@@ -236,6 +212,12 @@ function initData(){
                 });
                 //console.log(region["polygon"]);
             });
+            // fusion des événements, ne pas oublier de formatter les new events pour conven,ir au traitement classiques
+            mergedLegendData["historical_events"]["historical_event"] = [...mergedLegendData["historical_events"]["historical_event"],
+             ...mergedLegendData["historical_event_relationships"]["historical_event_relationship"].map((event)=> {event.id = event.event}),
+            ...mergedLegendData["historical_event_relationship_supplements"]["historical_event_relationship_supplement"]].filter(event=>typeof event !== 'undefined').map((event)=> {event.id = event.event})
+            delete mergedLegendData["historical_event_relationships"] 
+            delete mergedLegendData["historical_event_relationship_supplements"] 
         });
     });
 }
