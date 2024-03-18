@@ -2,11 +2,11 @@ import React from "react";
 import {Marker, Polygon, Popup} from 'react-leaflet';
 import { Link } from "react-router-dom";
 
-const URL_API = process.env.API_URL;
+const URL_API = "http://localhost:3000/";
 
 export async function getSites(callback) {
     await fetch(URL_API+"site")
-        .then(response => response.json())
+        .then(response => response.json() )
         .then(data => {
             callback(data.map(siteData => {
                 let corners = siteData["rectangle"].split(':');

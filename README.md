@@ -39,7 +39,7 @@ Pour cela :
 npm install -g parcel-bundler
 ```
 
-- Ajouter la carte 'region-detailed.bmp' dans le dossier `front-end/assets`
+- Dans les données exportées se trouve une image dont le nom se termine par `detailed.bmp`. Copiez-la dans `front-end/assets` sous le nom `region-detailed.bmp`.
 
 - Éxécuter les commandes suivantes depuis la racine du projet :
 
@@ -66,27 +66,10 @@ Les actions suivantes sont à entreprendre dans le dossier back-end-statique, si
 cd back-end-statique
 ```
 
-Il faut mettre à jour la variable "filePath" du fichier newXmlToJson.js.
-Ensuite il faut exéacuter la commande suivante :
+Ensuite il faut exécuter la commande suivante :
 ``` bash
-node newXmlToJson.js
+node --max-old-space-size=8192 newXmlToJson.js <chemin vers votre fichier legends.xml>
 ```
-
-Si cette commande échoue pour des raisons de mémoire, exécutez la commande suivante dans votre terminal :
-
-```
-export NODE_OPTIONS="--max-old-space-size=8192"
-```
-
-**Sur Windows** :
-
-``` bash
-Set NODE_OPTIONS="--max-old-space-size=8192"
-```
-
-*Voir cette page pour comprendre à quoi sert la commande : [stackoverflow](https://stackoverflow.com/questions/53230823/fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed-javas?fbclid=IwAR2v3kGwPINtWMgc4azg4eNEgK7w4lEaXDXVKx4NFsOTVCmbxlNb9rfeHOY).*
-
-Puis refaire la commande précédente.
 
 Pour vérifier que tout fonctionne bien pour vous, exécutez la commande suivante :
 ``` bash

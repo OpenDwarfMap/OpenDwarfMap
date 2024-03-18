@@ -4,11 +4,10 @@ WORKDIR /var/www
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH=$PATH:/home/node/.npm-global/bin
-ENV NODE_ENV=production
 
-ADD src index.html index.js package-lock.json package.json run.sh ./
-RUN mkdir dist
-ADD assets dist/
+ADD index.html index.js package-lock.json package.json run.sh /var/www/
+ADD src /var/www/src
+ADD assets /var/www/dist/assets
 
 RUN chmod +x run.sh
 
@@ -20,4 +19,4 @@ USER node
 
 RUN npm ci --omit=dev
 
-CMD run.sh
+CMD sh run.sh
