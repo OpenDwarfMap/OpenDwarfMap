@@ -6,6 +6,7 @@ import Genogram from "./GenogramLayoutGraph";
 
 function convertToGenogramFormat(familyMember, key = 0) {
     let genogramData = [];
+    let spouse_key = -1;
     console.log(familyMember, familyMember.name)
 
     genogramData.push({key: key, n: familyMember.name, s: familyMember.sex ? "M" : "F",
@@ -13,7 +14,8 @@ function convertToGenogramFormat(familyMember, key = 0) {
         f: familyMember.father,
         ux: familyMember.spouse ? familyMember.spouse : undefined,
         vir: undefined,
-        a: ["C", "F", "K"]});
+        a: ["C", "F", "K"]
+    });
 
     let familyMembers = Array.isArray(familyMember.hf_link) ? familyMember.hf_link : [];
 
@@ -21,28 +23,49 @@ function convertToGenogramFormat(familyMember, key = 0) {
 
     // log all the family members
     familyMembers.forEach((member) => {
-        if (member.link_type === "child") {
-            console.log("child", member);
-        }
-        else if (member.link_type === "mother") {
-            console.log(member);
-        }
-        else if (member.link_type === "father") {
-            console.log(member);
-        }
-        else if (member.link_type === "spouse") {
+        if (member.link_type === "spouse") {
             console.log("spouse", member);
-            genogramData.push({key: member.hfid, n: member.name, s: member.sex ? "M" : "F",
+            genogramData.push({
+                key: member.hfid, n: member.name, s: "M",//member.sex ? "M" : "F",
                 m: member.mother,
                 f: member.father,
                 ux: undefined,
                 vir: key,
-                a: ["C", "F", "K"]});
+                a: ["C", "F", "K"]
+            });
+            spouse_key = member.hfid;
         }
-        else if (member.link_type === "deceased_spouse") {
+    });
+    familyMembers.forEach((member) => {
+        if (member.link_type === "mother") {
             console.log(member);
         }
-        else if (member.link_type === "former_spouse") {
+    });
+    familyMembers.forEach((member) => {
+        if (member.link_type === "father") {
+            console.log(member);
+        }
+    });
+    familyMembers.forEach((member) => {
+        if (member.link_type === "child") {
+            console.log("child", member);
+            console.log(familyMember.sex)
+            genogramData.push({key: member.hfid, n: member.name, s: member.sex ? "M" : "F",
+                f: familyMember.sex ? key : spouse_key,
+                m: familyMember.sex && spouse_key ? spouse_key : key,
+                ux: undefined,
+                vir: undefined,
+                a: ["C", "F", "K"]
+            });
+        }
+    });
+    familyMembers.forEach((member) => {
+        if (member.link_type === "deceased_spouse") {
+            console.log(member);
+        }
+    });
+    familyMembers.forEach((member) => {
+        if (member.link_type === "former_spouse") {
             console.log(member);
         }
     });
