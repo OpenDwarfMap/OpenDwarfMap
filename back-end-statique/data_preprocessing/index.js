@@ -77,7 +77,7 @@ export function getDetailedHf(hfId) {
     return HfData
 }
 
-export function getHfFamily(hfId, parentDepth, childDepth){
+export function getHfFamily(hfId, parentDepth, childDepth, spouseDepth=1){
     const familyLinks = ["child","former spouse","spouse","deceased spouse","mother","father"]
     let hfData = mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]
     // filer only family links
@@ -104,6 +104,18 @@ export function getHfFamily(hfId, parentDepth, childDepth){
         family_members.children = hfamilyData.filter(link => link.link_type === "child").map(link => link.hfid)
         if (family_members.children.length > 0)
             family_infos.children_family = family_members.children.map(child => getHfFamily(child, 0, childDepth - 1));
+    }
+
+    if (spouseDepth > 0) {
+        if (family_members.spouse) {
+            family_infos.spouse_family = getHfFamily(family_members.spouse, 0, 0,0);
+        }
+        if (family_members.former_spouses) {
+            family_infos.former_spouses_family = family_members.former_spouses.map(spouse => getHfFamily(spouse, 0, 0, 0));
+        }
+        if (family_members.deceased_spouses) {
+            family_infos.deceased_spouses_family = family_members.deceased_spouses.map(spouse => getHfFamily(spouse, 0, 0, 0));
+        }
     }
 
     if (Object.keys(family_infos).length > 0) {
