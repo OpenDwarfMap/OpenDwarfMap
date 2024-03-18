@@ -2,7 +2,7 @@ import React from "react";
 import {Marker, Polygon, Popup} from 'react-leaflet';
 import { Link } from "react-router-dom";
 
-const URL_API = "http://localhost:3000/"
+const URL_API = process.env.API_URL;
 
 export async function getSites(callback) {
     await fetch(URL_API+"site")
@@ -39,7 +39,7 @@ export async function getRegionPolygons(callback) {
         .then(data => {
             callback(data.map(regionData => {
                 return (
-                    <Polygon key={regionData.id} positions={regionData.polygon} />
+                    <Polygon key={regionData.id} positions={regionData.polygon.reverse()} />
                 )
             }));
         })

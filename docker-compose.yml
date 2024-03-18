@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  front:
+    build: front-end
+    image: opendwarfmap-front:latest
+    volumes:
+      - ./assets:/var/www/dfhack-export:ro,z
+    ports:
+      - "1234:1234"
+    networks:
+      - internal
+    environment:
+      API_URL: "http://api:3000/"
+
+  back:
+    build: back-end-statique
+    image: opendwarfmap-back:latest
+    volumes:
+      - ./assets:/var/www/dfhack-export:ro,z
+    networks:
+      internal:
+        aliases:
+          - api
+
+
+network:
+  internal:

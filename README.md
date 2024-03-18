@@ -10,10 +10,22 @@ Application Web, Avec Back
 
 ## Comment l'utiliser ? 
 
-Clonez le projet avec ses sous-modules : 
+Clonez le projet : 
 ```
-git clone --recursive https://github.com/OpenDwarfMap/OpenDwarfMap.git
+git clone https://github.com/OpenDwarfMap/OpenDwarfMap.git
 ```
+
+Exportez également les données de votre partie avec DFHack et notez le chemin où elles sont exportées.
+
+### Avec docker compose
+
+Pour exécuter le programme avec `docker-compose`, mettez le dossier contenant l'export réalisé par DFHack dans le dossier `assets` puis lancez le projet :
+
+```bash
+docker compose up -d
+```
+
+Vous pourrez alors accéder au programme dans votre navigateur sur http://localhost:1234.
 
 ### Front-End Parcel
 
@@ -40,13 +52,10 @@ parcel index.html
 
 ## Concernant le BackEnd :
 
-Le serveur utilise un du code en Rust compilé en WebAssembly, vous aurez donc besoin de wasm-pack.
-Il suffit de compiler le module WASM puis d'installer et démarrer le serveur en exécutant les lignes suivantes :
+Il suffit d'installer les dépendances puis de démarrer le serveur en exécutant les lignes suivantes :
 
 ``` bash
-cd ./back-end-statique/extract-region-polygon
-wasm-pack build --target nodejs
-cd ..
+cd ./back-end-statique
 npm install
 node server.js
 ```
