@@ -13,7 +13,7 @@ function convertToGenogramFormat(familyMember, key = 0) {
         f: familyMember.father,
         ux: familyMember.spouse ? familyMember.spouse : undefined,
         vir: undefined,
-        a: ["C", "F", "K"]
+        a: ["E", "G"]
     });
 
     let familyMembers = Array.isArray(familyMember.hf_link) ? familyMember.hf_link : [];
@@ -32,6 +32,28 @@ function convertToGenogramFormat(familyMember, key = 0) {
         }
     });
 
+    if (familyMember.family_infos.mother_family) {
+        let mother = familyMember.family_infos.mother_family;
+        genogramData.push({key: mother.id, n: mother.name, s:mother.sex ? "M" : "F",
+            m: mother.mother,
+            f: mother.father,
+            ux: familyMember.family_infos.father_family ? familyMember.family_infos.father_family.id : undefined,
+            vir: undefined,
+            a: ["F", "M"]
+        });
+    }
+
+    if (familyMember.family_infos.father_family) {
+        let father = familyMember.family_infos.father_family;
+        genogramData.push({key: father.id, n: father.name, s: father.sex ? "M" : "F",
+            m: father.mother,
+            f: father.father,
+            ux: undefined,
+            vir: familyMember.family_infos.mother_family ? familyMember.family_infos.mother_family.id : undefined,
+            a: ["M"]
+        });
+    }
+
     if (familyMember.family_infos.spouse_family){
         let spouse = familyMember.family_infos.spouse_family;
         genogramData.push({key: spouse.id, n: spouse.name, s: spouse.sex ? "M" : "F",
@@ -39,30 +61,31 @@ function convertToGenogramFormat(familyMember, key = 0) {
             f: spouse.father,
             ux: familyMember.sex ? key : undefined,
             vir: familyMember.sex ? undefined : key,
-            a: ["C", "F", "K"]
+            a: ["F", "G"]
         });
     }
 
-    familyMembers.forEach((member) => {
-        if (member.link_type === "deceased_spouse") {
-            console.log(member);
-        }
-    });
-    familyMembers.forEach((member) => {
-        if (member.link_type === "former_spouse") {
-            console.log(member);
-        }
-    });
-
-    if (familyMembersDetails.former_spouses_family || familyMembersDetails.deceased_spouses_family) {
-        let past_spouses = familyMembersDetails.former_spouses_family.concat(familyMembersDetails.deceased_spouses_family);
-        past_spouses.forEach((spouse) => {
+    if (familyMembersDetails.former_spouses_family) {
+        familyMembersDetails.former_spouses_family.forEach((spouse) => {
             genogramData.push({key: spouse.id, n: spouse.name, s: spouse.sex ? "M" : "F",
                 m: spouse.mother,
                 f: spouse.father,
                 ux: familyMember.sex ? key : undefined,
                 vir: familyMember.sex ? undefined : key,
-                a: ["C", "F", "K"]
+                a: ["H"]
+            });
+        });
+    }
+
+    if (familyMembersDetails.deceased_spouses_family) {
+        familyMembersDetails.deceased_spouses_family.forEach((spouse) => {
+            genogramData.push({
+                key: spouse.id, n: spouse.name, s: spouse.sex ? "M" : "F",
+                m: spouse.mother,
+                f: spouse.father,
+                ux: familyMember.sex ? key : undefined,
+                vir: familyMember.sex ? undefined : key,
+                a: ["H", "S"]
             });
         });
     }
@@ -83,7 +106,7 @@ function convertToGenogramFormat(familyMember, key = 0) {
             m: child.mother,
             ux: undefined,
             vir: undefined,
-            a: ["C", "F", "K"]
+            a: ["D", "K"]
         });
     });
 
