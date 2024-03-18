@@ -53,8 +53,8 @@ export function getCategoryPagened(pagination, categoryName) {
     let parent = (categoryName === "entity") ? "entities" : categoryName + "s"
 
     return mergedLegendData[parent][categoryName]
-      .filter((elem) => elem.id >= startIndex && elem.id < endIndex)
-      .map((elem) => {
+      .filter(elem => elem.id >= startIndex && elem.id < endIndex)
+      .map(elem => {
           return elem;
       });
   }
@@ -212,14 +212,15 @@ function initData(){
                 });
                 //console.log(region["polygon"]);
             });
-            // fusion des événements, ne pas oublier de formatter les new events pour conven,ir au traitement classiques
-            mergedLegendData["historical_events"]["historical_event"] = 
-            [... mergedLegendData["historical_events"]["historical_event"],
-            ... JSON.parse(JSON.stringify(mergedLegendData["historical_event_relationships"]["historical_event_relationship"].map((event)=> {event.id = event.event}))),
-            ... JSON.parse(JSON.stringify(mergedLegendData["historical_event_relationship_supplements"]["historical_event_relationship_supplement"]
-            .filter(event=>typeof event !== 'undefined').map((event)=> {event.id = event.event})))]
-            delete mergedLegendData["historical_event_relationships"];
-            delete mergedLegendData["historical_event_relationship_supplements"];
+
+            // fusion des événements, ne pas oublier de formatter les new events pour convenir au traitement classiques
+
+            const supplement_events = JSON.parse(JSON.stringify(mergedLegendData["historical_event_relationships"]["historical_event_relationship"].map(event=> {
+                event.id = event.event;
+            })))
+            mergedLegendData["historical_events"]["historical_event"].concat(supplement_events)
+            // delete mergedLegendData["historical_event_relationships"];
+            // delete mergedLegendData["historical_event_relationship_supplements"];
         });
     });
 }
@@ -303,4 +304,9 @@ function getEvent(field, id){
 
 function isObject(obj) {
     return typeof obj === 'object' && !Array.isArray(obj) && obj !== null;
+}
+
+export function getFiltered(category, key, value) {
+    let parent = (category === "entity") ? "entities" : category + "s";
+    return JSON.parse(JSON.stringify(mergedLegendData[parent][category])).filter(element=> element !== null && element !== undefined).filter(element=>element[key]=== value);
 }
