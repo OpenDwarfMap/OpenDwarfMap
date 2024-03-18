@@ -81,13 +81,14 @@ export function getHfFamily(hfId, parentDepth, childDepth){
     const familyLinks = ["child","former spouse","spouse","deceased spouse","mother","father"]
     let hfData = mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]
     // filer only family links
-    hfData = hfData["hf_link"].filter(link => familyLinks.includes(link["link_type"]))
+    let hfamilyData = hfData["hf_link"].filter(link => familyLinks.includes(link["link_type"]))
     let family_members = {
-        mother: hfData.find(link => link.link_type === "mother") ? hfData.find(link => link.link_type === "mother").hfid : null,
-        father: hfData.find(link => link.link_type === "father") ? hfData.find(link => link.link_type === "father").hfid : null,
-        spouse: hfData.find(link => link.link_type === "spouse") ? hfData.find(link => link.link_type === "spouse").hfid : null,
-        former_spouses: hfData.filter(link => link.link_type === "former spouse").map(link => link.hfid),
-        deceased_spouses: hfData.filter(link => link.link_type === "deceased spouse").map(link => link.hfid),
+        ...hfData,
+        mother: hfamilyData.find(link => link.link_type === "mother") ? hfamilyData.find(link => link.link_type === "mother").hfid : null,
+        father: hfamilyData.find(link => link.link_type === "father") ? hfamilyData.find(link => link.link_type === "father").hfid : null,
+        spouse: hfamilyData.find(link => link.link_type === "spouse") ? hfamilyData.find(link => link.link_type === "spouse").hfid : null,
+        former_spouses: hfamilyData.filter(link => link.link_type === "former spouse").map(link => link.hfid),
+        deceased_spouses: hfamilyData.filter(link => link.link_type === "deceased spouse").map(link => link.hfid),
         children: [],
     }
 
@@ -100,7 +101,7 @@ export function getHfFamily(hfId, parentDepth, childDepth){
             family_infos.father_family = getHfFamily(family_members.father, parentDepth - 1, 0);
     }
     if (childDepth > 0) {
-        family_members.children = hfData.filter(link => link.link_type === "child").map(link => link.hfid)
+        family_members.children = hfamilyData.filter(link => link.link_type === "child").map(link => link.hfid)
         if (family_members.children.length > 0)
             family_infos.children_family = family_members.children.map(child => getHfFamily(child, 0, childDepth - 1));
     }

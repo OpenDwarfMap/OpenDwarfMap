@@ -4,48 +4,89 @@ import {getHistoricalFigureFamily, getHistoricalFiguresDetail} from '../utils/AP
 import HistoricalFigureGraph from "./HistoricalFigureGraph";
 import Genogram from "./GenogramLayoutGraph";
 
-function convertToGenogramFormat(familyMembers, key = 0) {
+function convertToGenogramFormat(familyMember, key = 0) {
     let genogramData = [];
+    console.log(familyMember, familyMember.name)
 
-    const addMember = (id, name, sex, m, f, ux, vir, a) => {
-        genogramData.push({ key: id, n: name, s: sex, m, f, ux, vir, a });
-    };
+    genogramData.push({key: key, n: familyMember.name, s: familyMember.sex ? "M" : "F",
+        m: familyMember.mother,
+        f: familyMember.father,
+        ux: familyMember.spouse ? familyMember.spouse : undefined,
+        vir: undefined,
+        a: ["C", "F", "K"]});
 
-    addMember(key, familyMembers.name, familyMembers.sex ? "M" : "F",
-        familyMembers.mother,
-        familyMembers.father,
-        familyMembers.spouse ? familyMembers.spouse : undefined,
-        undefined,
-        ["C", "F", "K"]);
+    let familyMembers = Array.isArray(familyMember.hf_link) ? familyMember.hf_link : [];
 
-    if (familyMembers.former_spouses) {
-        familyMembers.former_spouses.forEach((spouse, i) => {
-            addMember(-1 * (i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
-        });
-    }
+    console.log(familyMembers)
 
-    if (familyMembers.deceased_spouses) {
-        familyMembers.deceased_spouses.forEach((spouse, i) => {
-            addMember(-1 * (familyMembers.former_spouses ? familyMembers.former_spouses.length : 0 + i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
-        });
-    }
+    // log all the family members
+    familyMembers.forEach((member) => {
+        if (member.link_type === "child") {
+            console.log("child", member);
+        }
+        else if (member.link_type === "mother") {
+            console.log(member);
+        }
+        else if (member.link_type === "father") {
+            console.log(member);
+        }
+        else if (member.link_type === "spouse") {
+            console.log("spouse", member);
+            genogramData.push({key: member.hfid, n: member.name, s: member.sex ? "M" : "F",
+                m: member.mother,
+                f: member.father,
+                ux: undefined,
+                vir: key,
+                a: ["C", "F", "K"]});
+        }
+        else if (member.link_type === "deceased_spouse") {
+            console.log(member);
+        }
+        else if (member.link_type === "former_spouse") {
+            console.log(member);
+        }
+    });
 
-    if (familyMembers.mother) {
-        addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 1), familyMembers.mother.name, 'F', undefined, undefined, familyMembers.father ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2) : undefined);
-    }
 
-    if (familyMembers.father) {
-        addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2), familyMembers.father.name, 'M', undefined, undefined);
-    }
 
-    if (familyMembers.children) {
-        familyMembers.children.forEach((child, i) => {
-            let childData = convertToGenogramFormat(child, i + 1);
-            childData[0].m = familyMembers.mother ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 1) : undefined;
-            childData[0].f = familyMembers.father ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2) : undefined;
-            genogramData = genogramData.concat(childData);
-        });
-    }
+    // if (familyMembers.former_spouses) {
+    //     familyMembers.former_spouses.forEach((spouse, i) => {
+    //         addMember(-1 * (i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
+    //     });
+    // }
+    //
+    // if (familyMembers.deceased_spouses) {
+    //     familyMembers.deceased_spouses.forEach((spouse, i) => {
+    //         addMember(-1 * (familyMembers.former_spouses ? familyMembers.former_spouses.length : 0 + i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
+    //     });
+    // }
+    //
+    // if (familyMembers.mother) {
+    //     addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 1), familyMembers.mother.name, 'F', undefined, undefined, familyMembers.father ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2) : undefined);
+    // }
+    //
+    // if (familyMembers.father) {
+    //     addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2), familyMembers.father.name, 'M', undefined, undefined);
+    // }
+
+    // if (familyMember.children && familyMember.family_infos) {
+    //     console.log("children detected", familyMember.family_infos);
+    //     familyMember.family_infos.children_family.forEach((child, i) => {
+    //         let childData = convertToGenogramFormat(child, i + 1);
+    //         childData[0].m = familyMember.mother ? -1 * ((familyMember.former_spouses ? familyMember.former_spouses.length : 0) + (familyMember.deceased_spouses ? familyMember.deceased_spouses.length : 0) + 1) : undefined;
+    //         childData[0].f = familyMember.father ? -1 * ((familyMember.former_spouses ? familyMember.former_spouses.length : 0) + (familyMember.deceased_spouses ? familyMember.deceased_spouses.length : 0) + 2) : undefined;
+    //         genogramData = genogramData.concat(childData);
+    //     });
+    // }
+
+    console.log(genogramData);
+
+    // { key: 0, n: "Aaron", s: "M", m: -10, f: -11, ux: 1, a: ["C", "F", "K"] },
+    // { key: 1, n: "Alice", s: "F", m: -12, f: -13, a: ["B", "H", "K"] },
+    // { key: 2, n: "Bob", s: "M", m: 1, f: 0, ux: 3, a: ["C", "H", "L"] },
+
+    // adding spouse for testing
+    // genogramData.push({key: 1, n: "Test Spouse", s: "F", m: -1, f: -1, ux: key, a: ["C", "F", "K"]});
 
     return genogramData;
 }
@@ -81,7 +122,7 @@ function HistoricalFiguresDetail () {
         );
     }) : null;
 
-    let hfLink = historicalFiguresDetail.hf_link ?
+    let hfLink = historicalFiguresDetail.hf_link && Array.isArray(historicalFiguresDetail.hf_link) ?
         historicalFiguresDetail.hf_link.map((entityData)=>{
             return (
                 <li key={entityData.hfid.toString()}>
@@ -96,27 +137,15 @@ function HistoricalFiguresDetail () {
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId).then(() => {
             setDataLoaded(true);
         });
-        getHistoricalFigureFamily(setHistoricalFigureFamily, hfId).then(() => {
-            setFamilyDataLoaded(true);
-        });
+        getHistoricalFigureFamily(setHistoricalFigureFamily, hfId);
     }, [hfId])
 
     useEffect(() => {
-        setFamilyGenoData(convertToGenogramFormat(historicalFiguresDetail));
-    }, [historicalFiguresDetail, setFamilyGenoData])
-
-    useEffect(() => {
-        if (familyGenoData.find((elem) => elem.key === 0).n) { // check if the name is not undefined
+        if (historicalFigureFamily.id) {
+            setFamilyGenoData(convertToGenogramFormat(historicalFigureFamily, historicalFiguresDetail.id));
             setFamilyDataLoaded(true);
-            console.log(historicalFiguresDetail);
-            console.log(familyGenoData);
-            console.log(historicalFigureFamily);
-            console.log(convertToGenogramFormat(historicalFigureFamily));
         }
-        else {
-            setFamilyDataLoaded(false);
-        }
-    }, [familyGenoData]);
+    }, [historicalFigureFamily])
 
 
     return (<div className={"hf-details"}>
