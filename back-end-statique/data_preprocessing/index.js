@@ -218,9 +218,10 @@ function initData(){
             const supplement_events = JSON.parse(JSON.stringify(mergedLegendData["historical_event_relationships"]["historical_event_relationship"].map(event=> {
                 event.id = event.event;
             })))
-            mergedLegendData["historical_events"]["historical_event"].concat(supplement_events)
-            // delete mergedLegendData["historical_event_relationships"];
-            // delete mergedLegendData["historical_event_relationship_supplements"];
+            mergedLegendData["historical_events"]["historical_event"].concat(supplement_events);
+
+            //delete mergedLegendData["historical_event_relationships"];
+            //delete mergedLegendData["historical_event_relationship_supplements"];
         });
     });
 }
@@ -309,4 +310,27 @@ function isObject(obj) {
 export function getFiltered(category, key, value) {
     let parent = (category === "entity") ? "entities" : category + "s";
     return JSON.parse(JSON.stringify(mergedLegendData[parent][category])).filter(element=> element !== null && element !== undefined).filter(element=>element[key]=== value);
+}
+
+
+export function trouverObjetParId(idRecherche) {
+    let objetsTrouves = [];
+
+    function parcourirJson(objet) {
+        // Si l'objet est un tableau, parcourir chaque élément
+        if (Array.isArray(objet)) {
+            objet.forEach(element => parcourirJson(element));
+        }
+        // Si l'objet est un objet, vérifier s'il a une propriété "id" égale à l'id de recherche
+        else if (typeof objet === 'object' && objet !== null) {
+            if (objet.hasOwnProperty('id') && objet.id === idRecherche) {
+                objetsTrouves.push(objet);
+            }
+            // Parcourir chaque propriété de l'objet récursivement
+            Object.values(objet).forEach(valeur => parcourirJson(valeur));
+        }
+    }
+
+    parcourirJson(mergeJsonObjects);
+    return objetsTrouves;
 }

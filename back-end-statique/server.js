@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
-import {getCategory, getFiltered ,getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection} from "./data_preprocessing/index.js";
+import {trouverObjetParId, getCategory, getFiltered ,getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
@@ -28,7 +28,13 @@ app.get("/:category", (req, res) => {
 
 //Route get générale
 app.get("/filtre/:category/:key/:value", (req, res) => {
+  console.log(`Route appelée: /filtre/${category}/${key}/${value}`);
   res.json(getFiltered(req.params.category, req.params.key, req.params.value))
+})
+
+app.get("/all/:id", (req, res)=> {
+  console.log(`Route appelée:/all/${req.params.id}`);
+  res.json(trouverObjetParId(req.params.id));
 })
 
 app.get("/:category/:id", (req, res) => {
