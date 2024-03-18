@@ -52,7 +52,6 @@ export async function getHistoricalFiguresDetail(callback, hfId) {
 export async function getHistoricalFigureFamily(callback, hfId) {
     await fetch(URL_API+"historical_figure/detail/" + hfId.toString() + "/family")
         .then(response => {
-            console.log(response);
             return response.json()
         })
         .then(data => {
