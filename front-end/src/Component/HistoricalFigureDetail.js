@@ -43,19 +43,31 @@ function convertToGenogramFormat(familyMember, key = 0) {
         });
     }
 
-    // familyMembers.forEach((member) => {
-    //     if (member.link_type === "child") {
-    //         console.log("child", member);
-    //         console.log(familyMember.sex)
-    //         genogramData.push({key: member.hfid, n: member.name, s: member.sex ? "M" : "F",
-    //             f: familyMember.sex ? key : spouse_key,
-    //             m: familyMember.sex && spouse_key ? spouse_key : key,
-    //             ux: undefined,
-    //             vir: undefined,
-    //             a: ["C", "F", "K"]
-    //         });
-    //     }
-    // });
+    familyMembers.forEach((member) => {
+        if (member.link_type === "deceased_spouse") {
+            console.log(member);
+        }
+    });
+    familyMembers.forEach((member) => {
+        if (member.link_type === "former_spouse") {
+            console.log(member);
+        }
+    });
+
+    if (familyMembersDetails.former_spouses_family || familyMembersDetails.deceased_spouses_family) {
+        let past_spouses = familyMembersDetails.former_spouses_family.concat(familyMembersDetails.deceased_spouses_family);
+        past_spouses.forEach((spouse) => {
+            genogramData.push({key: spouse.id, n: spouse.name, s: spouse.sex ? "M" : "F",
+                m: spouse.mother,
+                f: spouse.father,
+                ux: familyMember.sex ? key : undefined,
+                vir: familyMember.sex ? undefined : key,
+                a: ["C", "F", "K"]
+            });
+        });
+    }
+
+
 
     let children = familyMembersDetails.children_family;
     children.forEach((child) => {
@@ -73,17 +85,6 @@ function convertToGenogramFormat(familyMember, key = 0) {
             vir: undefined,
             a: ["C", "F", "K"]
         });
-    });
-
-    familyMembers.forEach((member) => {
-        if (member.link_type === "deceased_spouse") {
-            console.log(member);
-        }
-    });
-    familyMembers.forEach((member) => {
-        if (member.link_type === "former_spouse") {
-            console.log(member);
-        }
     });
 
 
