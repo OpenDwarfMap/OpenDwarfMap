@@ -19,7 +19,7 @@ Exportez également les données de votre partie avec DFHack et notez le chemin 
 
 ### Avec docker compose
 
-Pour exécuter le programme avec `docker-compose`, mettez le dossier contenant l'export réalisé par DFHack dans le dossier `assets` puis lancez le projet :
+Pour exécuter le programme avec `docker-compose`, mettez le dossier contenant l'export réalisé par DFHack dans le dossier `dfhack-export` puis lancez le projet :
 
 ```bash
 docker compose up -d
