@@ -70,6 +70,37 @@ export function getDetailedSite (id){
     return siteData
 }
 
+export function getDetailEntity(entityId){
+    const entity = JSON.parse(JSON.stringify(mergedLegendData["entities"]["entity"].find(element=> element.id == entityId)));
+    if (entity.type === 'cvilisation') {
+        return entity;
+    }
+    if (entity.histfig_id && Array.isArray(entity.histfig_id)) {
+        // Ajouter noms des hfid impliqué et leurs positions
+        let assignement;
+        entity.histfig_id = entity.histfig_id.map(hfId => {
+            if (entity.entity_position_assignment && Array.isArray(entity.entity_position_assignment)){ 
+                // Si plusieurs positions
+                assignement = entity.entity_position_assignment.find((element)=> element.histfig === hfId); 
+                assignement = assignement ? entity.entity_position[assignement.position_id].name : null;
+            }else if (entity.entity_position_assignment && typeof entity.entity_position_assignment === 'object'){ 
+                // Si une seule postion 
+                assignement = entity.entity_position_assignment.histfig ===  hfId ? entity.entity_position.name : null ;
+            } else {
+                // Si pas de position 
+                assignement = null;
+            }
+
+            return [hfId, getName('historical_figure',hfId), assignement]
+        })
+    } else if (entity.histfig_id && Number.isInteger(entity.histfig_id)){
+        entity.histfig_id = [entity.histfig_id, 
+            getName('historical_figure', entity.histfig_id),
+            entity.entity_position.name]
+    }
+    return entity;
+}
+
 export function getDetailedHf(hfId) {
     let HfData = mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]
     // Il existe des hf sans entitylink

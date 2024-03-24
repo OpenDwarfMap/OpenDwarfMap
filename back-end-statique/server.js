@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
-import {trouverObjetParId, getCategory, getFiltered ,getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection} from "./data_preprocessing/index.js";
+import {getDetailEntity, trouverObjetParId, getCategory, getFiltered ,getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
@@ -55,6 +55,11 @@ app.get("/:category/page/:pagination",(req, res) => {
 app.get("/historical_figure/detail/:hfId", (req, res)=> {
   console.log(`Route appelée: /historical_figure/detail/${req.params.hfId}`);
   res.json(getDetailedHf(req.params.hfId));
+})
+
+app.get("/entity/detail/:id", (req, res)=> {
+  console.log(`Route appelée: /entities/detail/${req.params.id}`);
+  res.json(getDetailEntity(req.params.id));
 })
 
 app.get("/historical_event_collection/detail/:id", (req, res)=> {
