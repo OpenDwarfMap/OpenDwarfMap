@@ -10,10 +10,22 @@ Application Web, Avec Back
 
 ## Comment l'utiliser ? 
 
-Clonez le projet avec ses sous-modules : 
+Clonez le projet : 
 ```
-git clone --recursive https://github.com/OpenDwarfMap/OpenDwarfMap.git
+git clone https://github.com/OpenDwarfMap/OpenDwarfMap.git
 ```
+
+Exportez également les données de votre partie avec DFHack et notez le chemin où elles sont exportées.
+
+### Avec docker compose
+
+Pour exécuter le programme avec `docker-compose`, mettez le dossier contenant l'export réalisé par DFHack dans le dossier `dfhack-export` puis lancez le projet :
+
+```bash
+docker compose up -d
+```
+
+Vous pourrez alors accéder au programme dans votre navigateur sur http://localhost:1234.
 
 ### Front-End Parcel
 
@@ -27,7 +39,7 @@ Pour cela :
 npm install -g parcel-bundler
 ```
 
-- Ajouter la carte 'region-detailed.bmp' dans le dossier `front-end/assets`
+- Dans les données exportées se trouve une image dont le nom se termine par `detailed.bmp`. Copiez-la dans `front-end/assets` sous le nom `region-detailed.bmp`.
 
 - Éxécuter les commandes suivantes depuis la racine du projet :
 
@@ -40,13 +52,10 @@ parcel index.html
 
 ## Concernant le BackEnd :
 
-Le serveur utilise un du code en Rust compilé en WebAssembly, vous aurez donc besoin de wasm-pack.
-Il suffit de compiler le module WASM puis d'installer et démarrer le serveur en exécutant les lignes suivantes :
+Il suffit d'installer les dépendances puis de démarrer le serveur en exécutant les lignes suivantes :
 
 ``` bash
-cd ./back-end-statique/extract-region-polygon
-wasm-pack build --target nodejs
-cd ..
+cd ./back-end-statique
 npm install
 node server.js
 ```
@@ -57,27 +66,10 @@ Les actions suivantes sont à entreprendre dans le dossier back-end-statique, si
 cd back-end-statique
 ```
 
-Il faut mettre à jour la variable "filePath" du fichier newXmlToJson.js.
-Ensuite il faut exéacuter la commande suivante :
+Ensuite il faut exécuter la commande suivante :
 ``` bash
-node newXmlToJson.js
+node --max-old-space-size=8192 newXmlToJson.js <chemin vers votre fichier legends.xml>
 ```
-
-Si cette commande échoue pour des raisons de mémoire, exécutez la commande suivante dans votre terminal :
-
-```
-export NODE_OPTIONS="--max-old-space-size=8192"
-```
-
-**Sur Windows** :
-
-``` bash
-Set NODE_OPTIONS="--max-old-space-size=8192"
-```
-
-*Voir cette page pour comprendre à quoi sert la commande : [stackoverflow](https://stackoverflow.com/questions/53230823/fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed-javas?fbclid=IwAR2v3kGwPINtWMgc4azg4eNEgK7w4lEaXDXVKx4NFsOTVCmbxlNb9rfeHOY).*
-
-Puis refaire la commande précédente.
 
 Pour vérifier que tout fonctionne bien pour vous, exécutez la commande suivante :
 ``` bash

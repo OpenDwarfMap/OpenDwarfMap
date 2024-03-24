@@ -59,6 +59,7 @@ function Map() {
         bounds={bounds}
       />
       <Sites />
+      <Polygon pathOptions={{color: 'blue'}} positions={[[-1000, -1000], [1000, -1000], [1000, 1000], [-1000, 1000]]} />
       <StrictMode>
         <Polygons />
       </StrictMode>

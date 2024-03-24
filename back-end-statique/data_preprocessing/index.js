@@ -210,7 +210,6 @@ function initData(){
                 p.vertices().forEach((v, i) => {
                     region["polygon"].push([v.x*16, v.y*16]);
                 });
-                //console.log(region["polygon"]);
             });
 
             // fusion des événements, ne pas oublier de formatter les new events pour convenir au traitement classiques

@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "extract-region-polygon": "^0.1.1",
     "express": "^4.18.2",
-    "extract-region-polygon": "file:extract-region-polygon/pkg",
     "fast-xml-parser": "^4.3.2",
     "fs": "^0.0.1-security",
     "nodemon": "^3.0.3",
