@@ -66,7 +66,7 @@ export function getDetailedSite (id){
     siteData.cur_owner_id= siteData.cur_owner_id ? [siteData.cur_owner_id, getName("historical_figure", siteData.cur_owner_id)] : null;
     siteData.civ_id = siteData.civ_id ? [siteData.civ_id, getName("entity", siteData.civ_id), getName("entity", siteData.civ_id, "race")] : null;
     siteData.event = getEvent('site_id',id);
-    siteData.structures = isObject(siteData.structures.structure) ? [siteData.structures.structure]:  siteData.structures.structure;
+    siteData.structures = "structures" in siteData && isObject(siteData.structures.structure) ? [siteData.structures.structure] :  siteData.structures ? siteData.structures.structure : null ;
     return siteData
 }
 
