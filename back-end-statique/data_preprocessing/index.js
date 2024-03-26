@@ -82,7 +82,7 @@ export function getDetailEntity(entityId){
             if (entity.entity_position_assignment && Array.isArray(entity.entity_position_assignment)){ 
                 // Si plusieurs positions
                 assignement = entity.entity_position_assignment.find((element)=> element.histfig === hfId); 
-                assignement = assignement ? entity.entity_position[assignement.position_id].name : null;
+                assignement = assignement ? entity.entity_position[assignement.position_id]?.name : null;
             }else if (entity.entity_position_assignment && typeof entity.entity_position_assignment === 'object'){ 
                 // Si une seule postion 
                 assignement = entity.entity_position_assignment.histfig ===  hfId ? entity.entity_position.name : null ;

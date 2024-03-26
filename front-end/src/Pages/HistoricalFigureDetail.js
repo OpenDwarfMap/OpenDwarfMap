@@ -18,17 +18,17 @@ function HistoricalFiguresDetail () {
         { key: 0, n: "", s: "", m: undefined, f: undefined, a: ["C", "F", "K"] },
     ])
 
-    let hfSkill = HistoricalFiguresDetail.hf_skill ? 
+    let hfSkill = HistoricalFiguresDetail.hf_skill && Array.isArray(HistoricalFiguresDetail.hf_skill) ?
     HistoricalFiguresDetail.hf_skill.map((skillData) => {
         return <li key={skillData.skill}><ItemCard elementLeft={skillData.skill} elementRight={skillData.total_ip} /></li>
     })
     : null ;
 
-    let entityLink = HistoricalFiguresDetail.entity_link ?
+    let entityLink = HistoricalFiguresDetail.entity_link && Array.isArray(HistoricalFiguresDetail.entity_link) ?
     HistoricalFiguresDetail.entity_link.map((entityData)=>{
         return (
             <li key={entityData.entity_id.toString()}>
-                Lien : {entityData.link_type} avec <Link to={"/historical_figure/" + entityData.entity_id.toString()}>
+                Lien : {entityData.link_type} avec <Link to={"/entity/" + entityData.entity_id.toString()}>
                 <span style={{color: "green"}}>{entityData.name}</span>
             </Link>
             </li>
@@ -58,6 +58,8 @@ function HistoricalFiguresDetail () {
     : null;
 
     useEffect(()=> {
+        setHistoricalFigureFamily({});
+        setFamilyDataLoaded(false);
         getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId).then(() => {
             setDataLoaded(true);
         });
