@@ -43,7 +43,7 @@ function EventCollectionDetail () {
                                     })} 
                                 </ul>
                             } 
-                            firstBlock={event.type}/>
+                            firstBlock={<div title={JSON.stringify(event, null, 2)}>{event.type}</div>}/>
                     )
                 })
                 :  (<h3> Nous n'avons aucune information supplémentaire sur les événements qui constituent cette collection</h3>)}

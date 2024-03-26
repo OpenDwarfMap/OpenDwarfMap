@@ -35,7 +35,8 @@ function EntityDetail () {
             <h2> Individus importants : </h2>
             {EntityData.histfig_id.map((hf)=>{
                 return (
-                    <TwoBlockCard 
+                    <TwoBlockCard
+                        infos={EntityData}
                         firstBlock={hf[2] ?? "poste inconnnu"}
                         title={<Link key={hf[0]} to={'/historical_figure/'+hf[0].toString()}>{hf[1]}</Link>}
                         content={""}/>
