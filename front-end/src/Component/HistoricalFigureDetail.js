@@ -3,6 +3,7 @@ import {useParams, Link} from'react-router-dom';
 import {getHistoricalFigureFamily, getHistoricalFiguresDetail} from '../utils/API.js';
 import HistoricalFigureGraph from "./HistoricalFigureGraph";
 import Genogram from "./GenogramLayoutGraph";
+import {isArray} from "leaflet/src/core/Util";
 
 export function convertToGenogramFormat(familyMember, key = 0) {
     let genogramData = [];
@@ -16,21 +17,7 @@ export function convertToGenogramFormat(familyMember, key = 0) {
         a: ["E", "G"]
     });
 
-    let familyMembers = Array.isArray(familyMember.hf_link) ? familyMember.hf_link : [];
     let familyMembersDetails = familyMember.family_infos;
-
-    console.log(familyMembersDetails)
-
-    familyMembers.forEach((member) => {
-        if (member.link_type === "mother") {
-            console.log(member);
-        }
-    });
-    familyMembers.forEach((member) => {
-        if (member.link_type === "father") {
-            console.log(member);
-        }
-    });
 
     if (familyMember.family_infos.mother_family) {
         let mother = familyMember.family_infos.mother_family;
@@ -90,25 +77,25 @@ export function convertToGenogramFormat(familyMember, key = 0) {
         });
     }
 
-
-
-    let children = familyMembersDetails.children_family;
-    children.forEach((child) => {
-        console.log(child);
-        // recursively extract children
-        if (child.family_infos.children_family) {
-            let childData = convertToGenogramFormat(child, child.id);
-            genogramData = genogramData.concat(childData);
-        }
-        genogramData.push({
-            key: child.id, n: child.name, s: child.sex ? "M" : "F",
-            f: child.father,
-            m: child.mother,
-            ux: undefined,
-            vir: undefined,
-            a: ["D", "K"]
+    if (familyMembersDetails.children_family) {
+        let children = familyMembersDetails.children_family;
+        children.forEach((child) => {
+            console.log(child);
+            // recursively extract children
+            if (child.family_infos.children_family) {
+                let childData = convertToGenogramFormat(child, child.id);
+                genogramData = genogramData.concat(childData);
+            }
+            genogramData.push({
+                key: child.id, n: child.name, s: child.sex ? "M" : "F",
+                f: child.father,
+                m: child.mother,
+                ux: undefined,
+                vir: undefined,
+                a: ["D", "K"]
+            });
         });
-    });
+    }
 
     return genogramData;
 }
