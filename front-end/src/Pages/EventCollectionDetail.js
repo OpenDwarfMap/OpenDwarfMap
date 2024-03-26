@@ -21,6 +21,7 @@ function EventCollectionDetail () {
                 <ul className="item-list">
                     <li><ItemCard elementLeft={"Type"} elementRight={EventCollectionData.type}/></li>
                     <li><ItemCard elementLeft={"Date"} elementRight={`${EventCollectionData.start_year} à ${EventCollectionData.end_year}`}/></li>
+                    {/* TODO: corriger le bug en Back qui conduit à devoir renvoyer EventCollectionData.site_id[0] - 1 */}
                     <li>{EventCollectionData.site_id ?<ItemCard elementLeft={"Site"} elementRight={<Link to={'/site/'+(EventCollectionData.site_id[0]-1)}> {EventCollectionData.site_id[1]} </Link> }/> : null}</li>
                 </ul>
             </section>
