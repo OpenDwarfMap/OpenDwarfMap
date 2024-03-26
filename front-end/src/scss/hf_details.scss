@@ -1,6 +1,79 @@
 @import "variables";
 
-.hf-details
-{
-  color: white;
+.hf-details-main-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 7fr 1fr;
+  background-color: $odm-hf-details-bg;
+}
+
+.hf-details {
+  width: 100%;
+  color: black;
+  padding: 32px 0;
+  grid-column: 2;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 54px;
+
+  h1, h2, h3 {
+    color: black;
+    font-family: "Press Start 2P", sans-serif;
+  }
+
+  h1 {
+    text-align: center;
+    color: $odm-purple;
+    font-family: "Press Start 2P", sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 2;
+  }
+
+  .presentation-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 32px;
+
+    .goal {
+      font-size: 16px;
+      font-family: "Press Start 2P", sans-serif;
+      color: black;
+      text-align: center;
+
+      .label {
+        color: $secondary-color;
+      }
+    }
+
+    .infos {
+      font-family: "Press Start 2P", sans-serif;
+      display: block;
+      text-align: center;
+      line-height: 1.8;
+    }
+  }
+
+  .hf-details-section {
+    h3 {
+      text-align: center;
+      font-size: 16px;
+      color: rgba(0, 0, 0, .75);
+    }
+  }
+
+  .skill-list {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-column-gap: 54px;
+    grid-row-gap: 12px;
+  }
+
+  .event-list {
+    margin-top: 32px;
+    display: grid;
+    grid-row-gap: 12px;
+  }
 }

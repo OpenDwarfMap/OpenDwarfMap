@@ -9,6 +9,7 @@ const app = express();
 const port = 3000;
 
 import {getCategory, getSimplifiedHf, getDetailedHf, getHfFamily} from "./data_preprocessing/index.js";
+import {getCategory, getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
@@ -32,9 +33,11 @@ app.get("/:category/:id", (req, res) => {
   res.json(getCategory(category).find(elem => elem.id === id))
 })
 
-app.get("/historical_figures/page/:pagination",(req, res) => {
+app.get("/:category/page/:pagination",(req, res) => {
   const pagination = req.params.pagination ?? 0
-  res.json(getSimplifiedHf(pagination))
+  const category = req.params.category;
+  console.log(`Route appelée: /${category}/page/${pagination}`);
+  res.json(getCategoryPagened(pagination, category))
 });
 
 app.get("/historical_figure/detail/:hfId", (req, res)=> {
@@ -48,6 +51,22 @@ app.get("/historical_figure/detail/:hfId/family", (req, res)=> {
 
   const detailedHf = getHfFamily(hfId, parentDepth, childDepth);
   res.json(detailedHf);
+})
+
+app.get("/historical_event_collection/detail/:id", (req, res)=> {
+  console.log(`Route appelée: /historical_event_collection/detail/${req.params.id}`);
+  res.json(getDetailedHistoricalEventCollection(req.params.id));
+})
+
+app.get("/historical_event/detail/:id", (req, res)=> {
+  console.log(`Route appelée: /historical_event/detail/${req.params.id}`);
+  res.json(getDetailedHistoricalEvent(req.params.id));
+})
+
+
+app.get("/site/detail/:id", (req, res)=> {
+  console.log(`Route appelée:/site/detail/${req.params.id}`);
+  res.json(getDetailedSite(req.params.id));
 })
 
 // Route pour /maps

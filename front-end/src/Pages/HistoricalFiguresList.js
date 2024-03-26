@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {getHistoricalFiguresList} from '../utils/API.js';
 import { useParams, Link } from "react-router-dom";
-import HistoricalFigureListItem from "./HistoricalFigureListItem";
+import HistoricalFigureListItem from "../Component/HistoricalFigureListItem";
 
 function HistoricalFiguresList () {
     const { pagination } = useParams()
@@ -9,7 +9,7 @@ function HistoricalFiguresList () {
     useEffect(()=> {
         getHistoricalFiguresList(setHistoricalFiguresList, pagination);
     }, [pagination])
-    return (<div>
+    return (<div className={"hf-list-container"}>
         <div className={"hf-page-title"}>Personnages historiques</div>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {parseInt(pagination) > 1 ?

@@ -1,0 +1,37 @@
+@import "variables";
+
+.event-card {
+  display: flex;
+  flex-direction: row;
+  background-color: $odm-event-card-bg;
+  color: white;
+  padding: 8px;
+  align-items: start;
+  justify-content: space-between;
+  border-radius: 16px;
+
+  .period {
+    flex: 1;
+    background-color: rgba(255, 255, 255, .5);
+    color: black;
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .infos {
+    flex: 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-left: 16px;
+
+    .type {
+      font-family: "Press Start 2P", sans-serif;
+      font-size: 16px;
+      line-height: 32px;
+    }
+  }
+}
