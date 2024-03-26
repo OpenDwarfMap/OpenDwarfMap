@@ -35,7 +35,7 @@ function HistoricalFiguresDetail () {
         );
     }) : null;
 
-    let hfLink = HistoricalFiguresDetail.hf_link ?
+    let hfLink = HistoricalFiguresDetail.hf_link && Array.isArray(HistoricalFiguresDetail.hf_link) ?
         HistoricalFiguresDetail.hf_link.map((entityData)=>{
             return (
                 <li key={entityData.hfid.toString()}>
