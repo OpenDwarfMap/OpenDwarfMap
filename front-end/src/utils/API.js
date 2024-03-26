@@ -76,6 +76,7 @@ export async function getHistoricalFiguresList(callback, pagination) {
     await fetch(URL_API+"historical_figure/page/"+pagination.toString())
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             callback(data);
         })
 
@@ -84,6 +85,16 @@ export async function getHistoricalFiguresList(callback, pagination) {
 
 export async function getHistoricalFiguresDetail(callback, hfId) {
     await fetch(URL_API+"historical_figure/detail/" + hfId.toString())
+        .then(response => response.json())
+        .then(data => {
+            callback(data);
+        })
+
+    .catch(error => console.error('Erreur lors de la récupération des données:', error));
+}
+
+export async function getHistoricalFigureFamily(callback, hfId) {
+    await fetch(URL_API+"historical_figure/detail/" + hfId.toString() + "/family?parent_depth=1&child_depth=1")
         .then(response => response.json())
         .then(data => {
             callback(data);

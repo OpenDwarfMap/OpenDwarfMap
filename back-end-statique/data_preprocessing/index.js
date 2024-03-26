@@ -123,7 +123,7 @@ export function getDetailedHf(hfId) {
                 HfData.hf_link[indexLink]["name"] = hf["name"] + " (" + hf["race"] + ")"
             }
         }
-    };
+    }
 
     // Array des event parfois insignifiants reliés à notre Hf
 
@@ -160,6 +160,55 @@ export function getDetailedHf(hfId) {
     return HfData
 }
 
+export function getHfFamily(hfId, parentDepth, childDepth, spouseDepth=1){
+    const familyLinks = ["child","former spouse","spouse","deceased spouse","mother","father"]
+    let hfData = mergedLegendData["historical_figures"]["historical_figure"][parseInt(hfId)]
+    // filer only family links
+    let hfamilyData = hfData["hf_link"].filter(link => familyLinks.includes(link["link_type"]))
+    let family_members = {
+        ...hfData,
+        mother: hfamilyData.find(link => link.link_type === "mother") ? hfamilyData.find(link => link.link_type === "mother").hfid : null,
+        father: hfamilyData.find(link => link.link_type === "father") ? hfamilyData.find(link => link.link_type === "father").hfid : null,
+        spouse: hfamilyData.find(link => link.link_type === "spouse") ? hfamilyData.find(link => link.link_type === "spouse").hfid : null,
+        former_spouses: hfamilyData.filter(link => link.link_type === "former spouse").map(link => link.hfid),
+        deceased_spouses: hfamilyData.filter(link => link.link_type === "deceased spouse").map(link => link.hfid),
+        children: [],
+    }
+
+    let family_infos = {}
+
+    if (parentDepth > 0) {
+        if (family_members.mother)
+            family_infos.mother_family = getHfFamily(family_members.mother, parentDepth - 1, 0);
+        if (family_members.father)
+            family_infos.father_family = getHfFamily(family_members.father, parentDepth - 1, 0);
+    }
+    if (childDepth > 0) {
+        family_members.children = hfamilyData.filter(link => link.link_type === "child").map(link => link.hfid)
+        if (family_members.children.length > 0)
+            family_infos.children_family = family_members.children.map(child => getHfFamily(child, 0, childDepth - 1));
+    }
+
+    if (spouseDepth > 0) {
+        if (family_members.spouse) {
+            family_infos.spouse_family = getHfFamily(family_members.spouse, 0, 0,0);
+        }
+        if (family_members.former_spouses) {
+            family_infos.former_spouses_family = family_members.former_spouses.map(spouse => getHfFamily(spouse, 0, 0, 0));
+        }
+        if (family_members.deceased_spouses) {
+            family_infos.deceased_spouses_family = family_members.deceased_spouses.map(spouse => getHfFamily(spouse, 0, 0, 0));
+        }
+    }
+
+    if (Object.keys(family_infos).length > 0) {
+        family_members.family_infos = family_infos
+    }
+
+    return family_members;
+}
+
+// On lit les données de legend
 export function getDetailedHistoricalEventCollection(eventCollId){
     let eventCollectionData = JSON.parse(JSON.stringify(mergedLegendData["historical_event_collections"]["historical_event_collection"][parseInt(eventCollId)]));
     // Remplace les events par eventid par les events

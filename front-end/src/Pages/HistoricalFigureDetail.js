@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
 import {useParams, Link} from'react-router-dom';
-import {getHistoricalFiguresDetail} from '../utils/API.js';
+import {getHistoricalFigureFamily, getHistoricalFiguresDetail} from '../utils/API.js';
 import ItemCard from "../Component/ItemCard.js";
 import EventCard from "../Component/EventCard";
+import Genogram from "../Component/GenogramLayoutGraph";
+
+import {convertToGenogramFormat} from "../Component/HistoricalFigureDetail";
 
 function HistoricalFiguresDetail () {
     let { hfId } = useParams();
-    const [HistoricalFiguresDetail, setHistoricalFiguresDetail] = useState({})  
+    const [HistoricalFiguresDetail, setHistoricalFiguresDetail] = useState({})
+    const [historicalFigureFamily, setHistoricalFigureFamily] = useState({});
+    const [dataLoaded, setDataLoaded] = useState(false);
+    const [familyDataLoaded, setFamilyDataLoaded] = useState(false);
+
+    let [familyGenoData, setFamilyGenoData] = useState( [
+        { key: 0, n: "", s: "", m: undefined, f: undefined, a: ["C", "F", "K"] },
+    ])
 
     let hfSkill = HistoricalFiguresDetail.hf_skill ? 
     HistoricalFiguresDetail.hf_skill.map((skillData) => {
@@ -25,7 +35,7 @@ function HistoricalFiguresDetail () {
         );
     }) : null;
 
-    let hfLink = HistoricalFiguresDetail.hf_link ?
+    let hfLink = HistoricalFiguresDetail.hf_link && Array.isArray(HistoricalFiguresDetail.hf_link) ?
         HistoricalFiguresDetail.hf_link.map((entityData)=>{
             return (
                 <li key={entityData.hfid.toString()}>
@@ -48,8 +58,18 @@ function HistoricalFiguresDetail () {
     : null;
 
     useEffect(()=> {
-        getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId);
+        getHistoricalFiguresDetail(setHistoricalFiguresDetail, hfId).then(() => {
+            setDataLoaded(true);
+        });
+        getHistoricalFigureFamily(setHistoricalFigureFamily, hfId);
     }, [hfId])
+
+    useEffect(() => {
+        if (historicalFigureFamily.id) {
+            setFamilyGenoData(convertToGenogramFormat(historicalFigureFamily, HistoricalFiguresDetail.id));
+            setFamilyDataLoaded(true);
+        }
+    }, [historicalFigureFamily])
 
     return (
         <div className={"hf-details-main-grid"}>
@@ -77,6 +97,7 @@ function HistoricalFiguresDetail () {
                 <section className={"hf-details-section"}>
                     <h3> RELATIONS </h3>
                     <div>
+                        {familyDataLoaded ? <Genogram familyGenoData={HistoricalFiguresDetail} Genogram={familyGenoData} /> : <></>}
                         <ul>
                             {hfLink}
                         </ul>

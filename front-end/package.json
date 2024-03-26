@@ -24,6 +24,8 @@
     "process": "^0.11.10"
   },
   "dependencies": {
+    "gojs": "^2.3.13",
+    "gojs-react": "^1.1.2",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

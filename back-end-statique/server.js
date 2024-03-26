@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
-import {getDetailEntity, trouverObjetParId, getCategory, getFiltered ,getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection} from "./data_preprocessing/index.js";
+import {getCategory, getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection, getHfFamily} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
@@ -22,7 +22,6 @@ app.use((req, res, next) => {
 app.get("/:category", (req, res) => {
   let category = req.params.category
   category = category.replace(/['"]+/g, '')
-  console.log(`Route appelée: /${category}`);
   res.json(getCategory(category))
 })
 
@@ -41,7 +40,6 @@ app.get("/:category/:id", (req, res) => {
   let category = req.params.category
   category = category.replace(/['"]+/g, '')
   let id = parseInt(req.params.id)
-  console.log(`Route appelée: /${category}/${id}`);
   res.json(getCategory(category).find(elem => elem.id === id))
 })
 
@@ -53,8 +51,16 @@ app.get("/:category/page/:pagination",(req, res) => {
 });
 
 app.get("/historical_figure/detail/:hfId", (req, res)=> {
-  console.log(`Route appelée: /historical_figure/detail/${req.params.hfId}`);
   res.json(getDetailedHf(req.params.hfId));
+})
+
+app.get("/historical_figure/detail/:hfId/family", (req, res)=> {
+  const hfId = req.params.hfId;
+  const parentDepth = req.query.parent_depth || 1; // Valeur par défaut 1 si non spécifié
+  const childDepth = req.query.child_depth || 1; // Valeur par défaut 1 si non spécifié
+
+  const detailedHf = getHfFamily(hfId, parentDepth, childDepth);
+  res.json(detailedHf);
 })
 
 app.get("/entity/detail/:id", (req, res)=> {
@@ -80,7 +86,6 @@ app.get("/site/detail/:id", (req, res)=> {
 
 // Route pour /maps
 app.get('/maps', (req, res) => {
-  console.log("Route appelée: /maps");
   var available = [];
   readdir('assets/maps', (err, filenames) => {
     if (err) throw(err);
@@ -100,7 +105,6 @@ app.get('/maps', (req, res) => {
 // Route avec paramètre d'id de monde et de type pour /maps/:type
 app.get('/region/:regionId/map/:type', (req, res) => {
   const { regionId, type } = req.params;
-  console.log(`Route appelée: /region/${regionId}/map/${type}`);
   res.sendFile(`assets/maps/region${regionId}-${type}.png`, { root: __dirname }, (err) => {
     if (err)
       res.status(err.status).end();
