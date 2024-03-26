@@ -4,7 +4,7 @@ import {getHistoricalFigureFamily, getHistoricalFiguresDetail} from '../utils/AP
 import HistoricalFigureGraph from "./HistoricalFigureGraph";
 import Genogram from "./GenogramLayoutGraph";
 
-function convertToGenogramFormat(familyMember, key = 0) {
+export function convertToGenogramFormat(familyMember, key = 0) {
     let genogramData = [];
     console.log(familyMember, familyMember.name)
 
@@ -109,47 +109,6 @@ function convertToGenogramFormat(familyMember, key = 0) {
             a: ["D", "K"]
         });
     });
-
-
-
-    // if (familyMembers.former_spouses) {
-    //     familyMembers.former_spouses.forEach((spouse, i) => {
-    //         addMember(-1 * (i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
-    //     });
-    // }
-    //
-    // if (familyMembers.deceased_spouses) {
-    //     familyMembers.deceased_spouses.forEach((spouse, i) => {
-    //         addMember(-1 * (familyMembers.former_spouses ? familyMembers.former_spouses.length : 0 + i + 1), spouse.name, spouse.sex, undefined, undefined, undefined, key);
-    //     });
-    // }
-    //
-    // if (familyMembers.mother) {
-    //     addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 1), familyMembers.mother.name, 'F', undefined, undefined, familyMembers.father ? -1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2) : undefined);
-    // }
-    //
-    // if (familyMembers.father) {
-    //     addMember(-1 * ((familyMembers.former_spouses ? familyMembers.former_spouses.length : 0) + (familyMembers.deceased_spouses ? familyMembers.deceased_spouses.length : 0) + 2), familyMembers.father.name, 'M', undefined, undefined);
-    // }
-
-    // if (familyMember.children && familyMember.family_infos) {
-    //     console.log("children detected", familyMember.family_infos);
-    //     familyMember.family_infos.children_family.forEach((child, i) => {
-    //         let childData = convertToGenogramFormat(child, i + 1);
-    //         childData[0].m = familyMember.mother ? -1 * ((familyMember.former_spouses ? familyMember.former_spouses.length : 0) + (familyMember.deceased_spouses ? familyMember.deceased_spouses.length : 0) + 1) : undefined;
-    //         childData[0].f = familyMember.father ? -1 * ((familyMember.former_spouses ? familyMember.former_spouses.length : 0) + (familyMember.deceased_spouses ? familyMember.deceased_spouses.length : 0) + 2) : undefined;
-    //         genogramData = genogramData.concat(childData);
-    //     });
-    // }
-
-    console.log(genogramData);
-
-    // { key: 0, n: "Aaron", s: "M", m: -10, f: -11, ux: 1, a: ["C", "F", "K"] },
-    // { key: 1, n: "Alice", s: "F", m: -12, f: -13, a: ["B", "H", "K"] },
-    // { key: 2, n: "Bob", s: "M", m: 1, f: 0, ux: 3, a: ["C", "H", "L"] },
-
-    // adding spouse for testing
-    // genogramData.push({key: 1, n: "Test Spouse", s: "F", m: -1, f: -1, ux: key, a: ["C", "F", "K"]});
 
     return genogramData;
 }
