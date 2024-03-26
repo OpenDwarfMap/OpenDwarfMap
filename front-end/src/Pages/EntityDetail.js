@@ -20,7 +20,7 @@ function EntityDetail () {
                 <h2> Informations générales : </h2>
                 <ul className="item-list">
                     <li><ItemCard elementLeft={"Type"} elementRight={EntityData.type}/></li>
-                    <li><ItemCard elementLeft={"Nombre de parttisans"} elementRight={EntityData.child}/></li>
+                    <li><ItemCard elementLeft={"Nombre de partisans"} elementRight={EntityData.child}/></li>
                     {EntityData.race ? <li><ItemCard elementLeft={"Race"} elementRight={EntityData.race}/></li> : null}
                 </ul>
         </section>
