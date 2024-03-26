@@ -13,7 +13,7 @@ function SiteDetail () {
     
     return siteData ? (
     <div className={"site-detail-main-grid"}>
-        <div className={"detail-page-title"}> Site : {siteData ? siteData.name : "?????"} </div>
+        <div className={"detail-page-title"} title={JSON.stringify(siteData)}> Site : {siteData ? siteData.name : "?????"} </div>
         <div className={"site-detail"}>
             <section className={"presentation-section"}>
                 <h2> Informations générales : </h2>

@@ -20,9 +20,10 @@ export async function getSites(callback) {
                     <Marker key={siteData.id} position={center} icon={siteIcon}>
                         <Popup>
                             <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-                                <h3 style={{ marginRight: '5px' }}>name : {siteData.name}, type : {siteData.type}  </h3>
+                                <h3 style={{ marginRight: '5px' }}>name : {siteData.name}, type : {siteData.type}, coords : {siteData.coords}  </h3>
                                 <h3>
-                                    <Link to={"/site/"+siteData.id.toString()}>  Détail → </Link>
+                                    {/* TODO: corriger le bug en Back qui conduit à devoir renvoyer siteData.id - 1 */}
+                                    <Link to={"/site/"+(siteData.id - 1).toString()}>  Détail → </Link>
                                 </h3>
                             </div>
                         </Popup>
