@@ -9,9 +9,9 @@ export default function RootScreen() {
                 <Link to={"/"} className="navigation-item">
                     Carte
                 </Link>
-                <Link to={"/"} className="navigation-item">
-                    Histoire
-                </Link>
+                {/*<Link to={"/"} className="navigation-item">*/}
+                {/*    Histoire*/}
+                {/*</Link>*/}
                 <Link to={"/historical_figures/page/1"} className="navigation-item">
                     Personnages
                 </Link>
