@@ -8,8 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
-import {getCategory, getSimplifiedHf, getDetailedHf, getHfFamily} from "./data_preprocessing/index.js";
-import {getCategory, getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection} from "./data_preprocessing/index.js";
+import {getCategory, getCategoryPagened, getDetailedHf, getDetailedSite, getDetailedHistoricalEvent, getDetailedHistoricalEventCollection, getHfFamily} from "./data_preprocessing/index.js";
 
 // Middleware pour activer CORS
 app.use((req, res, next) => {
