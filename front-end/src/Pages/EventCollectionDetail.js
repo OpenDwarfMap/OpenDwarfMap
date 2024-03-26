@@ -21,7 +21,7 @@ function EventCollectionDetail () {
                 <ul className="item-list">
                     <li><ItemCard elementLeft={"Type"} elementRight={EventCollectionData.type}/></li>
                     <li><ItemCard elementLeft={"Date"} elementRight={`${EventCollectionData.start_year} à ${EventCollectionData.end_year}`}/></li>
-                    <li>{EventCollectionData.site_id ?<ItemCard elementLeft={"Site"} elementRight={<Link to={'/site/'+EventCollectionData.site_id[0]}> {EventCollectionData.site_id[1]} </Link> }/> : null}</li>
+                    <li>{EventCollectionData.site_id ?<ItemCard elementLeft={"Site"} elementRight={<Link to={'/site/'+(EventCollectionData.site_id[0]-1)}> {EventCollectionData.site_id[1]} </Link> }/> : null}</li>
                 </ul>
             </section>
             <section className="event-coll-detail">

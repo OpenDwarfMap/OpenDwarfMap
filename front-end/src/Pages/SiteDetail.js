@@ -41,7 +41,7 @@ function SiteDetail () {
                 <ul className="event-list">
                     {Array.isArray(siteData.structures) ? 
                     siteData.structures.map((structure) => 
-                        <li><TwoBlockCard title={structure.name} firstBlock={structure.type} content={""}/></li>) 
+                        <li><TwoBlockCard title={structure.name} firstBlock={structure.type} content={""} infos={structure}/></li>)
                     : null}
                 </ul>
             </section>
