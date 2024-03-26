@@ -80,7 +80,7 @@ function HistoricalFiguresDetail () {
                     <h1>{HistoricalFiguresDetail.name}</h1>
                     <h2 className={"goal"}>{HistoricalFiguresDetail.goal ? (
                         <span><span
-                            className={"label"}>OBJECTIF</span> : {HistoricalFiguresDetail.goal.toUpperCase()}</span>
+                            className={"label"}>OBJECTIF</span> : {HistoricalFiguresDetail.goal.toString().toUpperCase()}</span>
                     ) : ""}</h2>
                     <span className={"infos"}>
                 {HistoricalFiguresDetail.race} -
